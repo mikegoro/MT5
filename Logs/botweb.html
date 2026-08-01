@@ -1,0 +1,1208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BotVault Trading Bot Marketplace</title>
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "ui-sans-serif", "system-ui"],
+              display: ["Calistoga", "Georgia", "serif"],
+              mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular"],
+            },
+            colors: {
+              ink: "#111827",
+              night: "#111827",
+              paper: "#F8FAFC",
+              amberline: "#F59E0B",
+              mint: "#10B981",
+              iris: "#7C3AED",
+              steel: "#D6DEE9",
+            },
+            boxShadow: {
+              lift: "0 24px 70px rgba(17, 24, 39, 0.16)",
+              glow: "0 0 0 1px rgba(245, 158, 11, 0.18), 0 20px 80px rgba(16, 185, 129, 0.13)",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        letter-spacing: 0;
+      }
+
+      .grid-bg {
+        background-image:
+          linear-gradient(rgba(248, 250, 252, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(248, 250, 252, 0.06) 1px, transparent 1px);
+        background-size: 44px 44px;
+        animation: grid-drift 18s linear infinite;
+      }
+
+      .js .motion-reveal {
+        opacity: 0;
+        transform: translate3d(var(--from-x, 0), var(--from-y, 18px), 0) scale(var(--from-scale, 1));
+        transition:
+          opacity 700ms ease,
+          transform 700ms ease;
+        transition-delay: var(--delay, 0ms);
+      }
+
+      .js .motion-reveal.is-visible {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+
+      .reveal-left {
+        --from-x: -28px;
+        --from-y: 0;
+      }
+
+      .reveal-right {
+        --from-x: 28px;
+        --from-y: 0;
+      }
+
+      .reveal-pop {
+        --from-y: 12px;
+        --from-scale: 0.96;
+      }
+
+      .hero-card {
+        animation: float-panel 7s ease-in-out infinite;
+      }
+
+      .forex-board {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .robot-trade-scene {
+        background:
+          radial-gradient(circle at 76% 28%, rgba(255, 255, 255, 0.96), transparent 24rem),
+          radial-gradient(circle at 22% 24%, rgba(245, 158, 11, 0.12), transparent 20rem),
+          linear-gradient(115deg, #f8f4ec 0%, #f4efe6 48%, #eef2f5 100%);
+      }
+
+      .forex-panel {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: min(72rem, calc(100vw - 2rem));
+        height: min(38rem, calc(100% - 4rem));
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        border-radius: 0.375rem;
+        background:
+          radial-gradient(circle at 25% 68%, rgba(16, 185, 129, 0.22), transparent 18rem),
+          radial-gradient(circle at 70% 30%, rgba(245, 158, 11, 0.16), transparent 20rem),
+          linear-gradient(180deg, rgba(15, 23, 42, 0.94), rgba(2, 6, 23, 0.82)),
+          rgba(15, 23, 42, 0.9);
+        box-shadow: 0 30px 120px rgba(2, 6, 23, 0.28), 0 0 0 1px rgba(16, 185, 129, 0.12);
+        opacity: 0.86;
+        transform: translate(-50%, -50%) perspective(1200px) rotateX(4deg) rotateY(-6deg);
+      }
+
+      .forex-panel::before,
+      .forex-panel::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+      }
+
+      .forex-panel::before {
+        background-image:
+          linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+        background-size: 72px 54px;
+        mask-image: linear-gradient(90deg, transparent, black 18%, black 88%, transparent);
+      }
+
+      .forex-panel::after {
+        background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.22), transparent);
+        width: 22%;
+        animation: market-scan 5.8s ease-in-out infinite;
+      }
+
+      .price-line {
+        position: absolute;
+        left: 8%;
+        right: 6%;
+        top: 18%;
+        height: 54%;
+      }
+
+      .price-line span {
+        position: absolute;
+        display: block;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(16, 185, 129, 0), rgba(45, 212, 191, 0.95), rgba(245, 158, 11, 0.95));
+        box-shadow: 0 0 22px rgba(45, 212, 191, 0.7);
+        transform-origin: left center;
+        animation: price-grow 4.8s ease-in-out infinite;
+        animation-delay: var(--line-delay, 0ms);
+      }
+
+      .price-line span:nth-child(1) {
+        width: 18%;
+        left: 0%;
+        top: 70%;
+        rotate: -14deg;
+      }
+
+      .price-line span:nth-child(2) {
+        width: 17%;
+        left: 16%;
+        top: 57%;
+        rotate: 10deg;
+      }
+
+      .price-line span:nth-child(3) {
+        width: 20%;
+        left: 31%;
+        top: 62%;
+        rotate: -18deg;
+      }
+
+      .price-line span:nth-child(4) {
+        width: 19%;
+        left: 49%;
+        top: 42%;
+        rotate: 12deg;
+      }
+
+      .price-line span:nth-child(5) {
+        width: 27%;
+        left: 66%;
+        top: 34%;
+        rotate: -8deg;
+      }
+
+      .candle-field {
+        position: absolute;
+        inset: 22% 8% 18% 10%;
+        display: flex;
+        align-items: end;
+        gap: clamp(0.45rem, 1vw, 0.8rem);
+      }
+
+      .candle {
+        position: relative;
+        width: clamp(0.45rem, 0.75vw, 0.7rem);
+        height: var(--candle-height);
+        border-radius: 999px;
+        background: var(--candle-color);
+        box-shadow: 0 0 18px rgba(16, 185, 129, 0.45);
+        transform-origin: bottom;
+        animation: candle-grow 3.4s ease-in-out infinite;
+        animation-delay: var(--candle-delay);
+      }
+
+      .candle::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: -42%;
+        bottom: -34%;
+        width: 1px;
+        background: var(--candle-color);
+        transform: translateX(-50%);
+        opacity: 0.62;
+      }
+
+      .quote-chip {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 0.375rem;
+        background: rgba(17, 24, 39, 0.92);
+        padding: 0.55rem 0.7rem;
+        color: #f8fafc;
+        font: 700 0.75rem/1 JetBrains Mono, ui-monospace, monospace;
+        box-shadow: 0 18px 48px rgba(2, 6, 23, 0.32);
+        animation: quote-float 5.5s ease-in-out infinite;
+        animation-delay: var(--quote-delay, 0ms);
+      }
+
+      .quote-chip strong {
+        color: #10b981;
+      }
+
+      .quote-chip small {
+        color: rgba(248, 250, 252, 0.56);
+        font-size: 0.63rem;
+        font-weight: 600;
+      }
+
+      .quote-chip.is-down strong {
+        color: #f87171;
+      }
+
+      .depth-stack {
+        position: absolute;
+        bottom: 2.1rem;
+        right: 2rem;
+        display: grid;
+        width: 11rem;
+        gap: 0.45rem;
+      }
+
+      .depth-stack span {
+        height: 0.5rem;
+        width: var(--depth);
+        justify-self: end;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.85));
+        transform-origin: right;
+        animation: depth-grow 3.6s ease-in-out infinite;
+        animation-delay: var(--depth-delay);
+      }
+
+      .bot-hero {
+        position: absolute;
+        right: max(1rem, calc((100vw - 78rem) / 2));
+        bottom: -2.5rem;
+        z-index: 2;
+        width: min(30rem, 42vw);
+        filter: drop-shadow(0 30px 35px rgba(17, 24, 39, 0.16));
+        animation: bot-float 5.4s ease-in-out infinite;
+      }
+
+      .bot-head {
+        transform-origin: 355px 165px;
+        animation: bot-head-tilt 4.2s ease-in-out infinite;
+      }
+
+      .bot-left-arm {
+        transform-origin: 238px 375px;
+        animation: bot-left-arm 3.8s ease-in-out infinite;
+      }
+
+      .bot-right-arm {
+        transform-origin: 492px 360px;
+        animation: bot-right-arm 4.1s ease-in-out infinite;
+      }
+
+      .bot-eye {
+        animation: bot-eye-pulse 2.2s ease-in-out infinite;
+      }
+
+      .trade-ghost {
+        position: absolute;
+        color: rgba(17, 24, 39, 0.07);
+        font: 800 2.2rem/1 Inter, ui-sans-serif, system-ui;
+        animation: ghost-float 7s ease-in-out infinite;
+      }
+
+      .chart-bar {
+        transform-origin: bottom;
+        animation: bar-pulse 2.8s ease-in-out infinite;
+        animation-delay: var(--bar-delay, 0ms);
+      }
+
+      .metric-tile,
+      .bot-card,
+      .trust-tile {
+        position: relative;
+        overflow: hidden;
+        transition:
+          border-color 220ms ease,
+          box-shadow 220ms ease,
+          transform 220ms ease,
+          background-color 220ms ease;
+      }
+
+      .metric-tile:hover,
+      .trust-tile:hover {
+        transform: translateY(-4px);
+        border-color: rgba(245, 158, 11, 0.45);
+        box-shadow: 0 18px 45px rgba(17, 24, 39, 0.09);
+      }
+
+      .bot-card:hover {
+        transform: translateY(-6px);
+      }
+
+      .metric-tile::after,
+      .bot-card::after,
+      .trust-tile::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: linear-gradient(115deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+        opacity: 0;
+        transform: translateX(-120%);
+        pointer-events: none;
+      }
+
+      .metric-tile.is-visible::after,
+      .bot-card.is-visible::after,
+      .trust-tile.is-visible::after {
+        animation: surface-sheen 900ms ease forwards;
+        animation-delay: calc(var(--delay, 0ms) + 180ms);
+      }
+
+      .trust-tile svg,
+      .bot-card svg {
+        transition: transform 220ms ease;
+      }
+
+      .trust-tile:hover svg,
+      .bot-card:hover svg {
+        transform: translateY(-2px) scale(1.08);
+      }
+
+      .btn-motion svg,
+      .nav-link,
+      .tag-pill {
+        transition:
+          transform 180ms ease,
+          color 180ms ease,
+          background-color 180ms ease,
+          border-color 180ms ease;
+      }
+
+      .btn-motion:hover svg {
+        transform: translateX(3px);
+      }
+
+      .tag-pill:hover {
+        transform: translateY(-2px);
+      }
+
+      @keyframes grid-drift {
+        from {
+          background-position: 0 0;
+        }
+        to {
+          background-position: 44px 44px;
+        }
+      }
+
+      @keyframes float-panel {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes market-scan {
+        0%,
+        100% {
+          transform: translateX(-40%);
+          opacity: 0;
+        }
+        45%,
+        60% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(460%);
+        }
+      }
+
+      @keyframes bar-pulse {
+        0%,
+        100% {
+          transform: scaleY(0.88);
+          opacity: 0.78;
+        }
+        50% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes price-grow {
+        0% {
+          transform: scaleX(0);
+          opacity: 0;
+        }
+        24%,
+        68% {
+          transform: scaleX(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scaleX(1);
+          opacity: 0.35;
+        }
+      }
+
+      @keyframes candle-grow {
+        0%,
+        100% {
+          transform: scaleY(0.62);
+          opacity: 0.48;
+        }
+        48% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes quote-float {
+        0%,
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+        50% {
+          transform: translate3d(0, -8px, 0);
+        }
+      }
+
+      @keyframes depth-grow {
+        0%,
+        100% {
+          transform: scaleX(0.42);
+          opacity: 0.45;
+        }
+        52% {
+          transform: scaleX(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes bot-float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-14px);
+        }
+      }
+
+      @keyframes bot-float-mobile {
+        0%,
+        100% {
+          transform: translate(-50%, 0);
+        }
+        50% {
+          transform: translate(-50%, -12px);
+        }
+      }
+
+      @keyframes bot-head-tilt {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(-2.5deg);
+        }
+      }
+
+      @keyframes bot-left-arm {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(4deg);
+        }
+      }
+
+      @keyframes bot-right-arm {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(-5deg);
+        }
+      }
+
+      @keyframes bot-eye-pulse {
+        0%,
+        100% {
+          opacity: 0.72;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes ghost-float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes surface-sheen {
+        0% {
+          opacity: 0;
+          transform: translateX(-120%);
+        }
+        32% {
+          opacity: 0.62;
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(120%);
+        }
+      }
+
+      @media (max-width: 900px) {
+        .grid-bg.robot-trade-scene {
+          min-height: 650px;
+        }
+
+        .forex-panel {
+          left: 50%;
+          right: auto;
+          top: 44%;
+          width: min(36rem, calc(100vw - 1.5rem));
+          height: 29rem;
+          opacity: 0.78;
+          transform: translate(-50%, -50%);
+        }
+
+        .quote-chip {
+          display: flex;
+          gap: 0.35rem;
+          padding: 0.48rem 0.55rem;
+          font-size: 0.62rem;
+        }
+
+        .quote-chip small {
+          font-size: 0.54rem;
+        }
+
+        .quote-chip[data-instrument="EUR/USD"] {
+          left: 0.8rem;
+          top: 1rem;
+        }
+
+        .quote-chip[data-instrument="GBP/JPY"] {
+          left: auto;
+          right: 0.8rem;
+          top: 1rem;
+        }
+
+        .quote-chip[data-instrument="XAU/USD"] {
+          left: 50%;
+          bottom: 1rem;
+          transform: translateX(-50%);
+        }
+
+        .depth-stack {
+          display: none;
+        }
+
+        .bot-hero {
+          left: 50%;
+          right: auto;
+          bottom: -4rem;
+          width: min(25rem, 88vw);
+          opacity: 0.9;
+          transform: translateX(-50%);
+          animation-name: bot-float-mobile;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+
+        .js .motion-reveal {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-paper text-ink antialiased">
+    <header class="sticky top-0 z-40 border-b border-white/10 bg-night/95 text-white backdrop-blur">
+      <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+        <a href="#" class="flex items-center gap-3 rounded-md focus:outline-none focus:ring-2 focus:ring-amberline focus:ring-offset-2 focus:ring-offset-night">
+          <span class="flex h-10 w-10 items-center justify-center rounded-md bg-amberline text-night shadow-glow">
+            <i data-lucide="candlestick-chart" class="h-5 w-5"></i>
+          </span>
+          <span class="font-display text-2xl">BotVault</span>
+        </a>
+        <div class="hidden items-center gap-7 text-sm font-semibold text-slate-200 md:flex">
+          <a class="nav-link hover:-translate-y-0.5 hover:text-white focus:outline-none focus:ring-2 focus:ring-amberline" href="#marketplace">Marketplace</a>
+          <a class="nav-link hover:-translate-y-0.5 hover:text-white focus:outline-none focus:ring-2 focus:ring-amberline" href="#verification">Verification</a>
+          <a class="nav-link hover:-translate-y-0.5 hover:text-white focus:outline-none focus:ring-2 focus:ring-amberline" href="#pricing">Pricing</a>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="hidden rounded-md px-4 py-2 text-sm font-bold text-slate-100 transition duration-200 hover:-translate-y-0.5 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-amberline sm:inline-flex">
+            Sign in
+          </button>
+          <button class="inline-flex cursor-pointer items-center gap-2 rounded-md bg-amberline px-4 py-2 text-sm font-bold text-night transition duration-200 hover:-translate-y-0.5 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-amberline focus:ring-offset-2 focus:ring-offset-night">
+            <i data-lucide="plus" class="h-4 w-4"></i>
+            List a bot
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="grid-bg robot-trade-scene relative min-h-[620px] overflow-hidden text-ink md:min-h-[700px]">
+        <div class="forex-board" aria-hidden="true">
+          <span class="trade-ghost left-[9%] top-[22%]">AI Trade</span>
+          <span class="trade-ghost right-[12%] top-[18%]" style="animation-delay: 800ms">BTC</span>
+          <span class="trade-ghost left-[32%] bottom-[28%]" style="animation-delay: 1400ms">ETH</span>
+          <div class="forex-panel">
+            <div class="quote-chip left-[7%] top-[9%]" data-instrument="EUR/USD" style="--quote-delay: 0ms">
+              <span>EUR/USD</span>
+              <strong data-price>...</strong>
+              <small data-status>LIVE</small>
+            </div>
+            <div class="quote-chip right-[9%] top-[14%]" data-instrument="GBP/JPY" style="--quote-delay: 900ms">
+              <span>GBP/JPY</span>
+              <strong data-price>...</strong>
+              <small data-status>LIVE</small>
+            </div>
+            <div class="quote-chip bottom-[24%] left-[11%]" data-instrument="XAU/USD" style="--quote-delay: 1500ms">
+              <span>XAU/USD</span>
+              <strong data-price>...</strong>
+              <small data-status>LIVE</small>
+            </div>
+            <div class="price-line">
+              <span style="--line-delay: 0ms"></span>
+              <span style="--line-delay: 220ms"></span>
+              <span style="--line-delay: 440ms"></span>
+              <span style="--line-delay: 660ms"></span>
+              <span style="--line-delay: 880ms"></span>
+            </div>
+            <div class="candle-field">
+              <span class="candle" style="--candle-height: 34%; --candle-color: #2dd4bf; --candle-delay: 0ms"></span>
+              <span class="candle" style="--candle-height: 51%; --candle-color: #fb7185; --candle-delay: 110ms"></span>
+              <span class="candle" style="--candle-height: 43%; --candle-color: #2dd4bf; --candle-delay: 220ms"></span>
+              <span class="candle" style="--candle-height: 67%; --candle-color: #34d399; --candle-delay: 330ms"></span>
+              <span class="candle" style="--candle-height: 46%; --candle-color: #fb7185; --candle-delay: 440ms"></span>
+              <span class="candle" style="--candle-height: 71%; --candle-color: #2dd4bf; --candle-delay: 550ms"></span>
+              <span class="candle" style="--candle-height: 59%; --candle-color: #34d399; --candle-delay: 660ms"></span>
+              <span class="candle" style="--candle-height: 82%; --candle-color: #2dd4bf; --candle-delay: 770ms"></span>
+              <span class="candle" style="--candle-height: 62%; --candle-color: #fb7185; --candle-delay: 880ms"></span>
+              <span class="candle" style="--candle-height: 88%; --candle-color: #34d399; --candle-delay: 990ms"></span>
+              <span class="candle" style="--candle-height: 75%; --candle-color: #2dd4bf; --candle-delay: 1100ms"></span>
+              <span class="candle" style="--candle-height: 96%; --candle-color: #f59e0b; --candle-delay: 1210ms"></span>
+            </div>
+            <div class="depth-stack">
+              <span style="--depth: 92%; --depth-delay: 0ms"></span>
+              <span style="--depth: 76%; --depth-delay: 120ms"></span>
+              <span style="--depth: 84%; --depth-delay: 240ms"></span>
+              <span style="--depth: 58%; --depth-delay: 360ms"></span>
+              <span style="--depth: 68%; --depth-delay: 480ms"></span>
+            </div>
+          </div>
+          <svg class="bot-hero" viewBox="0 0 640 760" role="img" aria-label="Animated trading bot illustration">
+            <g fill="none" stroke="#111827" stroke-linecap="round" stroke-linejoin="round">
+              <g class="bot-left-arm">
+                <path d="M228 346c-40 28-61 79-64 138" stroke-width="15" />
+                <path d="M164 484c-7 44 1 93 20 138" stroke-width="15" />
+                <path d="M151 632c9 22 40 25 55 6 14-18 3-42-19-48-20-5-42 18-36 42z" fill="#d9dee5" stroke-width="10" />
+              </g>
+              <g class="bot-right-arm">
+                <path d="M484 338c42 30 63 81 65 141" stroke-width="15" />
+                <path d="M549 479c8 46 0 96-21 141" stroke-width="15" />
+                <path d="M506 631c10 23 43 25 58 5 13-18 1-42-21-47-20-4-43 19-37 42z" fill="#d9dee5" stroke-width="10" />
+              </g>
+              <path d="M244 329c-29 32-45 81-45 142v132c0 64 53 116 117 116h80c64 0 117-52 117-116V471c0-61-17-110-46-142" fill="#f7f5ef" stroke-width="12" />
+              <path d="M249 439c34 48 74 72 109 72s75-24 109-72" stroke="#d2d8df" stroke-width="8" />
+              <path d="M278 350l-18 117c-5 33 17 64 50 70l48 8 48-8c33-6 55-37 50-70l-18-117" fill="#ffffff" stroke-width="11" />
+              <path d="M268 560c48 23 126 23 177 0l-18 83c-4 18-20 31-38 31h-63c-18 0-34-13-38-31l-20-83z" fill="#17202c" stroke-width="11" />
+              <path d="M307 676l-22 67" stroke-width="13" />
+              <path d="M408 676l24 67" stroke-width="13" />
+              <path d="M271 742h74" stroke-width="15" />
+              <path d="M392 742h78" stroke-width="15" />
+              <g class="bot-head">
+                <path d="M245 149c0-92 55-135 128-135 77 0 131 49 131 136v66c0 82-58 138-131 138-72 0-128-54-128-137v-68z" fill="#f8f7f2" stroke-width="12" />
+                <path d="M232 141c-24 12-37 41-36 82 1 42 18 74 44 82" fill="#d9dee5" stroke-width="11" />
+                <path d="M507 139c27 11 42 41 41 85-1 43-18 74-46 83" fill="#d9dee5" stroke-width="11" />
+                <path d="M290 142h154c25 0 46 21 46 46v39c0 25-21 46-46 46H290c-25 0-46-21-46-46v-39c0-25 21-46 46-46z" fill="#111827" stroke-width="10" />
+                <ellipse class="bot-eye" cx="322" cy="207" rx="15" ry="22" fill="#93c5fd" stroke="none" />
+                <ellipse class="bot-eye" cx="414" cy="207" rx="15" ry="22" fill="#93c5fd" stroke="none" style="animation-delay: 160ms" />
+                <path d="M282 311c40 35 136 35 178 0v41c-43 33-136 33-178 0v-41z" fill="#17202c" stroke-width="10" />
+              </g>
+              <circle cx="226" cy="355" r="20" fill="#d9dee5" stroke-width="10" />
+              <circle cx="489" cy="355" r="20" fill="#d9dee5" stroke-width="10" />
+              <path d="M214 352c-13 45-14 89-2 131" stroke="#94a3b8" stroke-width="6" />
+              <path d="M499 347c10 45 8 89-5 132" stroke="#94a3b8" stroke-width="6" />
+            </g>
+          </svg>
+        </div>
+        <div class="relative z-10 mx-auto hidden max-w-7xl gap-10 px-4 pb-14 pt-12 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:pb-20 lg:pt-16">
+          <div class="flex flex-col justify-center">
+            <div class="motion-reveal mb-5 inline-flex w-fit items-center gap-2 rounded-md border border-emerald-300/25 bg-emerald-400/10 px-3 py-2 text-sm font-semibold text-emerald-100">
+              <i data-lucide="shield-check" class="h-4 w-4 text-mint"></i>
+              Verified performance, transparent fees
+            </div>
+            <h1 class="motion-reveal max-w-4xl font-display text-5xl leading-tight text-white sm:text-6xl lg:text-7xl" style="--delay: 90ms">
+              Trading bots you can compare before you trust.
+            </h1>
+            <p class="motion-reveal mt-6 max-w-2xl text-lg leading-8 text-slate-300" style="--delay: 170ms">
+              Explore audited crypto, forex, and equities bots with live risk metrics, exchange support, pricing, and creator history in one marketplace.
+            </p>
+
+            <div class="motion-reveal mt-8 rounded-md border border-white/10 bg-white p-2 shadow-lift" style="--delay: 250ms">
+              <div class="grid gap-2 lg:grid-cols-[1fr_180px_160px]">
+                <label class="relative block">
+                  <span class="sr-only">Search bots</span>
+                  <i data-lucide="search" class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-500"></i>
+                  <input
+                    class="h-14 w-full rounded-md border border-slate-200 bg-white pl-12 pr-4 text-base font-medium text-ink outline-none transition placeholder:text-slate-500 focus:border-amberline focus:ring-4 focus:ring-amberline/20"
+                    placeholder="Search scalping, DCA, arbitrage..."
+                    type="search"
+                  />
+                </label>
+                <select class="h-14 cursor-pointer rounded-md border border-slate-200 bg-white px-4 text-sm font-bold text-ink outline-none transition focus:border-amberline focus:ring-4 focus:ring-amberline/20">
+                  <option>All markets</option>
+                  <option>Crypto</option>
+                  <option>Forex</option>
+                  <option>Equities</option>
+                </select>
+                <button class="btn-motion inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-md bg-night px-5 text-sm font-extrabold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-amberline/35">
+                  <i data-lucide="sliders-horizontal" class="h-4 w-4"></i>
+                  Find bots
+                </button>
+              </div>
+            </div>
+
+            <div class="motion-reveal mt-5 flex flex-wrap gap-2" style="--delay: 330ms">
+              <a class="tag-pill rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-amberline" href="#">Grid bots</a>
+              <a class="tag-pill rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-amberline" href="#">Copy trading</a>
+              <a class="tag-pill rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-amberline" href="#">Low drawdown</a>
+              <a class="tag-pill rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-amberline" href="#">Binance ready</a>
+            </div>
+          </div>
+
+          <aside class="motion-reveal hero-card rounded-md border border-white/10 bg-white/[0.04] p-4 shadow-glow" style="--delay: 220ms">
+            <div class="rounded-md bg-white p-5 text-ink">
+              <div class="flex items-start justify-between gap-4 border-b border-slate-200 pb-5">
+                <div>
+                  <p class="font-mono text-xs font-semibold uppercase text-slate-500">Featured strategy</p>
+                  <h2 class="mt-2 text-2xl font-extrabold">Atlas Momentum Pro</h2>
+                </div>
+                <span class="rounded-md bg-emerald-50 px-3 py-1.5 text-sm font-extrabold text-emerald-700">Audited</span>
+              </div>
+              <div class="grid grid-cols-3 gap-3 py-5">
+                <div class="rounded-md bg-slate-50 p-3">
+                  <p class="text-xs font-bold text-slate-500">12M Return</p>
+                  <p class="mt-1 font-mono text-xl font-bold text-emerald-700">+38.4%</p>
+                </div>
+                <div class="rounded-md bg-slate-50 p-3">
+                  <p class="text-xs font-bold text-slate-500">Max DD</p>
+                  <p class="mt-1 font-mono text-xl font-bold text-rose-600">8.7%</p>
+                </div>
+                <div class="rounded-md bg-slate-50 p-3">
+                  <p class="text-xs font-bold text-slate-500">Users</p>
+                  <p class="mt-1 font-mono text-xl font-bold">4.2k</p>
+                </div>
+              </div>
+              <div class="h-36 rounded-md border border-slate-200 bg-slate-50 p-4">
+                <div class="flex h-full items-end gap-2">
+                  <span class="chart-bar h-[42%] flex-1 rounded-t bg-slate-300" style="--bar-delay: 0ms"></span>
+                  <span class="chart-bar h-[58%] flex-1 rounded-t bg-mint" style="--bar-delay: 120ms"></span>
+                  <span class="chart-bar h-[45%] flex-1 rounded-t bg-slate-300" style="--bar-delay: 240ms"></span>
+                  <span class="chart-bar h-[67%] flex-1 rounded-t bg-mint" style="--bar-delay: 360ms"></span>
+                  <span class="chart-bar h-[62%] flex-1 rounded-t bg-slate-300" style="--bar-delay: 480ms"></span>
+                  <span class="chart-bar h-[78%] flex-1 rounded-t bg-mint" style="--bar-delay: 600ms"></span>
+                  <span class="chart-bar h-[72%] flex-1 rounded-t bg-slate-300" style="--bar-delay: 720ms"></span>
+                  <span class="chart-bar h-[88%] flex-1 rounded-t bg-amberline" style="--bar-delay: 840ms"></span>
+                </div>
+              </div>
+              <div class="mt-5 flex items-center justify-between gap-4">
+                <p class="text-sm font-semibold text-slate-600">From <span class="font-mono text-ink">$49/mo</span></p>
+                <button class="btn-motion inline-flex cursor-pointer items-center gap-2 rounded-md bg-ink px-4 py-2.5 text-sm font-extrabold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-amberline/30">
+                  View details
+                  <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+                </button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="border-b border-slate-200 bg-white">
+        <div class="mx-auto grid max-w-7xl grid-cols-2 gap-3 px-4 py-6 sm:px-6 md:grid-cols-4 lg:px-8">
+          <div class="motion-reveal reveal-pop metric-tile rounded-md border border-transparent bg-slate-50 p-4">
+            <p class="font-mono text-2xl font-bold" data-count-to="642">0</p>
+            <p class="mt-1 text-sm font-semibold text-slate-600">listed bots</p>
+          </div>
+          <div class="motion-reveal reveal-pop metric-tile rounded-md border border-transparent bg-slate-50 p-4" style="--delay: 80ms">
+            <p class="font-mono text-2xl font-bold" data-count-to="2.8" data-count-prefix="$" data-count-suffix="B" data-count-decimals="1">0</p>
+            <p class="mt-1 text-sm font-semibold text-slate-600">connected volume</p>
+          </div>
+          <div class="motion-reveal reveal-pop metric-tile rounded-md border border-transparent bg-slate-50 p-4" style="--delay: 160ms">
+            <p class="font-mono text-2xl font-bold" data-count-to="91" data-count-suffix="%">0</p>
+            <p class="mt-1 text-sm font-semibold text-slate-600">verified creators</p>
+          </div>
+          <div class="motion-reveal reveal-pop metric-tile rounded-md border border-transparent bg-slate-50 p-4" style="--delay: 240ms">
+            <p class="font-mono text-2xl font-bold" data-count-to="14">0</p>
+            <p class="mt-1 text-sm font-semibold text-slate-600">supported exchanges</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="marketplace" class="bg-paper py-14 sm:py-16">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="motion-reveal reveal-left flex flex-col justify-between gap-5 md:flex-row md:items-end">
+            <div>
+              <p class="font-mono text-sm font-bold uppercase text-amberline">Marketplace</p>
+              <h2 class="mt-2 text-3xl font-extrabold sm:text-4xl">Featured trading bots</h2>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button class="cursor-pointer rounded-md bg-ink px-4 py-2 text-sm font-extrabold text-white transition hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-amberline/30">Top verified</button>
+              <button class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-extrabold text-slate-700 transition hover:border-slate-500 focus:outline-none focus:ring-4 focus:ring-amberline/25">Lowest drawdown</button>
+              <button class="cursor-pointer rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-extrabold text-slate-700 transition hover:border-slate-500 focus:outline-none focus:ring-4 focus:ring-amberline/25">New releases</button>
+            </div>
+          </div>
+
+          <div class="mt-8 grid gap-5 lg:grid-cols-3">
+            <article class="motion-reveal reveal-pop bot-card rounded-md border border-slate-200 bg-white p-5 shadow-sm hover:shadow-lift">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <span class="flex h-12 w-12 items-center justify-center rounded-md bg-emerald-50 text-emerald-700">
+                    <i data-lucide="activity" class="h-6 w-6"></i>
+                  </span>
+                  <div>
+                    <h3 class="text-lg font-extrabold">Nexus Grid AI</h3>
+                    <p class="text-sm font-semibold text-slate-500">Crypto grid strategy</p>
+                  </div>
+                </div>
+                <span class="rounded-md bg-emerald-50 px-2.5 py-1 text-xs font-extrabold text-emerald-700">Live audit</span>
+              </div>
+              <div class="mt-5 grid grid-cols-3 gap-3 border-y border-slate-200 py-4">
+                <div>
+                  <p class="text-xs font-bold text-slate-500">Return</p>
+                  <p class="mt-1 font-mono text-lg font-bold text-emerald-700">+29.1%</p>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-slate-500">Drawdown</p>
+                  <p class="mt-1 font-mono text-lg font-bold">6.4%</p>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-slate-500">Fee</p>
+                  <p class="mt-1 font-mono text-lg font-bold">$39</p>
+                </div>
+              </div>
+              <p class="mt-4 text-sm leading-6 text-slate-600">Balanced spot grid bot with volatility filters, exchange-native API permissions, and daily exposure caps.</p>
+              <button class="btn-motion mt-5 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-slate-300 px-4 py-3 text-sm font-extrabold transition duration-200 hover:border-ink hover:bg-ink hover:text-white focus:outline-none focus:ring-4 focus:ring-amberline/25">
+                Compare strategy
+                <i data-lucide="arrow-right" class="h-4 w-4"></i>
+              </button>
+            </article>
+
+            <article class="motion-reveal reveal-pop bot-card rounded-md border-2 border-amberline bg-white p-5 shadow-glow hover:shadow-lift" style="--delay: 110ms">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <span class="flex h-12 w-12 items-center justify-center rounded-md bg-amber-50 text-amber-700">
+                    <i data-lucide="zap" class="h-6 w-6"></i>
+                  </span>
+                  <div>
+                    <h3 class="text-lg font-extrabold">Atlas Momentum Pro</h3>
+                    <p class="text-sm font-semibold text-slate-500">Multi-market momentum</p>
+                  </div>
+                </div>
+                <span class="rounded-md bg-amber-100 px-2.5 py-1 text-xs font-extrabold text-amber-800">Featured</span>
+              </div>
+              <div class="mt-5 grid grid-cols-3 gap-3 border-y border-slate-200 py-4">
+                <div>
+                  <p class="text-xs font-bold text-slate-500">Return</p>
+                  <p class="mt-1 font-mono text-lg font-bold text-emerald-700">+38.4%</p>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-slate-500">Drawdown</p>
+                  <p class="mt-1 font-mono text-lg font-bold">8.7%</p>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-slate-500">Fee</p>
+                  <p class="mt-1 font-mono text-lg font-bold">$49</p>
+                </div>
+              </div>
+              <p class="mt-4 text-sm leading-6 text-slate-600">Signal-weighted futures and spot bot with circuit breakers, slippage controls, and creator support desk.</p>
+              <button class="btn-motion mt-5 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-md bg-ink px-4 py-3 text-sm font-extrabold text-white transition duration-200 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-amberline/30">
+                Open listing
+                <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+              </button>
+            </article>
+
+            <article class="motion-reveal reveal-pop bot-card rounded-md border border-slate-200 bg-white p-5 shadow-sm hover:shadow-lift" style="--delay: 220ms">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <span class="flex h-12 w-12 items-center justify-center rounded-md bg-violet-50 text-iris">
+                    <i data-lucide="layers-3" class="h-6 w-6"></i>
+                  </span>
+                  <div>
+                    <h3 class="text-lg font-extrabold">Delta Hedge Kit</h3>
+                    <p class="text-sm font-semibold text-slate-500">Options hedging bot</p>
+                  </div>
+                </div>
+                <span class="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-extrabold text-slate-700">Pro</span>
+              </div>
+              <div class="mt-5 grid grid-cols-3 gap-3 border-y border-slate-200 py-4">
+                <div>
+                  <p class="text-xs font-bold text-slate-500">Return</p>
+                  <p class="mt-1 font-mono text-lg font-bold text-emerald-700">+18.6%</p>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-slate-500">Drawdown</p>
+                  <p class="mt-1 font-mono text-lg font-bold">3.2%</p>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-slate-500">Fee</p>
+                  <p class="mt-1 font-mono text-lg font-bold">$89</p>
+                </div>
+              </div>
+              <p class="mt-4 text-sm leading-6 text-slate-600">Risk-first hedge automation for advanced desks with defined max loss and position sizing templates.</p>
+              <button class="btn-motion mt-5 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-slate-300 px-4 py-3 text-sm font-extrabold transition duration-200 hover:border-ink hover:bg-ink hover:text-white focus:outline-none focus:ring-4 focus:ring-amberline/25">
+                Compare strategy
+                <i data-lucide="arrow-right" class="h-4 w-4"></i>
+              </button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="verification" class="bg-white py-14 sm:py-16">
+        <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+          <div class="motion-reveal reveal-left">
+            <p class="font-mono text-sm font-bold uppercase text-emerald-700">Trust framework</p>
+            <h2 class="mt-2 text-3xl font-extrabold sm:text-4xl">Every listing shows the numbers that matter.</h2>
+            <p class="mt-4 text-base leading-7 text-slate-600">
+              Marketplace rankings combine verified history, current risk settings, support quality, and transparent pricing. Past results are never treated as guarantees.
+            </p>
+          </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div class="motion-reveal reveal-pop trust-tile rounded-md border border-slate-200 bg-slate-50 p-5" style="--delay: 70ms">
+              <i data-lucide="badge-check" class="h-7 w-7 text-emerald-700"></i>
+              <h3 class="mt-4 font-extrabold">Creator verification</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-600">KYC status, creator history, support response time, and product update cadence are visible before purchase.</p>
+            </div>
+            <div class="motion-reveal reveal-pop trust-tile rounded-md border border-slate-200 bg-slate-50 p-5" style="--delay: 140ms">
+              <i data-lucide="lock-keyhole" class="h-7 w-7 text-iris"></i>
+              <h3 class="mt-4 font-extrabold">Permission-first APIs</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-600">Listings identify trade-only, read-only, and withdrawal-restricted configurations for safer exchange connections.</p>
+            </div>
+            <div class="motion-reveal reveal-pop trust-tile rounded-md border border-slate-200 bg-slate-50 p-5" style="--delay: 210ms">
+              <i data-lucide="line-chart" class="h-7 w-7 text-amber-700"></i>
+              <h3 class="mt-4 font-extrabold">Comparable metrics</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-600">Return, drawdown, Sharpe ratio, active days, win rate, and open exposure are normalized across listings.</p>
+            </div>
+            <div class="motion-reveal reveal-pop trust-tile rounded-md border border-slate-200 bg-slate-50 p-5" style="--delay: 280ms">
+              <i data-lucide="receipt-text" class="h-7 w-7 text-slate-700"></i>
+              <h3 class="mt-4 font-extrabold">Clear pricing</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-600">Subscription, setup, performance, and exchange fees are separated so shoppers can compare real costs.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing" class="bg-night py-14 text-white sm:py-16">
+        <div class="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_420px] lg:px-8">
+          <div class="motion-reveal">
+            <p class="font-mono text-sm font-bold uppercase text-amberline">For creators</p>
+            <h2 class="mt-2 max-w-3xl text-3xl font-extrabold sm:text-4xl">Launch your bot with investor-grade listing details.</h2>
+            <p class="mt-4 max-w-2xl text-base leading-7 text-slate-300">
+              Publish strategy documentation, risk limits, backtest files, live broker connections, and pricing tiers from one seller dashboard.
+            </p>
+          </div>
+          <div class="motion-reveal rounded-md border border-white/10 bg-white p-5 text-ink" style="--delay: 140ms">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xl font-extrabold">Creator listing</h3>
+              <p class="font-mono text-2xl font-bold">$0</p>
+            </div>
+            <p class="mt-2 text-sm text-slate-600">Start free, pay marketplace commission after sales.</p>
+            <button class="btn-motion mt-5 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-md bg-amberline px-4 py-3 text-sm font-extrabold text-night transition duration-200 hover:-translate-y-0.5 hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-amberline/35">
+              Submit a bot
+              <i data-lucide="send" class="h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-white">
+      <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 text-sm font-semibold text-slate-600 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+        <p>BotVault is a marketplace interface concept. Trading involves risk.</p>
+        <div class="flex gap-4">
+          <a class="nav-link hover:-translate-y-0.5 hover:text-ink focus:outline-none focus:ring-2 focus:ring-amberline" href="#">Terms</a>
+          <a class="nav-link hover:-translate-y-0.5 hover:text-ink focus:outline-none focus:ring-2 focus:ring-amberline" href="#">Risk disclosure</a>
+          <a class="nav-link hover:-translate-y-0.5 hover:text-ink focus:outline-none focus:ring-2 focus:ring-amberline" href="#">Support</a>
+  
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+
+      const fallbackQuotes = {
+        "EUR/USD": 1.0874,
+        "GBP/JPY": 196.42,
+        "XAU/USD": 5280.2,
+      };
+
+      const quoteFormatters = {
+        "EUR/USD": (value) => Number(value).toFixed(5),
+        "GBP/JPY": (value) => Number(value).toFixed(3),
+        "XAU/USD": (value) =>
+          Number(value).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }),
+      };
+
+      const setQuote = (instrument, value, status = "LIVE") => {
+        const chip = document.querySelector(`[data-instrument="${instrument}"]`);
+        if (!chip || !Number.isFinite(value)) return;
+
+        const price = chip.querySelector("[data-price]");
+        const statusLabel = chip.querySelector("[data-status]");
+        const format = quoteFormatters[instrument] || ((nextValue) => String(nextValue));
+
+        price.textContent = format(value);
+        statusLabel.textContent = status;
+      };
+
+      const fetchJson = async (url) => {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 6000);
+
+        try {
+          const response = await fetch(url, {
+            cache: "no-store",
+            signal: controller.signal,
+          });
+
+          if (!response.ok) {
+            throw new Error(`Quote request failed: ${response.status}`);
+          }
+
+          return await response.json();
+        } finally {
+          window.clearTimeout(timeout);
+        }
+      };
+
+      const loadLiveQuotes = async () => {
+        const [currencyResult, metalsResult] = await Promise.allSettled([
+          fetchJson("https://convertz.app/api/currency"),
+          fetchJson("https://convertz.app/api/metals"),
+        ]);
+
+        if (currencyResult.status === "fulfilled" && currencyResult.value.rates) {
+          const rates = currencyResult.value.rates;
+          const eurUsd = 1 / rates.EUR;
+          const gbpJpy = rates.JPY / rates.GBP;
+          setQuote("EUR/USD", Number.isFinite(eurUsd) ? eurUsd : fallbackQuotes["EUR/USD"], Number.isFinite(eurUsd) ? "LIVE" : "OFFLINE");
+          setQuote("GBP/JPY", Number.isFinite(gbpJpy) ? gbpJpy : fallbackQuotes["GBP/JPY"], Number.isFinite(gbpJpy) ? "LIVE" : "OFFLINE");
+        } else {
+          setQuote("EUR/USD", fallbackQuotes["EUR/USD"], "OFFLINE");
+          setQuote("GBP/JPY", fallbackQuotes["GBP/JPY"], "OFFLINE");
+        }
+
+        if (metalsResult.status === "fulfilled" && metalsResult.value.XAU) {
+          setQuote("XAU/USD", metalsResult.value.XAU.price);
+        } else {
+          setQuote("XAU/USD", fallbackQuotes["XAU/USD"], "OFFLINE");
+        }
+      };
+
+      loadLiveQuotes();
+      window.setInterval(loadLiveQuotes, 60000);
+
+      const animateCount = (element) => {
+        if (element.dataset.counted === "true") return;
+        element.dataset.counted = "true";
+
+        const target = Number(element.dataset.countTo);
+        const decimals = Number(element.dataset.countDecimals || 0);
+        const prefix = element.dataset.countPrefix || "";
+        const suffix = element.dataset.countSuffix || "";
+        const finalValue = `${prefix}${target.toFixed(decimals)}${suffix}`;
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          element.textContent = finalValue;
+          return;
+        }
+
+        const duration = 1100;
+        const start = performance.now();
+
+        const tick = (now) => {
+          const elapsed = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - elapsed, 3);
+          const value = target * eased;
+
+          element.textContent = `${prefix}${value.toFixed(decimals)}${suffix}`;
+
+          if (elapsed < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            element.textContent = finalValue;
+          }
+        };
+
+        requestAnimationFrame(tick);
+      };
+
+      const revealItems = document.querySelectorAll(".motion-reveal");
+
+      if ("IntersectionObserver" in window) {
+        const revealObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                entry.target.querySelectorAll("[data-count-to]").forEach(animateCount);
+                revealObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.16, rootMargin: "0px 0px -40px 0px" }
+        );
+
+        revealItems.forEach((item) => revealObserver.observe(item));
+      } else {
+        revealItems.forEach((item) => {
+          item.classList.add("is-visible");
+          item.querySelectorAll("[data-count-to]").forEach(animateCount);
+        });
+      }
+    </script>
+  </body>
+</html>

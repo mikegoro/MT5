@@ -1,0 +1,24 @@
+﻿2025/12/02 02:04:23.014|       |MqlServer |OFT.MT5 v7.0.11.382 app c:\Program Files (x86)\ATAS Platform\
+2025/12/02 02:04:23.014|       |MqlServer |MQL.START
+2025/12/02 02:04:23.014|       |MqlServer |Commander started
+2025/12/02 02:04:23.015|       |FixServer |Listening 0.0.0.0:30998 started.
+2025/12/02 02:04:23.015|       |MqlServer |FIX-STATE: Started
+2025/12/02 02:04:23.015|       |FixServer |Started.
+2025/12/02 02:04:23.015|       |FixServer |Outgoing thread started.
+2025/12/02 02:04:23.015|       |MqlServer |FIX started: 127.0.0.1:30998
+2025/12/02 02:04:23.015|       |MqlServer |INITed. ΔMT=-10800
+2025/12/02 02:08:55.944|       |MqlServer |MQL: TRANS: REQUEST [] O=0 OT=BUY OS=STARTED D=0 DT=BUY POS=0 oT=GTC eT= P=0 V=0 PT=0 SL=0 PL=0
+REQ: [XAUUSD] id=0/U+0 C=|| A=DEAL oT=BUY P=0/0 V=3 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=10018/0 rid=1512436002 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 02:09:03.378|       |MqlServer |MQL: TRANS: REQUEST [] O=0 OT=BUY OS=STARTED D=0 DT=BUY POS=0 oT=GTC eT= P=0 V=0 PT=0 SL=0 PL=0
+REQ: [XAUUSD] id=0/U+0 C=|| A=DEAL oT=BUY P=0/0 V=3 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=10018/0 rid=1512436003 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 02:09:19.080|       |MqlServer |MQL: TRANS: REQUEST [] O=0 OT=BUY OS=STARTED D=0 DT=BUY POS=0 oT=GTC eT= P=0 V=0 PT=0 SL=0 PL=0
+REQ: [XAUUSD] id=0/U+0 C=|| A=DEAL oT=BUY P=0/0 V=3 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=10018/0 rid=1512436004 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 02:09:23.624|       |MqlServer |MQL: TRANS: REQUEST [] O=0 OT=BUY OS=STARTED D=0 DT=BUY POS=0 oT=GTC eT= P=0 V=0 PT=0 SL=0 PL=0
+REQ: [XAUUSD] id=0/U+0 C=|| A=DEAL oT=BUY P=0/0 V=3 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=10018/0 rid=1512436005 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 02:09:25.672|       |MqlServer |MQL: TRANS: REQUEST [] O=0 OT=BUY OS=STARTED D=0 DT=BUY POS=0 oT=GTC eT= P=0 V=0 PT=0 SL=0 PL=0
+REQ: [XAUUSD] id=0/U+0 C=|| A=DEAL oT=SELL P=0/0 V=3 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=10018/0 rid=1512436006 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0

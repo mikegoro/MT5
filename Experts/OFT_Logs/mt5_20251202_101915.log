@@ -1,0 +1,65 @@
+﻿2025/12/02 10:19:15.859|       |MqlServer |OFT.MT5 v7.0.11.382 app c:\Program Files (x86)\ATAS Platform\
+2025/12/02 10:19:15.859|       |MqlServer |MQL.START
+2025/12/02 10:19:15.860|       |MqlServer |Commander started
+2025/12/02 10:19:15.872|       |FixServer |Listening 0.0.0.0:30998 started.
+2025/12/02 10:19:15.873|       |MqlServer |FIX-STATE: Started
+2025/12/02 10:19:15.873|       |FixServer |Started.
+2025/12/02 10:19:15.873|       |FixServer |Outgoing thread started.
+2025/12/02 10:19:15.873|       |MqlServer |FIX started: 127.0.0.1:30998
+2025/12/02 10:19:15.874|       |MqlServer |INITed. ΔMT=-10800
+2025/12/02 10:33:48.684|       |MqlServer |MQL: TRANS: POSITION [XAUUSD] O=0 OT=BUY OS=STARTED D=0 DT=BUY POS=80448096 oT=GTC eT= P=4216.07 V=1.3 PT=0 SL=4214.43 PL=4221.33
+REQ: [] id=0/U+0 C=|| A=0 oT=BUY P=0/0 V=0 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=0/0 rid=0 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:33:48.684|       |MqlServer |MQL: TRANS: REQUEST [] O=0 OT=BUY OS=STARTED D=0 DT=BUY POS=0 oT=GTC eT= P=0 V=0 PT=0 SL=0 PL=0
+REQ: [XAUUSD] id=0/U+0 C=|| A=SLTP oT=BUY P=0/0 V=1.3 pos=80448096 lim=0 SL=4214.43 TP=4221.33 oF=FOK oT=GTC eT=
+RES: ret=10009/0 rid=1954867213 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:33:56.795|       |MqlServer |MQL: TRANS: POSITION [XAUUSD] O=0 OT=BUY OS=STARTED D=0 DT=BUY POS=80448235 oT=GTC eT= P=4216.3 V=1.3 PT=0 SL=4214.31 PL=0
+REQ: [] id=0/U+0 C=|| A=0 oT=BUY P=0/0 V=0 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=0/0 rid=0 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:33:56.799|       |MqlServer |MQL: TRANS: REQUEST [] O=0 OT=BUY OS=STARTED D=0 DT=BUY POS=0 oT=GTC eT= P=0 V=0 PT=0 SL=0 PL=0
+REQ: [XAUUSD] id=0/U+0 C=|| A=SLTP oT=BUY P=0/0 V=1.3 pos=80448235 lim=0 SL=4214.31 TP=0 oF=FOK oT=GTC eT=
+RES: ret=10009/0 rid=1954867214 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:35:53.012|       |MqlServer |MQL: TRANS: POSITION [XAUUSD] O=0 OT=BUY OS=STARTED D=0 DT=BUY POS=80448096 oT=GTC eT= P=4216.07 V=1.3 PT=0 SL=4214.43 PL=4221.33
+REQ: [] id=0/U+0 C=|| A=0 oT=BUY P=0/0 V=0 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=0/0 rid=0 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:35:53.014|       |MqlServer |MQL: TRANS: ORDER_ADD [XAUUSD] O=80458121 OT=SELL OS=STARTED D=0 DT=BUY POS=80448096 oT=GTC eT= P=4214.43 V=1.3 PT=0 SL=0 PL=0
+REQ: [] id=0/U+0 C=|| A=0 oT=BUY P=0/0 V=0 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=0/0 rid=0 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:35:53.014|Warning|MqlServer |Unk ord id 80458121.
+2025/12/02 10:35:53.230|       |MqlServer |MQL: TRANS: DEAL_ADD [XAUUSD] O=80458121 OT=BUY OS=STARTED D=79739050 DT=SELL POS=80448096 oT=GTC eT= P=4214.43 V=1.3 PT=0 SL=4214.43 PL=4221.33
+REQ: [] id=0/U+0 C=|| A=0 oT=BUY P=0/0 V=0 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=0/0 rid=0 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:35:53.230|Warning|MqlServer |Unk ord id 80458121 for trade.
+2025/12/02 10:35:53.234|       |MqlServer |MQL: TRANS: ORDER_DELETE [XAUUSD] O=80458121 OT=SELL OS=FILLED D=0 DT=BUY POS=80448096 oT=GTC eT= P=4214.43 V=0 PT=0 SL=0 PL=0
+REQ: [] id=0/U+0 C=|| A=0 oT=BUY P=0/0 V=0 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=0/0 rid=0 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:35:53.234|Warning|MqlServer |Unk ord id 80458121.
+2025/12/02 10:35:53.234|       |MqlServer |MQL: TRANS: HISTORY_ADD [XAUUSD] O=80458121 OT=SELL OS=FILLED D=0 DT=BUY POS=80448096 oT=GTC eT= P=4214.43 V=0 PT=0 SL=0 PL=0
+REQ: [] id=0/U+0 C=|| A=0 oT=BUY P=0/0 V=0 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=0/0 rid=0 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:35:53.245|       |MqlServer |NEW-CMD GetPositions: MSG: ARG:
+2025/12/02 10:35:53.245|       |MqlServer |NEW-CMD: GetPositions
+2025/12/02 10:35:53.248|       |MqlServer |New command: GetPositions
+2025/12/02 10:35:53.375|       |MqlServer |MQL: TRANS: POSITION [XAUUSD] O=0 OT=BUY OS=STARTED D=0 DT=BUY POS=80448235 oT=GTC eT= P=4216.3 V=1.3 PT=0 SL=4214.31 PL=0
+REQ: [] id=0/U+0 C=|| A=0 oT=BUY P=0/0 V=0 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=0/0 rid=0 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:35:53.375|       |MqlServer |MQL: TRANS: ORDER_ADD [XAUUSD] O=80458141 OT=SELL OS=STARTED D=0 DT=BUY POS=80448235 oT=GTC eT= P=4214.31 V=1.3 PT=0 SL=0 PL=0
+REQ: [] id=0/U+0 C=|| A=0 oT=BUY P=0/0 V=0 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=0/0 rid=0 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:35:53.375|Warning|MqlServer |Unk ord id 80458141.
+2025/12/02 10:35:53.375|       |MqlServer |MQL: TRANS: DEAL_ADD [XAUUSD] O=80458141 OT=BUY OS=STARTED D=79739066 DT=SELL POS=80448235 oT=GTC eT= P=4214.31 V=1.3 PT=0 SL=4214.31 PL=0
+REQ: [] id=0/U+0 C=|| A=0 oT=BUY P=0/0 V=0 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=0/0 rid=0 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:35:53.375|Warning|MqlServer |Unk ord id 80458141 for trade.
+2025/12/02 10:35:53.403|       |MqlServer |NEW-CMD GetPositions: MSG: ARG:
+2025/12/02 10:35:53.403|       |MqlServer |NEW-CMD: GetPositions
+2025/12/02 10:35:53.403|       |MqlServer |New command: GetPositions
+2025/12/02 10:35:53.403|Warning|MqlServer |NO POS [XAUUSD]: err=4753
+2025/12/02 10:35:53.442|Warning|MqlServer |POSes: pos [XAUUSD] Position not found. maybe closed
+2025/12/02 10:35:53.861|       |MqlServer |MQL: TRANS: ORDER_DELETE [XAUUSD] O=80458141 OT=SELL OS=FILLED D=0 DT=BUY POS=80448235 oT=GTC eT= P=4214.31 V=0 PT=0 SL=0 PL=0
+REQ: [] id=0/U+0 C=|| A=0 oT=BUY P=0/0 V=0 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=0/0 rid=0 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0
+2025/12/02 10:35:53.861|Warning|MqlServer |Unk ord id 80458141.
+2025/12/02 10:35:53.867|       |MqlServer |MQL: TRANS: HISTORY_ADD [XAUUSD] O=80458141 OT=SELL OS=FILLED D=0 DT=BUY POS=80448235 oT=GTC eT= P=4214.31 V=0 PT=0 SL=0 PL=0
+REQ: [] id=0/U+0 C=|| A=0 oT=BUY P=0/0 V=0 pos=0 lim=0 SL=0 TP=0 oF=FOK oT=GTC eT=
+RES: ret=0/0 rid=0 C=|| Trd=0 Ord=0 P=0 V=0 S=0/0

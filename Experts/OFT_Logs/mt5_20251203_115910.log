@@ -1,0 +1,18 @@
+﻿2025/12/03 11:59:11.930|       |MqlServer |OFT.MT5 v7.0.11.382 app c:\Program Files (x86)\ATAS Platform\
+2025/12/03 11:59:11.932|       |MqlServer |MQL.START
+2025/12/03 11:59:11.962|       |MqlServer |Commander started
+2025/12/03 11:59:12.737|       |FixServer |Listening 0.0.0.0:30998 started.
+2025/12/03 11:59:12.740|       |MqlServer |FIX-STATE: Started
+2025/12/03 11:59:12.741|       |FixServer |Started.
+2025/12/03 11:59:12.741|       |MqlServer |FIX started: 127.0.0.1:30998
+2025/12/03 11:59:12.742|       |FixServer |Outgoing thread started.
+2025/12/03 11:59:12.742|       |MqlServer |INITed. ΔMT=-10800
+2025/12/03 11:59:12.743|       |MqlServer |MQL.Connected( True )
+2025/12/03 11:59:12.743|       |MqlServer |Receiving account and symbols info.
+2025/12/03 11:59:18.015|       |MqlServer |MQL.Connected( False )
+2025/12/03 11:59:19.418|       |MqlServer |MQL.Connected( True )
+2025/12/03 12:22:34.510|       |MqlServer |DEINITed
+2025/12/03 12:22:34.526|       |MqlServer |MQL.STOP
+2025/12/03 12:22:34.612|       |MqlServer |FIX-STATE: Stopping
+2025/12/03 12:22:34.616|       |FixServer |Outgoing stopped.
+2025/12/03 12:22:34.616|       |FixServer |Outgoing thread finished.

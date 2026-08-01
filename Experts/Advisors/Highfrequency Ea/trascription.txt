@@ -1,0 +1,1312 @@
+
+0:00
+Now, first thing first, this is not my personally coded EA. A friend of mine shared it with me. The course that I got
+0:05
+were in MT4 format and very obscure, but I did run one forward demo test with it,
+0:11
+which I broadcast live on the channel. Now, what you can see in this demo test is that the EA is performing extremely
+Forward Test Results (short)q
+0:16
+quickly. It is a high frequency EA and it is doing what it is supposed to do, opening up the trades really quickly and
+0:22
+as soon as they get into profit trail, the stop loss very aggressively and close them. In less than 12 minutes, it
+0:28
+made 3.1%. And that was surprising even for a demo forward test. And I liked what I
+0:34
+saw. So I thought to clean up the course and convert it into MT5 because on MT4
+0:40
+my broker does not allow microlots. And I'm not going to take this to a real account with one lot size. So today
+0:46
+we're going to go through all of the coding of the EA as I have cleaned it up. I'm not going to be able to explain
+0:52
+every rationale and logic of every code, not my codes. So there is a different
+0:58
+way that the author has written this code. I do not know the origin of the year. I do not know how it will perform
+1:03
+in a real account but in the demo forward test it looked amazing. I'm really baffled what is the difference
+1:09
+between a forward demo account and a forward real account on a good broker like Pepper Stone or IC Market. I have
+1:16
+never felt a difference between a demo forward test and a real forward test. Maybe there is. I need to test to find
+1:23
+out. We're going to go through all of the codes. So by the end of the video you will be fully able to code it yourself. So with no more shenanigans
+1:30
+let's start coding. Yeah. So like always we're going to start in meta editor and I'm going to create another folder under
+Start of Coding
+1:37
+this folder strategies from internet. You can you can decide where you want to make your folder and I'm going to call
+1:43
+it high frequency EA. Now within that folder I'm going to create an expert
+1:49
+advisor and let's call it high frequency
+1:54
+EA cleaned up by Mr. Caffrey and we
+2:00
+start with the opening template. I'll clean it up. So we end up with these three functions. Now all of the global
+2:07
+variables are going to go in this place. Then all of the codes which are going to run on initialization of the EA are
+2:13
+going to be here. Then on dein initialization so when you remove it are going to be run here and all the codes
+2:20
+here are going to be run on every tick which basically mean whenever there is a new price data arriving into MQL all of
+2:26
+the codes here are going to run and then any special function we're going to write at the bottom and then we're going
+2:32
+to call them from whichever function do you want to call it from let's start with the variables the first thing I'm
+2:38
+going to do is I'm going to include this trade file from this include folder include include trade trade.mq
+2:47
+which is a file which comes with MQL with all of these codes pre-written so that we can do trading operations. Now
+2:54
+within that I'm going to assign the class C trade to a variable by the name trade and this one is going to be used
+3:01
+to do buying and selling operations. Position info I'm assigning it to position info
+3:07
+variable which is going to be used to get information on open positions. Then see order info class to order info so
+3:14
+that we can get information on the orders which are currently placed. Then see history order info to a his info
+3:21
+variable which is we're going to use to get information on the historical deals and orders. And then the see deal info
+3:28
+which I'm storing which I'm linking to a variable by the deal info. So all the deals information we can get. Then I'm
+3:34
+going to be giving the user an option to select whether they want to use fixed lots or as a percentage of balance,
+3:39
+equity or free margin. So I need to create that drop-down menu. So I'm creating an
+3:45
+enum and calling that enum enum lot type. And there I'm giving four different values which I can then use to
+3:51
+create a drop down. You will see it in a minute. Then let's start with the general settings. So I'm creating an
+3:56
+input group. So we have a header as general settings and there I'm asking for the input magic number and what's
+4:02
+the slipage. Then on the time settings I'm going to give the user an ability to choose which start hour and end hour
+4:08
+they want. But later on in modifications videos, we're going to change it and provide hours and minutes as well. So
+4:15
+that you can select between let's say 4:00 until 410 in the evening. But I'm
+4:22
+starting with this one because I would rather that during the testing phase you guys test it while you are there. the so
+4:29
+the year can start at a fixed time but then you monitor it during the next 5 10 minutes to see how many trades and
+4:36
+intervene if there are too many trades or if the year is starting to go into losses. So at this point I'm leaving it
+4:42
+manual the ending time but just for the default I'm going to set it to 1700 hours so it can run for 1 hour but
+4:48
+you're going to get broker warning long before an hour is over. Then for the order modification, we're going to
+4:55
+create a variable by the name seconds and we're going to set it to 60, which should be the same as whatever time
+5:01
+frame we're applying this to. So on a 1 minute chart, 60 seconds. And now we're going to use this enum that we created
+5:07
+here to get user input on money management. So the first thing is what type of lot do you want? And there if I
+5:14
+say lot type equals zero and there I'm creating a variable but assigning it this enum so that it
+5:21
+has drop- down values of this this this and this and then if you choose fixed lots then in that case we want to know
+5:28
+what is your fixed loss and if they choose one of these as a percentage of balance equity or free margin then I
+5:34
+want to the user to provide what is the percentage value and let's just start
+5:40
+with I don't know 0.5
+5:45
+5%. Now if I compile and I already have two errors and this is the other thing which I continuously say compile after
+5:53
+every two or three lines. So as soon as the error happens you know where the error has happened. So this is
+5:59
+0.5%. I have put the percent sign I cannot. So it's 0.5 and we're going to use it as a percentage. So now if I
+6:07
+compile I'm fine. And now if I go back to Metatrader, this EA has now been created
+6:14
+high frequency EA by Mr. Caffrey. And if I go to input now, you can see that these are the general
+6:20
+settings and the variables that we have created so far. And here in the type of Lord size calculation, here is that
+6:28
+drop-down that we created here. So the way to get the drop-down is to create an enum and then assign that enum to the
+6:35
+variable that you're going to show. And then after this we're going to get trade settings in points. And here we have
+6:41
+five variables. The delta which is going to be used as distance in points of how
+6:48
+far the order should be placed from the price. And this is going to be multiplied with the spread. So 0.5 means
+6:54
+0.5 multiplied by whatever is the spread. And this is because if you want
+6:59
+to use it on Bitcoin versus something else versus something else, uh the spreads are going to be very different.
+7:05
+So in order to have consistency of how we are trading, so I'm linking it to a delta variable of
+7:11
+0.5 multiplied by the spread. So whatever is the spread on that particular pair or asset, half of that
+7:20
+is going to be used to place orders. And then the max distance. So what is the max that we're going to allow for the
+7:26
+stop orders to be placed? And if you say seven, you can say five, you can say 10, but that is the maximum multiplied with
+7:32
+the spread. That is the maximum that you can place the orders at. And this is
+7:38
+just to safeguard against stupid stop orders which are placed like I don't know very far away from the price. And
+7:46
+then the stop is the initial stop. Once again the 10 is going to be multiplied with the spreads because we want to
+7:52
+apply it across different pairs and different pairs have different spreads. So it's 10 times whatever is the current
+7:59
+spread. Then max trailing is when does the
+8:04
+trading start and that again is going to be multiplied with the spread for the
+8:09
+same reason. And then the max spread I'm putting a a very big value because I don't want to limit the max spread but
+8:16
+you can say it's like okay well if the max spread is this much then I don't want to be trading and you can set it
+8:23
+later down in the logic of the year as well. So these are the variables that I'm going to use at this point in time.
+8:28
+This is what I have uploaded in the store at this point in time. I will be trying this EA in the next weeks and if
+8:37
+I find something that I want to modify, I will come back make another video on those modifications and I will update whatever
+8:44
+is there in the store as well with those modification. But at this point in time, I want to start with the base code as I
+8:52
+got it from the friend and then later on see what modifications I want to make.
+8:57
+And if you guys make modifications or or or change some settings up or down which work or which have a better result,
+9:04
+please do share so that we can share it among the community and everybody can benefit. Okay. And then we're going to
+9:10
+go ahead and create a lot of variables which we are not asking the user to provide input but these are the
+9:17
+variables that we're going to use. I'll go in a group of five. So we are creating these double variables and this
+9:23
+integer variable which is going to be a tick counter. Then the next five which are going to be about the trailing stop
+9:30
+and the account leverage value so that we can check. Then these ones for lot size calculations. Then more to check
+9:37
+stuff on broker freeze levels and broker stop levels and current spreads and
+9:43
+average spreads. Then an EA mode flag whether or not the trading is allowed.
+9:48
+Then a spread array size where we're going to get the array size later on. Then a few variables to calculate the
+9:55
+commission per pip from historical deals. Then a spread multiplier which is
+10:01
+only going to be there to do some safeguard against zero values or negative values. Then these five for
+10:08
+trailing stop management and order placement and whether or not the there is trading which is allowed. Then
+10:14
+another five to check for whether or not sell orders are allowed, is the spread acceptable and those kind of things. and
+10:21
+these five for the order modification. So, what's the current stop-loss? Uh what was the last buy order time and
+10:28
+those kind of variables. And in the end, we're going to be storing when we're sending the sell orders, what's the time
+10:33
+of that sell order. So here and here. And then in the end, we're going to use
+10:39
+a spread history as an array. So where we can store more than one value at one time. So these are all of the global
+10:47
+variables that we're going to use during the creation of the EA. Okay. Then going
+10:52
+back up, I will assign all of them a value as well. So let's start with order
+10:59
+check frequency and I'm going to assign it a value of
+11:04
+two. Default spread period I'm going to assign a value of 30. Then order
+11:10
+modification factor I'm going to assign it a value of three. minimum order distance to
+11:16
+0.5 and max trailing limit to 7.5 and then at the
+11:22
+bottom the spread calculation method is going to be one.
+11:28
+The rest of the variables are all zero to start
+11:35
+with. And I'm going to just copy paste this everywhere.
+12:02
+For the bool functions you can either type false or you can also assign it a value of zero which is basically false
+12:08
+as well. So equals
+12:13
+false equals false and then zero here zero here zero
+12:19
+here. This is a string. So let's give it a
+12:25
+blank or let's give it Mr.
+12:31
+cap
+12:38
+free
+12:45
+false then so order time zero enable trading also
+12:53
+false and I'll leave the array as it is so it's not initialized So then we go on to the
+13:00
+initialization function and the very first thing which I always do I set the magic number to the C trade class by
+13:06
+saying trade dot set expert magic number input magic number and then I also
+13:12
+remove the grid because I do not like to see the grid on the chart. If I compile now I don't have any errors so far. So I
+13:19
+can continue. Then the first thing I'm going to check is the minimum order distance that the user has put is bigger
+13:26
+than the delta. Then delta x is equals to minimum order distance plus 0.1. And
+13:32
+then in the same logic if max trailing variable that the user has provided is bigger than the max trailing limit then
+13:39
+we want to set it to max trailing limit by saying it equals max trailing plus 0.1. And then if the order modification
+13:45
+factor is less than one then we say that the order modification factor is 1. And then just to make sure on initialization
+13:53
+we reset the tick counter to zero on initialization and price to paper ratio to zero. Even though we are creating
+13:58
+here as zero already but this just an additional step as a precaution. And
+14:04
+then the base trailing stop becomes trailing stop
+14:09
+buffer which is basically the same. And then the increment of the stop equals to the trailing stop threshold. And then on
+14:16
+account leverage values, we're getting this value from the broker by saying account info integer and getting the
+14:24
+account leverage value. Now I cannot fully explain the logic of doing it in this way. This is the way that the codes
+14:30
+were written by the original coder. So I'm just following his logic and later on when I'll share the modification then
+14:36
+I'll try to clean up the the logic of the EA flow as well. But for that I need to run the test for a while so that I
+14:42
+can understand fully why is he doing what he's doing. Then we also get the lot step size from the broker. The max
+14:50
+lot size that the broker allows. We get that value and store it into this. Then the minimum lot size that the broker
+14:55
+allows on that symbol. And the margin per minimum lot is like what is the initial margin for
+15:03
+that minimum lot size. And then the minimum stop distance
+15:08
+we're currently setting it to zero. Then we say then we get the value
+15:13
+of the broker stop level. So how far can how far is it allowed to place a stop
+15:18
+order minimum. We get that value and then if that value is greater than zero then we
+15:24
+know that broker has a limit. Then in that case the minimum stop distance
+15:30
+becomes whatever the broker has or whatever the broker level is plus one point just to provide a little bit of a
+15:36
+buffer. And then similarly for minimum freeze distance we're going to start with
+15:42
+setting it to zero. And then we're going to check the broker freeze level by using the symbol
+15:49
+info integer sending the symbol value and getting the symbol trade freeze level. And if that is greater than zero
+15:55
+then we know that the broker has a freeze level and in that case we assign
+16:00
+the minimum freeze distance to the broker fees level plus one point. So
+16:05
+putting a small bit of buffer there. Now just as a precaution because we are changing these values but the user might
+16:12
+not be able to see them that this is happening in the background. Then if the
+16:17
+broker stop level is bigger than zero or the broker freeze level is bigger than zero meaning that we have now changed
+16:23
+what the user has done then in that case instead of printing because nobody
+16:29
+checks the journals let's comment it so that on the chart itself it does give a
+16:36
+warning that the broker is not suitable. The stop level is greater than zero. Let me compile. Everything is fine
+16:44
+until now. So we can proceed. Then I'm going to get the ask and bid values by using the
+16:51
+symbol info double sending the symbol value and asking for ask and bid and storing them in ask and bid variables
+16:57
+and then saying that the current spread is equal to ask minus the bid and then
+17:03
+normalize it to level number of digits and the average spread is also equal to the current spread. So we start
+17:10
+populating the value of the average spread using the current spread value as a baseline and then the the author is
+17:18
+checking that if the EMA flag is equals to zero that's the value that he's
+17:24
+setting here at the top here as zero. So he's not giving it
+17:31
+to the user to define but it is flexible. So in the code you can change it.
+17:36
+So if that value is zero then use the default spread period otherwise use
+17:43
+three. So if that is not zero so if you have changed this value from 0 to one or
+17:48
+something else then use the value of three. I first need to run the EA in a test environment to see how the logic
+17:55
+flows. Before that I'm just sticking to what the original author has written and
+18:02
+only cleaning it up and sharing it. We'll make the modifications later. And then we resize the array spread history
+18:10
+array to whatever is the value here. So either it's default or it's three. So
+18:16
+whatever is the value that comes out of this function, that is the value that we
+18:21
+set to the size of the spread history array where we're going to store all of the historical data. And then as the
+18:28
+last step, we're going to store the value of the max allows spread by using
+18:33
+the value that the user has provided us here and converting it to points and
+18:40
+storing it into the v variable max allowed spread and normalizing it to the level of digits. Then we're going to
+18:46
+hide all the indicators which are going to be on the chart. I don't suppose that there is any indicator which is here but
+18:52
+this probably is just general practice that before you close the initialization hide all the indicators.
+18:58
+So this is it for the initialization function and then we move on to the on tick function where all of the
+19:03
+operations on every time a new price data arrives are going to happen. We start by creating these new variables
+19:09
+which are only going to be used within the on tick function. So we are not defining them on a global level but we
+19:16
+are defining them and assigning the values here. All these variables are going to be used only within the on tick
+19:23
+function. They are not accessible to other functions. And then the first thing we do is we increase the value of
+19:29
+the tick counter by a one. So on the initialization it was zero. So as soon as the first tick arrives the tick
+19:36
+counter is going to be one and then two and then so on and so forth. And then we start by assigning a value of per pip
+19:42
+per lot size. How much is the commission plus spread value because if you are
+19:48
+applying it on a standard account it's simple but if you are doing it on a commission account then the EA needs to
+19:53
+know that it has moved into profit including the commission that you have paid. So we're going to create that. So
+20:00
+we start with at if the price to paper ratio equals zero. So only at the start when it's zero this function is going to
+20:06
+be run but after that because it's going to already be populated. So we're not going to run the function every time. So
+20:12
+we start by saying that if it is zero select the history all of the deals and every
+20:18
+information in the history. Select it from time zero until the current time to
+20:24
+get all of the history. And then we're going to loop through all of these history items by going i equals to
+20:31
+history whatever deal total which we have gotten minus one because because the history deal info array that comes
+20:38
+back it starts at a zero value. So then we say zero to as long as the i is
+20:44
+greater than or equal to zero and every time decrease the value of i by one on every iteration. So we start with let's
+20:50
+say if there are 30 deals then we start with 29 and then 28 then 287 26 25 24.
+20:57
+So loop through by index get the ticket number of whatever is the current deal
+21:03
+and if the ticket is equals to zero then just exit but if ticket is not zero then there is an order or there is a history
+21:10
+deal then in that case check that the symbol equals the
+21:16
+deal symbol and the profit is not zero. So it wasn't a trade that just opened
+21:21
+and closed and the deal entry equ is not equal to deal entry out. And then we create a variable. I'm calling it
+21:28
+position ID by sending the ticket number and getting the position ID. If it turns out to be zero, that means just continue
+21:35
+because it's a uh well we didn't really get anything. But if it is not then the
+21:41
+entry price is going to be get the history deal info by sending the
+21:47
+position ID and getting the deal price. Then the exit price is going to be based
+21:52
+on ticket profit is going to be get the history by sending the ticket and getting the deal profit and the
+21:58
+commission equals ticket and the deal commission. So this is how we get the commission value. So we get all of this
+22:05
+information and then if exit price is not equal to entry price there is a bit
+22:10
+of movement between the opening price and the closing price then we can calculate the price to pip ratio by
+22:17
+saying profit divided by exit price minus the entry price. And because exit price
+22:23
+minus the entry price for uh a sell trade is going to be a
+22:28
+negative value. So that's going to return a negative profit. So we're going to use the FAPS function. So floating
+22:34
+absolute function which is going to return the value in positive no matter what. So if it's minus 4.2 it will
+22:40
+become plus 4.2. If it's plus 4.2 it will remain 4.2. And then the commission per pip is
+22:47
+going to be commission divided by price to pay ratio that we've gotten here. And we're using a minus sign because the
+22:53
+commission is in minus but we want a positive value. And let's see if all of our brackets match. They don't. So I'm
+23:00
+missing the if opening and if I put the if opening now the balance now the
+23:07
+parentheses are balancing. Once we have the values of commission per pip and price to paper ratio I'm going to get
+23:14
+more information which I'm going to need later. So I'm getting the ask value and the bid value by using the symbol info
+23:20
+double sending the symbol value and asking for the symbol ask and symbol bid value. And then we're going to update
+23:25
+the historical spread values. So, we're going to create a new variable by the name is spread, new
+23:34
+spread. And that's going to be ask minus the bid normalized to the number of
+23:39
+digits. And then we're going to move the the array that we already have by one
+23:44
+place left. So, it's going to delete the oldest value and it's going to make a space for the next value. So, this is
+23:52
+what we're saying here. Array size is minus one and move it by one. It started at it started at zero and increment of
+24:00
+one. So move the whole array to one place left. So if it was 2 3 and
+24:08
+five, now two is going to be dropped and it's going to be three and five. And then we're going to add the
+24:16
+value of the new area which has been created to new spread. So whatever is
+24:21
+this this area the last digit which has been dropped. So by moving it left by one
+24:28
+place now there is an empty space and that is where we're going to and that is where we're going to store the value of
+24:34
+the new spread that we've just calculated. And then we can calculate the average spread. So we start with a sum of zero and then we loop through
+24:41
+this array spread size array uh every time going 1 ++ and then we're adding
+24:46
+the value of whatever is stored in the i position to the sum. So if there are
+24:51
+three then it's going to be adding 1 2 and three the all three positions into the sum. So then we get the cumulative
+24:58
+and then we can get the average spread by dividing the sum that we got from the spread
+25:05
+array by the total number of entries in that array. So we get the average spread
+25:12
+and then from there this is the average spread currently. Then we go that the average
+25:17
+spread is take the spread multiplier by points. So that is 0 multiply by minus
+25:25
+by points. So it's basically zero. And then the current spread plus
+25:30
+commission per pip. Whatever is the current spread plus commission per pip, that is the average spread because that
+25:36
+is the amount of commission that you're going to pay on every pip. And this is the current spread. So that gives you a
+25:43
+total spread no matter whether you are on commission based account or you are on a standard account. And now we store
+25:50
+it into the average spread. And we're using the math max so that this is zero and this is a value. So that if this for
+25:57
+some reason returns a negative value then this is why we have this math max
+26:03
+function to check versus a zero value that the negative value and the
+26:09
+that if we have a negative value and a zero value then the zero value is going to go to average spread rather than negative value. Then to prepare for our
+26:17
+orders, we're going to create order adjusted adjusted order distance and that will be the math max of the average
+26:26
+spread that we have calculated times delta. So if you remember we said here that this is the order distance but
+26:33
+that is going to be multiplied by spreads so that whether you're applying it on gold or bitcoin it is consistent
+26:40
+versus whatever is the minimum stop distance that we got from from the
+26:46
+broker plus one point to create a buffer. So between these two, whichever
+26:52
+one is bigger, that's the one that we put on the order distance. And then the minimum order modification point. So
+26:58
+when does do we start to trail? That's going to depend on minimum order distance. Again, time with the average
+27:04
+spread because we're calculating everything in spread terms and versus whatever we got from the broker plus one
+27:09
+point above. So that's going to be stored in minimum order modification. And then we're going to
+27:16
+calculate the trading stop-loss values. So the trailing stop loss is going to become active when you multiply average
+27:24
+spread times the max
+27:29
+trailing this the start of the initialization or the start of the trailing
+27:36
+stop. So average spread times that that is the time when we're going to start when the trailing stop is going to
+27:42
+become active. The trailing is stop max value is whatever is the trailing limit that we have set above times the spread.
+27:50
+And then the max or placement distance equals the max distance time the average spread. Once again max distance is this
+27:57
+the theta which is another way of saying that this is the maximum stop order above it. Please do not place the
+28:05
+stop order. So that is the maximum. And then the order placement step which is equals
+28:13
+to whatever is the minimum order modification from here divided by the
+28:19
+modification factor which is the value here of three. So divided by three. So
+28:25
+whatever is the minimum order modification divided by three and that is our order placement step. And then
+28:31
+the calculated lot stop is whatever is the stop defined by the user multiplied by the average spread versus the minimum
+28:38
+stop distance that the broker is allowing. So out of these two whichever one is bigger that's going to be our
+28:44
+calculated initial stop-loss. And then we create a function to see how many trades are currently open. So again for
+28:52
+it's a for loop where we're starting with a position total. So if there are four positions open then we're starting
+28:58
+at a point of three. It's position total minus one because this I is going to go from 0 1 2 and three. Four loops run
+29:05
+that way. And then every iteration we're going to reduce the value of i by one. So it's going to be 4 3 2 1 and zero.
+29:13
+And as long as it is above or equal to zero we're going to do the iteration. So we're going to select that position.
+29:20
+Select by index I. Okay. So, whatever is the index right now, get the position symbol and get the position magic number
+29:27
+and compare it versus the current chart. So, if the position info symbol is equals our symbol and the magic number
+29:35
+is our magic number, then we know this is a trade placed by this year on the current chart. Then we get the value of
+29:42
+price, lots and loss by using the position info variable which is assigned
+29:47
+to the position info trade class. We get these values and then we check if it's a
+29:54
+buy type then we increase the the amount of how many buys are currently open by
+30:01
+one. We start this by saying it's
+30:07
+zero. And now we're going through this loop to see how many are actually open.
+30:13
+So we find out okay if it's a buy type then increase that by one. And then if
+30:18
+the stop loss is equal to zero or the stop loss is greater than zero but the stop loss is less than price then
+30:25
+increase the total buy count by one as well. The current buy stop-loss equals
+30:30
+to the stop- loss which we got. And then the buy order price sum is add to
+30:36
+whatever however many iteration we're going to go through. We're starting with a value of zero but for every order
+30:42
+multiply the price times lot and add it to this variable. And then they order
+30:47
+some lot meaning how many lots are there in total is going to be add the lots every time you do the iteration. And
+30:54
+then if the price is less than the lowest buy price then the lowest buy price equals price. And then if it's a
+31:00
+sell type then we start by saying well the increase the counter of the open cell count by one. And then the same
+31:08
+logic if the stop loss is zero for some stupid reason some error or if it is
+31:13
+greater than zero but the the stop loss is above the price for the cell then we
+31:18
+increase the total sell counter by one we were starting at zero through this iteration we're going to count one more
+31:24
+set the current stop loss to stop-loss and the same way the price sum is equal to whatever is the price times
+31:31
+lot and add it and what is the lot size sum is add all of the lots
+31:37
+And then if the price is greater than the highest sell price which in the beginning is zero then set the highest
+31:44
+sell price as price. So we are so we in the end we are populating all of these
+31:49
+variables that we have defined and started and initiated here with certain
+31:54
+values so that we can use them later. So these were for positions. So in the same
+31:59
+way we will also check the orders. So we say if we loop through all of the order totals we check whether the order symbol
+32:07
+is our symbol and order magic is our magic then if it's a buy stop then we increase the value of the pending buy
+32:14
+count by one and total buy count by one as well. So this this is the difference
+32:19
+between the total buy count and open buy count. So open buy count will only include positions which are open while
+32:26
+the total buy count is going to include positions but also the
+32:31
+orders and same goes for the seller stop if there is a sell stop then increase the pending sell count by one and also
+32:38
+the sell total sell count by one as well. So the total sell count in the end
+32:43
+is going to have all of the sell positions which are open but also all of the sell orders which are there on the
+32:49
+on the broker server. And now that we have all of these values, we can now proceed to modifications of the orders
+32:54
+and the modification of the positions and creating the orders. But before we
+33:00
+go there, we're going to if the buy order sum lot that we calculated here is
+33:06
+greater than zero. So there is a lot size there. Then the average buyer price is going to be whatever is the sum price
+33:13
+divided by the buy order some lot. So before we were adding up the price times the lots into that variable. if into
+33:20
+this variable and we were accumulating all the lot sizes into this variable. So this divided by this is going to give us
+33:26
+the average buy price and same for the average sell price and lastly we're going to create a variable broker time
+33:33
+as an MQL datetime format so that we can use the day and the so you can use it as a drop down. So for example here if you
+33:39
+say broker time then you can get the day day of the week
+33:45
+hour minute. So it gives you all of that structure. So we're going to create that variable and we're going to store the
+33:52
+current time into this broker variable. So now we can break up the current time
+33:57
+into hours and days and whatnot. So let's start with processing the pending orders. So orders which are already
+34:02
+there on the server and we say loop through all of the orders exactly the
+34:08
+same way. So orders total minus one every time in the iteration go down one
+34:14
+and as long as it is more than zero or equals to zero continue the loop then
+34:20
+exactly in the same way as before we select by index and if it is not selected if it's not successful then
+34:27
+continue meaning exit the function but if it is selected then we check that the order info symbol the current order
+34:34
+which is selected is our symbol and the magic number is our magic number and if
+34:40
+it is not then continue meaning exit the function because that's not our order.
+34:47
+But if the above are true so it is our order then in that case get the ticket number store it into ticket get the type
+34:53
+of the order store it into type get the open price stop loss take profit and current volume and store it into these
+34:59
+variables that we're creating here and then we're going to check that if this order has the type as order type buy
+35:06
+stop. So it's a buy stop which is pending on the on the server. Then we check for the start hour and the end
+35:12
+hour by saying by creating a bool variable. So it's either true or false that
+35:18
+if the broker time dot hour so current time this time current time is greater
+35:24
+than the start hour and is less than the end hour then we are in the trading range. So in that case the allow trade
+35:31
+is true and we check that if the average spread is greater than the max allowed
+35:38
+or this allow trade is not coming back to be true in that case we are outside the range of the time or the spreads are
+35:46
+bigger than the max allowed in that case delete the order and then
+35:53
+continue. So we deleting all of the orders once the time limit is finished
+35:58
+or the spreads become bigger than what we have allowed as max allowed spread.
+36:04
+Then we check the time difference between the current time and the last buy order and we will save this. So
+36:11
+initially it's going to be zero. So the current time is going to be definitely bigger or the time difference is going
+36:16
+to be massive. But when we will place an order or we will modify an order we will
+36:22
+change the value of this so that the next time we can store the value of the current time and versus this biased last
+36:28
+time we we placed the order into this variable so we know exactly how much time has elapsed. Then I'm creating
+36:34
+another bool function which is needs modification. So it's going to store the value of either true or false and that
+36:41
+will depend on this. So if the time difference is greater than seconds, the user defined variable here of 60
+36:50
+[Music] seconds. Now the time is greater than
+36:55
+the last time we placed the order by more than 60 seconds. And then the tick counter divided by the order frequency
+37:03
+is returning a rounded number. That's what this function does. This basically
+37:09
+divides it the tick counter by the order frequency check frequency which we put
+37:14
+as [Music]
+37:24
+two up here. So this is two and the tick counter is adding the
+37:32
+tick the amount of ticks that are arriving every time there is a new tick. So let's suppose if the tick counter
+37:37
+starts it's one and divided by the account order check divided by the order check frequency which is two is going to
+37:44
+be 0.5 and the last digit or the digit after the decimal is five. So that's not
+37:51
+zero. But if it is two the second tick arrives it's two and is divided by this.
+37:57
+So it's going to be 1.0. So the last digit is zero after the
+38:04
+decimal. So then it's going to be zero. So whatever is the remainder after the
+38:09
+if you have done those divisions you have the the thing here and then you have the divider here but then on the
+38:14
+top you get the remainder or at the bottom you get the remainder. So this returns the remainder value. So if it is
+38:20
+zero that means that it is a multiple of that order frequency check. So if the
+38:26
+order frequency check is two that means tick one is going to be ignored but tick two is going to be used then tick three
+38:32
+is going to be ignored then tick four is going to be used and say for example if the order frequency check was five then
+38:38
+take one is going to be ignored tick 2 is take 2 3 and four are going to be ignored because they are always going to give a remainder but take five is going
+38:45
+to be used because 5 is exact one or 10 / 5 is exact two so there is no
+38:51
+remainder then the next one that we check is that the open I count is less than one. So there is no open position
+38:58
+and the open price is less than our order modification. So up earlier we we
+39:05
+calculated what our order modification needs to
+39:11
+be. So if we started with zero but here we were putting in the value of minimum
+39:16
+in between the average spread times whatever the user has defined and the minimum freeze level that is allowed by
+39:24
+the broker. So in between the two whichever one is the bigger one and that is the one that we are now using here by
+39:30
+saying that if it is smaller than that if the open price minus the the
+39:37
+current price if the open price minus the current ask is less than the order modification and the order by count is
+39:44
+less than one then it's true or the open price minus the ask price is less than
+39:50
+the order placement step that we calculated above or the open price minus the current price is greater than the
+39:57
+max order placement distance. Then in all of those cases this needs modification becomes true. And if it is
+40:04
+true by saying if needs modification you can also say if needs modification equals
+40:11
+true. So if needs modification equals true then in that case the distance
+40:17
+we're creating a a variable distance and we're storing the value of adjusted order distance into
+40:23
+that what we calculated here based on the input provided by the
+40:33
+user and then if the open buy account meaning the open positions is
+40:40
+greater than zero Then you divide the distance by the order order modification
+40:46
+factor and then the distance becomes the math max. So whichever is the bigger
+40:51
+value between the distance and the minimum stop distance required by the broker. Then we get the modified price
+40:58
+by getting the ask value plus the distance that we have calculated here and normalizing it to digits. And the
+41:05
+modified stop-loss is going to become if there is more than zero buy count then
+41:10
+it's going to be current buy stop loss otherwise it's going to be the modified
+41:17
+price minus the calculated stop-loss and then if the or if the currently open
+41:23
+positions is zero or the modified price is greater than the average price and
+41:29
+the modified price is not equal to the open price of the order and the open
+41:34
+price minus the current ask value is greater than the minimum freeze distance
+41:40
+because that's what the broker is going to require for the stop order changes then in that case we
+41:48
+modify the order by sending the ticket number with the modified price and with the modified
+41:53
+stop-loss and with the [Music]
+41:59
+TP which we have gotten here and zero for the what type of order it
+42:07
+is and no expiration and we say that the last order buy point or the last buy order
+42:13
+time equals current time. So we store the value that now we have changed the order on
+42:19
+buy. So that was for the buy stop. So I need to close
+42:25
+[Music] this here.
+42:31
+[Music] closing this if loop and then we do exactly the same
+42:37
+thing for the sell stop. So we go we've done already this the buy stop pending
+42:44
+buy stop and if it is not that then check if the type of the order which is
+42:49
+on the server is sell stop and then do exactly the same thing. So check that
+42:55
+the current time hour is greater than the start hour and less than the end hour. So it is within the trading
+43:01
+allowed time and check for the spread and check that the this is turning back
+43:06
+to be true and if it is not turning to be true. So meaning that
+43:14
+we are currently outside of the normal hours and or the or the average spread
+43:19
+is bigger than the max allowed then in that case order delete by sending the ticket.
+43:25
+Otherwise, once again, store the difference between the last time a sell order was played
+43:32
+with versus the current time. And then check for the need modification that the time difference is bigger than what the
+43:37
+user has selected as 60 seconds. That the tick counter is a multiple of the
+43:43
+order frequency. Check. And that the open cell count is less than one. So, it's zero. There is
+43:51
+no currently there's no open position. And the symbol info double and the bid
+43:56
+price is and the bid price minus the open price of the order is less than the
+44:01
+order modification uh minimum order modification and the
+44:07
+bid price minus the open price of our current order is less than the order placement step and the max order
+44:13
+placement distance. If all of those are true then we go ahead and we say if that
+44:18
+is true then once again distance is the
+44:25
+adjusted order distance and then if the open cell count is greater than zero then divide it by the order modification
+44:32
+factor and then select between these two whichever one is the bigger one and then
+44:37
+the modified price we change it to whatever is the current bid minus the distance. So we have that much gap and
+44:44
+the order modified the stop loss is going to be either the current sell stop loss if there is an open position or
+44:52
+otherwise take the modified price plus the calculated stop-loss which is the
+44:57
+user provided 10 multiply by the spread and then check if if either there is no
+45:03
+open position or if the modified price turns out to be less than the average
+45:09
+sell price and that it's not equal to the open
+45:14
+price and that the difference between the two is bigger than the minimum freeze distance required by the broker
+45:20
+then in that case modify the order by sending the ticket number the modified price and the modified stop-loss the
+45:26
+same TP as calculated above with so with no specified time and no expiration and
+45:32
+we store the value of the current time into the last cell order time because that is the last time that we have
+45:38
+touched the sell order. So this was for modification of the stop orders which are sitting on the
+45:45
+on the broker server. Now we go and see if there are open positions. So we check
+45:51
+for the open positions now. So again with the same loop we're going to loop through all of the positions. Select
+45:56
+them by index. If it is not our symbol and if it's not our input in input magic number then continue meaning exit the
+46:02
+function. But if it is our symbol and our input magic number then in that case get the ticket number get the type get
+46:09
+the open price stop loss and DP exactly the same way as when we were modifying
+46:14
+the uh
+46:20
+orders and then if the type is buy we create a variable by the name price
+46:28
+move which is going to be equal to whatever is the bid price now minus the open price plus the commission per pip
+46:35
+so that we can get the actual amount of movement in profit. And then we create another
+46:43
+variable by the name trail distance. And here we're going to calculate the trailing stop-loss by creating a
+46:49
+function below. And let's create that function now where we're going to send the price move data to this
+46:57
+function. The minimum stop distance that we have calculated above. Trailing stop active base trailing stop and trailing
+47:04
+stop max values and then if the max distance equals to zero then return
+47:10
+whatever is the active distance versus the minimum distance whatever is the bigger of the two.
+47:16
+Otherwise create a variable by the name ratio and then we take the price movement like how much is the price
+47:22
+moved by and divide it by the max distance and then double and then create
+47:28
+another variable by the name dynamic distance where we're going to say active distance active distance minus the base
+47:35
+distance times the ratio which is calculated here plus the base distance
+47:41
+is what we are going to store here. And then we're going to return whichever is the minimum of this or this here. And
+47:49
+then compare that to the minimum distance this one. And select whichever
+47:56
+one is the bigger one of the two. So that's going to give us the distance for the trailing stop. So then we can modify
+48:04
+the stop loss by saying whatever is the current price minus this trailing distance which we have just
+48:09
+calculated. And then the trigger level is going to be whatever is the open price plus the commission per pip plus
+48:14
+the trailing stop increment that we have calculated above. And then if the bid minus the
+48:22
+trigger level whatever is the trigger level is bigger than the trading distance and the stop loss equals zero
+48:29
+meaning that there is an error though there is no stop loss there or that the current bit minus the stop loss is
+48:35
+bigger than the trailing distance. So it has moved by more than how much we wanted to move by. And the modified
+48:40
+stop- loss the value which comes back here is not the original stop-loss of the order. So in that case modify that
+48:47
+position by modifying the stop-loss by sending it the modified stop-loss value.
+48:52
+And then we can do the same for the sell positions by saying that if it is a sell type then the price move is going to be
+48:59
+equal to whatever is the open price minus the ask value and minus the commission per pip.
+49:07
+And then the trailing distance. And the trading distance we're going to calculate here by sending the value of the price move which we get here.
+49:13
+Minimum stop distance from above trailing stop loss active. And we calculate it exactly the same way as for
+49:18
+the buy positions. And then our modified stop loss is going to become that
+49:23
+trailing distance which has come back from this function plus whatever is the
+49:28
+ask price currently. And plus because the sell stop has the stop loss sell orders have
+49:35
+the stop losses above. And then the same criteria for checking here as well which is that the
+49:42
+trigger level minus the ask price is bigger than the trail distance that we have calculated here also that the stop
+49:48
+loss is either zero. So it's not calculated the position is missing a
+49:54
+stop loss or that the ask that the stop loss which the position has minus the
+50:01
+current ask is bigger than the trailing distance which we have calculated
+50:07
+here. So the position has moved down more than the trailing distance which we have calculated and the modified stop
+50:14
+loss here is not equals to the original stop- loss because otherwise why are we sending the order? So then in that case
+50:20
+we modify the position by sending the ticket number and the new modified stop loss that we have calculated and keeping
+50:26
+the original TP. So this is how we're going to modify the open positions. This is how we were modifying
+50:33
+the open orders. Now we go to actually sending the orders. But before that we
+50:40
+opened this for loop here which doesn't have a closing parenthesis. So I'm going
+50:45
+to put a closing parenthesis here just to make sure that we have balanced parenthesis. And if I
+50:53
+compile, I do not have any errors. But guys, I'm copy pasting from my already
+50:59
+written EA. In your case, you should probably be hitting the compile button after every two lines so that you can
+51:05
+get the error as soon as it happens. So you know that it is in this line or this line. So now we move on to the last part
+51:12
+of actually sending the sell and buy orders and what we're going to check is
+51:17
+two things and I'm I'm going to start here. So if because this is an or statement so either this is true or this
+51:24
+is true. So if there is no open by count meaning that there is no open buy
+51:30
+position then we continue. Alternatively, if the order modification is more than one and the total buy count
+51:37
+is less than one and now total buy count is
+51:44
+coming from here and here we were saying that as long as the stop loss was below
+51:51
+the price. So even if there is a position open here, even if there is a position
+51:58
+open, but there is still the original stop-loss. So the price has not moved
+52:04
+above and the stop loss has not yet started to trail. And then if we have a better price meaning the price comes
+52:11
+down actually instead of moving up and we get a better price then the total buy
+52:16
+count is still zero and in that case we will also proceed and then we will check
+52:22
+if there is no pending buy count and that is coming from
+52:27
+here which is if there is a buy stop already then there is a pending count plus+ as well. So there was a position
+52:34
+there can be situation where there is an open position but the position's original stop-loss is still below the
+52:41
+price meaning it hasn't moved yet. So we haven't started the trailing and we
+52:46
+haven't put another order yet. In that case the total buy count is still zero.
+52:52
+And if it is still zero we're checking that the pending buy count is also still below one. meaning
+53:00
+there isn't an active buy stop order. In that case, we check again if the spreads
+53:05
+are okay, which is basically average spreads are equal to or less than max allowed. And we again check if the time
+53:11
+is okay by checking the broker time hour, meaning what's the time what's the hour time now on the broker server is
+53:18
+less than the start is greater than the start hour and less than the end hour. So, it's within the trading range. So if
+53:25
+both of these bulls are okay and this is what we're checking here that if this is
+53:30
+true and this is true and the current time minus the last time we sent an
+53:36
+order is more than the minimum order interval which we calculated based on the amount seconds provided by the by
+53:43
+the user and the EA flag mode is zero. So the default mode so it's not anything
+53:48
+else. Then we do a lot size calculation which is if the lot type is
+53:55
+zero and remember that enum that we created at the top fixed lots was zero
+54:00
+and everything else was a percentage of either the margin or the equity or the
+54:06
+or the balance. So if it is zero if the lot
+54:12
+type is zero then the calculated lot size are going to be the math ceiling. So round it up fixed lots divided by the
+54:20
+lot step size multiply by the lot step size and then we compare between the
+54:26
+minimum lot size available by the broker versus whatever is coming out of the calculation and take the maximum or the
+54:32
+mathematics meaning take the higher of those two thereby enforcing a minimum
+54:37
+lot size. else if the lot type is greater than zero meaning it is one of
+54:43
+these three then in that case I'm going to use
+54:49
+my normal regular calc lots uh function that I use almost in every EA to by
+54:56
+sending it the stop-loss value in points and here we can then create that
+55:03
+function and you know this function from all of the other years that I have
+55:08
+shared so far but I'll quickly run through it. So we send the stop loss in points like what's the distance between
+55:13
+entry and stop-loss. Then we start with lot size as minimum. We get the account balance,
+55:21
+account equity, account fee margin because these are the three types that can be. Then we start with risk as zero.
+55:29
+And then we say switch the lot type. So switch this variable the enum that we
+55:34
+have created
+55:39
+here and if it is zero then lots equals to fixed lots. So return just the lots.
+55:46
+If it is one then we're talking about account balance. So it's going to be multiplied by the risk percentage divided by 100. If it is case two and we
+55:55
+break because once it has done this it should break this switching. do not go to case two and case three. But then if
+56:03
+it doesn't find case one then look for case two and if that's case two then it is equity
+56:09
+balance
+56:14
+here. So in that case it's equity balance multiply by risk percentage and if it is case three then it's three
+56:20
+margin multiply by risk percentage divided by 100. Then depending on which case it was
+56:26
+there's going to be an absolute risk amount which is going to come out. Then we get the tick size value and lot step.
+56:32
+And then we can calculate the money per lot step by dividing the SL points that we are sending dividing it by tick size
+56:40
+tick value and lot step. And then the lots are going to be whatever is the risk value that comes out in absolute
+56:47
+divided by the calculation here times the lot step. And then just as a
+56:52
+precaution we get the minimum volume, max volume and volume limit just to check that if the volume limit is not
+56:58
+zero meaning there is a requirement by the broker of the volume limit then then our loss calculation is either below it
+57:05
+otherwise we go with volume limit. If the max volume is not zero that means that there is a restriction on max
+57:12
+volume. In that case again math minimum between whatever is the m whatever is
+57:18
+the max volume allowed by the broker and the lot size that has been calculated and in case there the minimum volume
+57:24
+here is not zero that means that broker has a minimum volume in that case take
+57:29
+the math max between or take the higher of the either the lot size that we have
+57:35
+calculated or whatever is the broker's minimum. So just to make sure that we
+57:41
+are within the range provided by the broker and in that and then normalize
+57:46
+the lots to two decimal values and return the lots. So here we're using that
+57:52
+function calc lots by sending it the stop-loss calculated value from before
+57:58
+and asking for the calculated lot size in case if the lot type is bigger than
+58:03
+zero. So it's either balance equity or free margin as a percentage. After that
+58:09
+we just quickly check if the margin required to send this order is within
+58:15
+the leverage and the margin which is available where we start with creating a
+58:20
+new variable margin required calling it zero and we get the ask value and then
+58:26
+we use the function order calculate margin telling the system that it's a buy stop on this symbol based on these
+58:34
+lot size that has come out of here. This is the ask price
+58:39
+currently and store the value that comes out of this calculation into this
+58:45
+variable that we have started here. So we get this calculation and if that
+58:51
+calculation returns a true meaning it's successful in calculating and the
+58:56
+account balance or free margin is currently more than the margin
+59:02
+required which has come out here then in that case we are good to go. So we
+59:07
+calculate the order distance based on adjusted order
+59:13
+distance and whatever the freeze distance minimum freeze distance that the broker requires. So the maximum or
+59:19
+the bigger of these two using the math max function and then comparing whatever
+59:24
+comes out as a result here versus the minimum stop distance that we have calculated before as a math max. So,
+59:31
+whichever one is the bigger of the two versus the freeze and then versus minimum distance. And then the order price is
+59:38
+going to be whatever is the ask price plus the order distance point because we're going to place the
+59:44
+stop order above the price. It's a buy stop order. And the order stop-loss is
+59:50
+going to be a function of if there is already an open position then whatever is the stop- loss of that position
+59:57
+versus if there is no position open currently then it's going to be order price whatever we are sending the order
+1:00:03
+as minus whatever is the lot size what minus whatever is the calculated stop
+1:00:08
+loss that we have calculated before based on the input provided by the user
+1:00:13
+and normalizing it to the number of digits. So now we have our distance
+1:00:19
+price and order stop-loss. So we can send the order and I'm using the trade
+1:00:24
+uh Cclass that we have already created and using the order open function sending the symbol value. It's a buy
+1:00:31
+stop. This is the lot size that we have calculated here. The order price has come out of here. The order stop-loss
+1:00:37
+has come out of here. The takerit is practically zero. I mean it's a new order take profit but it's a zero value
+1:00:45
+up here. wherever we have defined the where we have declared the takerit
+1:00:54
+but it you could potentially put a number here as well if you want to set a
+1:01:01
+TP so that's a takerit uh no specified time no expiry and the common text which
+1:01:09
+is the Mr. Caffrey at this point in time and then if it is successful in opening
+1:01:14
+the trade because this is why we're using the if command. So if this function returns a true meaning it
+1:01:21
+executes then in that case the last by order time is the current time and the last order time is also the current
+1:01:28
+time. And now I'm going to close all of the parentheses that are open. And if I compile
+1:01:35
+now I do not have any errors. And then exactly following the same logic but in
+1:01:43
+reverse for the sell trades. We start with if the auto modification factor is greater than one and the total cell
+1:01:48
+count is less than one. That's the first condition. So once again the total cell
+1:01:57
+[Music]
+1:02:03
+count is a function of if there is an open position and the stop-loss is still
+1:02:10
+above the price meaning that the position is still in loss. So it's still
+1:02:15
+the original stop-loss. So it hasn't moved it hasn't started to trail. In that case we increase the sell cow or if
+1:02:22
+there is an order or if there is a sell stop order
+1:02:28
+on the server in those conditions going to be one. So as long as the first
+1:02:34
+position that we have as long as we have placed the first stop order and it has
+1:02:39
+triggered but the original stop loss hasn't started to trail in that case the total sell count is still less than one.
+1:02:46
+So it's still zero or and there's the second condition that there is no open
+1:02:51
+position currently. So either of those two and if that is true then check that
+1:02:56
+there is no pending order as well because if this was true. So just to make sure that we haven't already place
+1:03:02
+another sell order and if that is true let's get these two bulls to check whether the spreads are okay and the
+1:03:08
+time is okay. And then we check that the spreads are okay and the time okay is returning a true and the current time
+1:03:17
+versus whenever we place the last order is bigger than whatever the user has specified in that calculation and EMF
+1:03:23
+flag is zero. So nobody has changed it because you could put it in a in a flag one for whatever reason because you
+1:03:30
+don't want to trade but you want to debug for example. So you can put it to
+1:03:35
+one and in that case all of the calculations will work but the orders are not going to be sent. So if the EMF lag is
+1:03:43
+zero and then once again if the lot type is zero meaning fixed then we use the
+1:03:49
+fixed lot size and compare with the and compare the six
+1:03:56
+lot size that's coming out of here comparing it to the minimum lot size required by the broker to enforce the
+1:04:03
+minimum. Otherwise, if it is one of the other three, then in that case, use the
+1:04:08
+same function here to calculate the lot size based on account balance, equity or
+1:04:16
+free margin depending on whichever is the choice. Then like above we check the
+1:04:22
+margin required starting at zero getting the bid value now because we're going to check for the sell stop and then we
+1:04:29
+calculate the margin by using the sell stop providing the symbol lot size and bid and ask the system to return the
+1:04:37
+value into this variable margin required that we have created and if that is successful
+1:04:43
+then check that the account free margin is bigger than the margin required and if that is true. Then we get the order
+1:04:50
+distance exactly the same way as for buy order price but this time bid minus the
+1:04:56
+order distance because we're going to place the order below the price and then
+1:05:01
+the order stop-loss if there is an open position already. Then in that case use the then
+1:05:09
+use the stop loss of that position. Otherwise calculated as order price plus
+1:05:15
+the calculated stop-loss because the stop loss is going to go above the order price and then we can send the
+1:05:23
+order which is again trade open trade order open sending the symbol sell stock
+1:05:30
+based on calculated lot size order price from here using the bid using this order
+1:05:37
+stop-loss new take profit which is zero but you could have placed up uh position But in case if you place it then it
+1:05:44
+needs to be a calculation of what's the current price minus that
+1:05:51
+new order. So you're going to go bid minus the new order take
+1:05:58
+profit. Then no specified time for the order. No expiry and order comment. And
+1:06:04
+then if this is successful then in that case last sell order time is updated to
+1:06:10
+current time and last order time is updated to current time as well. And I'm going to close all the opening brackets
+1:06:16
+just to make sure that yes this one is matching this one. So we close all of
+1:06:22
+the brackets and if I compile I do not have
+1:06:28
+any errors. So, this is it for the coding of
+Key Final Points
+1:06:33
+the EA as I received the original EA in a very very obscure uh code from that
+1:06:40
+friend of mine. Now, I'm going to be running tests on this over the next 2 weeks. I will definitely be making some
+1:06:47
+changes because, for example, during the video that I made already, I thought
+1:06:52
+that the new orders or the additional orders are placed once the trade moves
+1:06:58
+into profit. So, we're scaling in to profitable trades. But what I see now
+1:07:05
+when I'm going through the course and cleaned it up, what I see now is that the orders are not placed once
+1:07:12
+the trades are in profit. They are placed while the stop-loss of the original buy order is still the original
+1:07:22
+stop-loss. So if the trade has triggered but the trailing hasn't started, we
+1:07:27
+place another order. And I would like to see what will happen if we switch it
+1:07:32
+from that configuration to only placing the orders if already all of the
+1:07:38
+positions open are in profit. So properly scaling in. So those kind of
+1:07:44
+modifications and stuff I will probably be going through all of the testing and seeing what what can I change and then
+1:07:51
+probably in a week two weeks time once I have made the modifications that I want to make to this year I will come back
+1:07:58
+and share the modification codes as well. Meanwhile guys I mean all the codes are there now and some of you are
+1:08:05
+very good coders as well. So try your own modifications and do post a comment
+1:08:11
+if there is something that you find with which makes the EA perform a little bit better. Now the other thing is I will I
+1:08:17
+will convert this into MT4 as well. The original live test that I broadcast 2 weeks ago that was on the original
+1:08:24
+original code that I received from the friend. So it was MT4 based. So I will
+1:08:30
+be running that test again as well but trying to do it in MT5. The problem with MT4 was that my broker's minimum lot
+1:08:38
+size on US30 on in MT4 is one lot size
+1:08:43
+and I don't want to go into the real account testing with a one lot size especially when it trades like 30 trades
+1:08:49
+in a minute. On MT5 the minimum lot size is 0.1 which is more manageable. So I
+1:08:54
+will be trying to match the settings perfectly and then try and do the test in MT5. uh if I find
+1:09:02
+something useful, I will live broadcast it as well. And hopefully in the next two to three weeks, once I have done my
+1:09:09
+side of the testing and found some modifications, I will come back and update uh in a video all of the
+1:09:15
+modifications that I made to this EA and I will update the files in the store as
+1:09:20
+well once I do the modification. So until next time guys, stay safe and
+1:09:25
+trade safe.

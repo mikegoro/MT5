@@ -1,0 +1,4963 @@
+
+In this video
+Introduction
+0:00
+in this video I'm going to teach you a
+0:02
+simple three-step liquidity trading
+0:04
+strategy that you can use as the
+0:06
+foundation of your very own trading
+0:08
+system we're going to go step by step I
+0:10
+will teach you the concepts we're going
+0:12
+to use first of all then show you how to
+0:14
+put the system into action with some
+0:16
+trade examples and then at the end I'm
+0:17
+going to give you access to a brand new
+0:19
+free course that I've just dropped which
+0:21
+helps you to build systems and optimize
+0:23
+your trades I believe it's the best free
+0:25
+education I've put out so stick around
+0:27
+to the end and with that said let's get
+0:29
+into the learning so the system that I'm
+0:31
+going to teach you today uses only three
+0:33
+different concepts we are going to use
+0:35
+Market structure supply and demand and
+0:37
+liquidity so before we begin with the
+0:39
+system I'm going to go through each of
+0:41
+these and show you exactly what they are
+0:43
+and how we are personally going to use
+0:45
+them inside of this system now just an
+0:47
+extra note before we begin this system
+0:49
+can be applied to absolutely any time
+0:51
+frame on pretty much any currency pair
+0:53
+now you could probably Branch into other
+0:55
+assets but I would just focus on Forex
+0:58
+because I know it works in so now let's
+Liquidity explained
+0:59
+let take a look at the foundational
+1:01
+concept that this system is built around
+1:03
+liquidity so in its simplest format
+1:05
+liquidity refers to orders so buying
+1:08
+orders and selling orders and what we
+1:10
+are looking to do with the concept of
+1:11
+liquidity is identify areas where
+1:14
+significant amounts of buying or selling
+1:16
+are taking place now the way that we
+1:17
+would do this is use pretty basic retail
+1:20
+Concepts like support and resistance to
+1:22
+identify where liquidity and where
+1:24
+orders are situated so looking at this
+1:27
+example of a downtrending market we
+1:29
+could see there is a resistance level
+1:31
+here so for many Traders this is seen as
+1:33
+resistance they will sell once this
+1:35
+resistance is retested now because we
+1:38
+know that there is a mass of sellers
+1:40
+here we know that basic retail education
+1:42
+suggests that stop losses should go
+1:44
+above this level so we have stop losses
+1:47
+for sellers at this resistance and as
+1:49
+well as that we obviously have breakout
+1:51
+traders who are looking to see the
+1:52
+market push up like this then they will
+1:54
+look for a retest and a continuation
+1:57
+higher so as well as stop losses for
+1:59
+sellers we have buy stop orders looking
+2:01
+to catch this new wave once the market
+2:04
+breaks out but the markets move because
+2:06
+of a battle between buyers and sellers
+2:08
+when there's more selling than buying
+2:10
+markets go down and when there's more
+2:11
+buying than selling markets go up so
+2:14
+when we have an area where there's a
+2:15
+mass of orders in the market these are
+2:17
+the areas where significant reactions
+2:19
+generally will occur from now in this
+2:22
+example we know there's a huge amount of
+2:23
+orders at this level so if the market
+2:25
+can reach into this level there is going
+2:27
+to be a lot of orders triggered which
+2:29
+can provide conflicting liquidity for
+2:31
+people to sell so what we will often
+2:33
+times see with the resistance is rather
+2:35
+than breaking and retesting perfectly
+2:37
+and rather than trading off of it
+2:39
+perfectly a lot of the times we will see
+2:41
+the market sweep that high trade to the
+2:43
+area where the orders are situated
+2:45
+because orders are generally taking
+2:47
+place around highs and lows and not
+2:49
+within the middle of ranges and once
+2:51
+that liquidity is swept and those orders
+2:53
+are filled we then see the more
+2:55
+significant movements in the market so
+2:57
+within this system this is exactly what
+2:59
+we're going to to be looking for we're
+3:00
+going to be looking for areas where
+3:02
+liquidity is swept either as equal High
+3:05
+liquidity or for the flip side equal low
+3:08
+liquidity and sometimes as range or
+3:10
+swing High swing low liquidity as well
+3:12
+which I'll explain when we get there and
+3:14
+after a sweep of liquidity we then move
+3:16
+on to the second concept which is going
+3:18
+to be Market structure so the concept of
+Market Structure explained
+3:21
+Market structure suggests that markets
+3:23
+move in three different phases we have
+3:25
+uptrends where the market is continually
+3:27
+printing higher highs and higher lows we
+3:30
+have consolidations where the market is
+3:32
+just simply moving sideways with no
+3:34
+clear Direction and we have downtrends
+3:36
+where the market is printing lower lows
+3:38
+and lower highs now the aim is of course
+3:41
+to buy through uptrends stay out during
+3:43
+consolidations and sell through
+3:45
+downtrends now you will see with this
+3:48
+system we can actually take trades
+3:50
+within Market ranges because a lot of
+3:52
+liquidity forms around ranges in fact
+3:54
+this is one of the most optimal places
+3:56
+to trade the system that we're covering
+3:57
+but we do need to understand the concept
+3:59
+of uptrends downtrends and Trend
+4:02
+reversals in order to actually get into
+4:04
+the positions with this system otherwise
+4:06
+if we didn't confirm entries with
+4:07
+structure we would lose absolutely loads
+4:09
+of Trades so I want to introduce you to
+4:12
+what I call the standard confirmation
+4:14
+it's basically just a trend reversal but
+4:16
+this standard confirmation is pretty
+4:18
+much what I use to get into all of my
+4:20
+positions and this system will be no
+4:22
+different this is how we will be
+4:23
+identifying entries for our trades so in
+4:26
+a standard confirmation what we are
+4:28
+looking for is for either the market to
+4:30
+shift from higher highs and higher lows
+4:32
+into a phase of lower lows and lower
+4:34
+highs indicating a break-in structure
+4:37
+which leads us into that now what this
+4:39
+tells us is that the market trend is
+4:40
+reversing from bullish to bearish
+4:42
+because we're seeing the market fail to
+4:44
+print new highs and instead start to
+4:46
+print new lows so the concept with this
+4:49
+is then to sell from this point when the
+4:51
+market gets back to it now for a bullish
+4:54
+example we are just looking for the
+4:55
+opposite where a downtrending market
+4:57
+that's forming lower lows and lower
+4:59
+highs shifts into a higher high higher
+5:01
+low phase and the concept here is once a
+5:04
+higher high has been formed we will be
+5:06
+looking to enter buys from the higher
+5:08
+low so we are looking for selling
+5:10
+opportunities to take the market down
+5:12
+from this point or we are looking for
+5:14
+buying opportunities to take the market
+5:16
+up from this point once the structure
+5:18
+has shifted so this Market reversal is
+5:21
+very simple all we're looking for is
+5:22
+highs and lows and when we see the shift
+5:25
+that is what's going to indicate our
+5:26
+entry now you're going to see that this
+5:28
+is staple to our system because this is
+5:31
+exactly what we're going to be using for
+5:32
+entries on every single opportunity
+5:35
+without failure and the final concept to
+5:37
+cover before we get into system
+5:39
+application is supply and demand supply
+Supply & Demand explained
+5:41
+and demand refers to zones in the market
+5:44
+that become attractive buying or selling
+5:46
+points so a demand Zone looks like this
+5:48
+it takes place in an uptrend and it's
+5:51
+basically indicated by a consolidation
+5:53
+before a large up move now what a demand
+5:55
+Zone tells us is that this was a
+5:57
+discounted price for people to buy from
+5:59
+so this is seen as a good price level
+6:02
+for Traders to buy and these are
+6:03
+generally the institutional Traders the
+6:05
+large players in the market that is why
+6:07
+we see significant movements out of
+6:09
+these areas so we see that buying took
+6:12
+place here in Mass which caused a big
+6:14
+pushup in the market and then the market
+6:17
+pulls back down and the concept is
+6:19
+because this is a discounted price and
+6:20
+it's seen as a good place to buy from
+6:22
+Once the market comes back to this
+6:24
+region we will see another push of
+6:26
+institutional buying which will cause a
+6:28
+large up move now the same is true for
+6:31
+Supply but this is selling so in a
+6:33
+supply Zone we are looking for
+6:34
+consolidation before a large down move
+6:37
+that is what forms a supply Zone and
+6:39
+this is then seen as a premium price to
+6:41
+sell from so Traders are looking to sell
+6:44
+here because they believe this is
+6:45
+essentially overpriced and they'll be
+6:47
+able to profit from a movement down the
+6:49
+concept is once again once the market
+6:51
+reaches this premium price point we will
+6:53
+then be looking for selling
+6:54
+opportunities now Supply zones are only
+6:57
+viable when we are in a downtrending
+6:59
+market
+7:00
+and demand zones are only viable when
+7:02
+we're in an uptrending market now the
+7:03
+way that we're going to be using supply
+7:05
+and demand in our trading is very simple
+7:07
+we're going to be using it in line with
+7:09
+the structure after we see sweeps of
+7:11
+liquidity around ranges swing highs
+7:13
+swing lows and those equal lows and
+7:15
+equal highs that we discussed previously
+7:17
+so this system is built with Simplicity
+7:19
+in mind meaning those are the only three
+7:21
+concepts we need to use liquidity Market
+7:23
+structure and supply and demand we will
+7:26
+be using liquidity to identify setups we
+7:28
+will then use struct to validate and
+7:30
+confirm our setups and we will use
+7:32
+Supply or demand zones to get into the
+7:34
+positions we find so what I'm going to
+The Trading System
+7:36
+do now is show you a rundown of how the
+7:38
+system works step by step then we'll
+7:40
+move on to some real chart examples so
+7:42
+here is an outline of the trading system
+7:44
+that I'm teaching to you we have three
+7:46
+elements first of all we want to
+7:48
+identify liquidity and then identify a
+7:51
+sweep of that liquidity after that we
+7:53
+want to identify structure and that is
+7:56
+going to be a structural shift and what
+7:58
+we'll do here is the low time frame
+8:00
+structure so the internal Trend to
+8:03
+identify a change in Direction and then
+8:05
+from there we can use demand for a buy
+8:07
+entry now a selling position would be
+8:11
+pretty much identical where we find
+8:12
+equal high or range liquidity then we
+8:15
+see a sweep of that liquidity we see the
+8:18
+market pull down and form a new lower
+8:20
+low indicating that Breakin structure
+8:22
+and after we see that we can look to
+8:24
+sell from not demand but Supply instead
+8:27
+so it's a three-phase system number one
+8:30
+liquidity sweep number two change in
+8:32
+trending structure number three buy from
+8:34
+demand sell from Supply whichever
+8:36
+direction the market is moving when we
+8:38
+do get into a position our Target will
+8:40
+then become another obvious point of
+8:42
+liquidity or another Supply or demand
+8:44
+zone so in this example we would
+8:46
+obviously Target this equal High
+8:48
+liquidity for our trade because there's
+8:50
+liquidity either side of the range now
+8:52
+in other examples it may make sense to
+8:54
+Target Supply Here For example or we
+8:56
+could potentially have opportunity to
+8:58
+trade it even higher it's going to be
+9:00
+subjective to whatever the market is
+9:01
+providing to us at the time in terms of
+9:04
+Target opportunity but the general rule
+9:06
+will be targeting recent swing highs
+9:08
+equal highs whatever the next
+9:10
+significant point of liquidity is and in
+9:12
+terms of our entries we are looking to
+9:13
+enter from demand or from Supply in a
+9:16
+selling example and we want our stop
+9:18
+losses below the low or if we are
+9:20
+selling above the high so a general
+9:23
+trade opportunity with this system would
+9:25
+look like this we are looking for a
+9:27
+sweep of liquidity into a break of
+9:29
+structure and then we are looking for a
+9:30
+pullback to retest demand and then buy
+9:33
+towards the highs sell side is exactly
+9:35
+the same but we are looking for a break
+9:37
+into a bearish trend followed by a sell
+9:39
+into a new Target at the lows so that's
+Trade Example 1
+9:42
+the theory of this system but now we
+9:43
+need to look at some real examples so
+9:45
+you can see what it looks like in a live
+9:46
+market okay so here we are looking at a
+9:49
+ranging market and as we said because
+9:51
+we're looking at liquidity based trades
+9:53
+we can trade through ranging markets
+9:55
+because if the market is just moving
+9:56
+sideways what it will generally do is
+9:58
+Formula qu above and below the range
+10:01
+which means we can get trading
+10:02
+opportunities after sweeps of lows and
+10:04
+highs targeting the other side of the
+10:06
+range so in this example we have equal
+10:09
+low liquidity so this is one two equal
+10:12
+lows basically what we would be looking
+10:14
+for here would be a sweep of liquidity
+10:16
+and then of course we want to see if the
+10:18
+market is ready to change the trending
+10:20
+structure to lead into some buys now as
+10:23
+we said targets are subjective for me
+10:26
+personally in this position I'd look to
+10:28
+tackle these swing highs which are
+10:30
+pretty much relative equal highs
+10:32
+retesting into this area as a kind of
+10:34
+resistance level now it's also possible
+10:36
+that you could Target this open Supply
+10:38
+Zone up here we have small imbalance
+10:40
+into that and we have reason the market
+10:42
+could potentially reach into that level
+10:44
+so targets wise for this position if we
+10:46
+did sweep would be like this so now all
+10:49
+we would need to do is allow the market
+10:51
+to move and see if it is going to form
+10:53
+confirming structure because of course
+10:55
+if the market breaks down and fails to
+10:57
+change the trending Direction it can
+10:59
+easily just continue selling off so what
+11:01
+we don't want to do is immediately buy
+11:03
+under equal lows because it can just
+11:05
+lead into a new trending movement and we
+11:07
+don't want to be on the wrong side of it
+11:09
+so rather than just buying immediately
+11:11
+here what do we want to see well we
+11:13
+covered the market structure we want to
+11:15
+see a new higher high so at this point
+11:18
+we would have this High marked and if
+11:20
+the market is able to break over this
+11:21
+structural point we can then look to buy
+11:23
+pullbacks and take the market higher
+11:25
+towards our targets so as you can see
+11:27
+here we have now had a break of
+11:29
+structure over that level and what we
+11:31
+would be doing is moving on to the third
+11:33
+step so step one identify liquidity and
+11:36
+wait for a sweep we had the sweep
+11:38
+leading into step two which is identify
+11:41
+the change in trending structure we have
+11:43
+now got that so now we move on to step
+11:45
+number three which is to identify demand
+11:48
+and place our orders on so we would look
+11:51
+to buy from this demand Zone just here
+11:53
+we can have our entry on the Zone with
+11:55
+our stop loss below and our targets will
+11:57
+lead into that next swing High high with
+11:59
+a potential extension higher but let's
+12:01
+just play it safe let's play it simple
+12:03
+and use this as our Target so now what
+12:06
+you need to do is place your buy orders
+12:08
+because we have everything we wanted to
+12:09
+see remember the example I just showed
+12:12
+you we have the equal lows we have the
+12:14
+breaking structure followed by a shift
+12:17
+in the trend there now we're looking for
+12:19
+retest of demand to buy targeting the
+12:22
+point of liquidity above simple simple
+12:24
+stuff you see how textbook this is
+12:26
+compared to the example I just showed
+12:27
+you so now let's see what the market
+12:29
+gets up to so there you go there's the
+12:31
+completed trade for a 3.9 R profit which
+12:33
+means if you risked $1,000 on this
+12:35
+position you would make
+12:37
+$3,900 in return now you can see this
+12:39
+follow the textbook format we have the
+12:41
+equal low liquidity we have a sweep of
+12:43
+equal low liquidity followed by an
+12:45
+internal shift in the structure over
+12:47
+this High here we buy from demand we
+12:49
+target the liquidity at the top and that
+12:51
+pulls through for a very simple trade
+12:53
+buying from Demand with a stop below the
+12:55
+low and a Target into the next swing
+12:57
+high now because we're trading in a
+Trade Example 2
+12:59
+range that means we can actually Target
+13:01
+liquidity on the upside and the downside
+13:03
+which means there would be potential
+13:05
+opportunity to sell back down now that
+13:07
+we swept this swing high and equal High
+13:09
+liquidity so what we would want to see
+13:11
+would be a shift in some of the
+13:13
+structure which ideally would mean
+13:14
+engulfing this previous candle once
+13:16
+again and then we could look for
+13:17
+opportunities to sell back down now for
+13:19
+this opportunity we could obviously
+13:21
+Target this relative equal low liquidity
+13:23
+and we could even potentially look to
+13:25
+extend it through to Target the lows of
+13:27
+this range so upon seeing a break and
+13:29
+close in structure like this which is
+13:31
+showing a total reversal of all of the
+13:33
+price action that happened above this
+13:34
+swing High we could use the supply Zone
+13:37
+like this we could place a selling order
+13:39
+on the supply Zone stop loss above the
+13:41
+Zone targets down towards the point of
+13:44
+equal low liquidity and potentially even
+13:46
+the full extension into the lows just
+13:48
+there now let's follow the same format
+13:50
+and be very safe with our position so we
+13:52
+will just Target this point here for our
+13:54
+trade which is still going to bring a
+13:56
+$33,000 return for every $1,000 risk
+13:59
+now as you can see the market has
+14:01
+retested the entry pushed down towards
+14:03
+that Target and filled our trade
+14:06
+opportunity now in this example we did
+14:08
+see some Wicks to the upside but they
+14:09
+didn't break Supply and that is why
+14:11
+using Supply zones like this is such a
+14:13
+good way to set up about tra now ideally
+14:16
+our stocks could have been refined a
+14:17
+little bit more which could have brought
+14:19
+us a 3.5 return but even a three R
+14:22
+return is just great so over these two
+14:24
+positions which have been very simple
+14:26
+straightforward positions followed by
+14:28
+liquidation changeing the trend buy from
+14:30
+demand liquidation changeing the trend
+14:33
+sell from Supply we could have made over
+14:35
+$7,000 just in this singular trading
+14:37
+session from the buy side trade into the
+14:39
+sell-side trade so following on from
+Trade Example 3
+14:41
+this trade we had a full meltdown under
+14:43
+this swing low so now at this point we
+14:46
+number one may potentially see
+14:47
+continuation of the downside or number
+14:50
+two if we could see a break in the
+14:51
+structure we would look to take the
+14:53
+trade the other way so as you can see we
+14:55
+get that structural shift now let's mark
+14:57
+this out first of all we have the sweep
+15:00
+of
+15:01
+liquidity then we have the break of
+15:03
+structure which changed the trending
+15:05
+Direction and following on from the
+15:07
+break of structure we would identify
+15:09
+demand which is going to be this candle
+15:11
+before the large up move we can place
+15:14
+our entry on demand stop loss below and
+15:18
+for a position like this we can Target
+15:20
+the swing High liquidity so what we
+15:22
+would do is look to Target to here
+15:25
+because there's no real significant
+15:26
+points of liquidity within the range at
+15:28
+this point so targeting the swing high
+15:30
+would be the ideal move to take now
+15:32
+allowing this trade to play out you see
+15:35
+the market comes back retests demand and
+15:37
+gets a nice rally to the upside
+15:39
+targeting That Swing High liquidity you
+15:41
+can see three times in a row this has
+15:43
+played out now this is not going to work
+15:45
+all of the time sometimes the markets
+15:47
+are just going to break down without
+15:49
+providing entries which just means you
+15:50
+won't get into the position and other
+15:52
+times you'll get into a trade and it
+15:54
+will end up liquidating you so we may
+15:56
+get a push-up like this and then the
+15:58
+market could pull back down and take you
+15:59
+out of your position and lead into a
+16:01
+downtrend that is always a risk but with
+16:04
+any trading system we only really need
+16:06
+to look to win five out of 10 trades if
+16:08
+we can do that we will be just fine
+16:11
+especially when you consider the risks
+16:12
+to reward we've achieved $5.6 for every
+16:15
+$1 risk on this position we achieved $3
+16:18
+for every $1 risk on this position and
+16:20
+we achieved around a $3.5 return for
+16:23
+every $1 RIS on the initial position
+16:25
+here so you can see that even if you
+16:27
+only won four out of 10 trades meaning
+16:29
+every time you take 10 trades you lose
+16:31
+six you are still going to make a
+16:33
+significant amount of money because your
+16:34
+wins are outsized compared to the losses
+16:37
+that you will take so just to get this
+Trade Example 4
+16:39
+system really ingrained into your mind
+16:40
+so that you can see it here's another
+16:42
+example we have a range of equal low
+16:45
+liquidity as you can see we have a big
+16:47
+collection here this is a support floor
+16:49
+we know stop losses are waiting beneath
+16:51
+this level and so our sell stops so
+16:53
+there's a whole bunch of liquidity under
+16:55
+this level we see the sweep of liquidity
+16:57
+nothing happens just yet we wait for a
+16:59
+break in structure which takes place
+17:01
+just here and following that break of
+17:03
+structure we can now trade with
+17:04
+confidence back upwards through the
+17:06
+range so to do that we will Target the
+17:08
+next point of liquidity which in this
+17:10
+example you can see we have a collection
+17:12
+of very clear equal High liquidity there
+17:14
+we target that for our position and that
+17:16
+will bring us a 3.63% return we could
+17:19
+actually have the stop dialed in a bit
+17:20
+tighter but putting it under this low
+17:22
+will just give us that extra wiggle room
+17:24
+in case the market Wicks just below the
+17:25
+zone and here's one more example using
+Trade Example 5 (+ zone refinement)
+17:27
+range liquidity and equal low liquidity
+17:30
+so here we see equal lows one two we
+17:33
+also have range liquidity which is
+17:35
+essentially swing low liquidity so we
+17:37
+had this big push-up then we started
+17:39
+turning into a trading range this is the
+17:41
+low of the trading range as you can see
+17:43
+after we swept the low and also swept
+17:45
+the equal low liquidity we then had a
+17:46
+shift to the upside breaking structure
+17:49
+so we would then use demand looking for
+17:51
+a pullback and our buy point would have
+17:53
+been just here now in this particular
+17:55
+example it would have been very tricky
+17:56
+for us to see the demand zone so so what
+17:59
+we can do in that example is actually
+18:00
+refine the market so we can go to a
+18:02
+lower time frame in this example I'm
+18:04
+using the 10 minute that's a chart that
+18:06
+I use you could use the 15 and what we
+18:08
+can do is then identify a low time frame
+18:10
+Zone we would have seen this as our
+18:12
+demand zone for this trade example I
+18:14
+would have liked to have put the stop
+18:15
+under the full low so my stop loss would
+18:17
+have been down here simply because of
+18:19
+the risk of us trading into the lower
+18:21
+Zone and then targets wise we would
+18:23
+Target the next point of liquidity which
+18:24
+would be the swing high up there now
+18:26
+eventually this trade did play out as
+18:28
+you can see and this would have been a
+18:31
+5.53% position so if you risked $1,000
+18:34
+on this trade you would have made
+18:35
+5530 as your return now building a
+7 Steps to Profitable Trades (FREE COURSE)
+18:38
+system out takes more than what we've
+18:39
+covered today but fortunately for you
+18:41
+I've just released a new seven-part
+18:43
+video series which is a course and it's
+18:45
+totally free for you it's called seven
+18:47
+steps to profitable trades and in this
+18:49
+course I show you how to build a system
+18:51
+and how I build my systems I show you
+18:53
+how to take good trades and then
+18:55
+optimize them to turn them into great
+18:56
+trades and then perfect trades and then
+18:58
+tell you exactly what you need to do in
+19:00
+terms of validating refining confirming
+19:03
+and optimizing your systems so that you
+19:05
+can trade them with confidence get a
+19:06
+return get funded and make money the
+19:08
+course is totally free and is now open
+19:10
+check the top Link in the description to
+19:11
+sign up to that that's going to take you
+19:13
+learning to the next level and make sure
+19:15
+that you can turn this foundational
+19:16
+system into a strategy that can make you
+19:18
+money long term so that is all for this
+19:20
+video I hope you've enjoyed the class
+19:22
+thank you for watching and I'll see you
+19:23
+in the next one
+    
+
+video 2
+
+Introduction to S&D Liquidity
+0:00
+Liquidity forms in many areas in the
+0:02
+market and has a big bearing on whether
+0:04
+you're going to win or lose. One of the
+0:06
+areas liquidity forms is around supply
+0:09
+and demand zones. So, in this class, I'm
+0:11
+going to teach you an advanced liquidity
+0:13
+trading strategy to help you avoid
+0:15
+losses, improve your accuracy, get
+0:18
+higher win rates, and ultimately become
+0:20
+a better trader. If you're new to
+Liquidity Basics
+0:21
+liquidity, I'm going to explain it to
+0:23
+you now. If you're not new to liquidity,
+0:25
+use the chapters to skip ahead to the
+0:27
+start of the next chapter and we'll
+0:29
+start on the more advanced technique.
+0:31
+So, liquidity in a market refers to
+0:34
+orders. Orders generally in the form of
+0:36
+stop- losses and buy stops and sell
+0:39
+stops. There are two very common forms
+0:41
+of liquidity and two that we'll be using
+0:43
+in the more advanced method. These are
+0:45
+equal high, which is this one here, and
+0:47
+equal low liquidity, which simply refers
+0:50
+to support and resistance levels. and
+0:52
+then ascending and descending trend
+0:54
+lines. General retail education suggests
+0:57
+when you see a resistance level in a
+0:59
+market, you should look to sell that
+1:02
+resistance. Okay? So after the second
+1:05
+tap forms, anywhere from there on
+1:06
+becomes a good selling level. Now the
+1:09
+general idea there then is when you sell
+1:12
+your stop loss will go above the
+1:14
+resistance because the idea is the
+1:16
+market is likely to react from this
+1:18
+resistance level and trade down without
+1:21
+breaking above. So we know from this
+1:24
+there is going to be a lot of traders
+1:26
+with stop-loss orders above the equal
+1:28
+highs. So here we have stop- losses.
+1:31
+Now, as well as this, we have breakout
+1:33
+traders who will be looking for the
+1:35
+market to push up and break above a
+1:37
+resistance level and then use it on the
+1:39
+retest as a support to buy from. So, as
+1:42
+well as stop-loss orders being above the
+1:44
+high, we're going to have buy stop
+1:46
+orders, which are automatic buy orders.
+1:50
+Essentially, this creates more liquidity
+1:52
+and more orders above that level. Now,
+1:54
+if we think about what a stop-loss is in
+1:56
+the case of a sell trade, it is an order
+1:59
+to automatically buy back contracts for
+2:02
+more than you sold them for. Because a
+2:04
+short selling order, i.e. selling at
+2:06
+these levels, is simply where you sell
+2:08
+with an obligation to buy back later,
+2:10
+regardless of whether it's a higher or
+2:12
+lower price. So, stop losses in this
+2:14
+instance are actually buy orders. We
+2:17
+have a large amount of buy orders above
+2:19
+this level. Now in two formats in stop-
+2:21
+losses and in buy stops. Now if we have
+2:24
+a massive amount of buy orders above
+2:27
+this level. So that creates a lot of
+2:29
+buyside liquidity. What do we have as a
+2:32
+potential opportunity here? Well, let's
+2:35
+say you are an institutional trader, a
+2:37
+bank, a firm, or simply a large player
+2:39
+with massive amounts of money,
+2:41
+multi-million dollars, and you want to
+2:42
+place large orders. Now, if you think
+2:44
+about where we are in this point
+2:46
+underneath this resistance, if you want
+2:48
+to sell millions of dollars worth of a
+2:50
+contract, you will be left with a pretty
+2:52
+bad price. What will actually happen is
+2:54
+you'll sell some and your movement could
+2:56
+drive the market down because the amount
+2:58
+of money you're working with is so
+3:00
+large. So then your second execution may
+3:03
+be here, you may get a third execution
+3:05
+here, and so on. you're going to have a
+3:06
+bad average price because the selling
+3:08
+you're doing is actually driving the
+3:10
+market down, meaning you'll never be
+3:12
+able to get your full order on at this
+3:14
+good level. So, if you're expecting the
+3:16
+market to move lower and you want to
+3:17
+sell into that, what you can actually do
+3:20
+is wait for this liquidity to be hit and
+3:23
+this is going to open up lots of buy
+3:25
+orders. So, if there's not enough
+3:27
+selling pressure here, there may be
+3:28
+buying pressure enough to push us over
+3:30
+the high into this area where lots of
+3:33
+buying orders are going to be triggered.
+3:34
+When all of these buying orders in the
+3:36
+form of buy stops and selling stop
+3:39
+losses are triggered in this region,
+3:41
+there's going to be a massive influx all
+3:43
+at the same time of buying taking place.
+3:46
+And if you are a massive seller, you
+3:48
+have now a lot of liquidity to take on
+3:51
+the other side of the trade. If there
+3:53
+are now thousands of buy orders being
+3:55
+executed at the same time, you can
+3:57
+execute a massive amount of monies worth
+3:59
+of sell orders. And that leaves us with
+4:02
+this format which is what we call a
+4:04
+liquidity sweep or a false breakout. The
+4:07
+market pushes above and stops out anyone
+4:10
+who sold the resistance and it also
+4:12
+triggers in anyone who wanted to buy the
+4:15
+break retest and then the large player
+4:18
+can take the sell on the other side of
+4:20
+all of these buys which will drive the
+4:22
+market down. So it creates a scenario
+4:24
+where you end up losing before the
+4:26
+market moves in your favor. Now equal
+4:29
+lows work in exactly the same way. We
+4:31
+have buying taking place upon a support
+4:35
+floor. We have lots of stop losses
+4:38
+underneath. These stop- losses are
+4:40
+automatic sell orders. Basically, if
+4:44
+you've bought contracts on that
+4:45
+resistance, so basically, if you've
+4:47
+bought contracts on the support floor
+4:49
+around here, your stop loss will be set
+4:52
+to automatically sell those contracts
+4:54
+back for a loss if the market gets down
+4:56
+here so that you don't take a massive
+4:58
+loss. So, that creates lots of sell
+5:02
+liquidity. Okay. Now, we also have sell
+5:05
+stop orders, automatic orders that will
+5:08
+trigger sellers into trades if the
+5:10
+support breaks because they will
+5:12
+anticipate further downside movement.
+5:14
+So, we now have lots of sell liquidity.
+5:16
+If you are a massive institutional
+5:18
+buyer, the market getting into this
+5:20
+region will trigger loads of liquidity
+5:23
+for you to take the other side of. So,
+5:25
+then your large buys can be executed
+5:27
+easier from down there and the market
+5:29
+will make its run to the upside. So, as
+5:31
+you can see, buying from support and
+5:34
+selling from resistance, what should be
+5:36
+a good way to trade actually has a large
+5:39
+flaw, and that's the fact that
+5:41
+institutional participants who actually
+5:43
+have the power to drive markets are not
+5:45
+executing at these levels and are more
+5:47
+likely to be executing above and below.
+5:50
+So, selling from equal highs and buying
+5:52
+from equal lows is generally never going
+5:55
+to be a good idea. Now, let's talk about
+5:57
+trend lines. These work in very much the
+6:00
+same way. The idea with trend lines is
+6:03
+after the first two taps of a trend line
+6:05
+have been created, any further taps from
+6:07
+there should be good for buying. So we
+6:10
+will have traders who are looking to buy
+6:12
+another retest of the trend line. Now
+6:15
+what do we have here? Well, again we get
+6:17
+this liquidity problem with lots of
+6:19
+buying taking place here. We have lots
+6:21
+of stop- losses underneath that area. We
+6:24
+also have traders who are looking for
+6:26
+break retest trades. So they will be
+6:28
+looking more so for the trend line to
+6:30
+break, pull back, retest and then sell
+6:33
+lower. So as well as having lots of
+6:35
+stop- losses here from the buyers, we
+6:38
+also have lots of sell stops here for
+6:40
+the breakout traders which creates a
+6:42
+large pool of liquidity again. So what
+6:46
+we'll generally see happening in the
+6:47
+market is instead of a clean test or
+6:51
+instead of a clean break retest, we will
+6:54
+often times come through the trend line,
+6:56
+sweep all of this liquidity and then
+6:58
+move higher, which ends up stopping out
+7:01
+the traders on the buy side and stopping
+7:03
+out the traders on the sell side. And
+7:05
+again, it happens because of all the
+7:07
+liquidity that larger players can take
+7:09
+the other side of. In a descending trend
+7:12
+line, it's the same. Any sellers looking
+7:14
+to sell a retest of a trend line here or
+7:16
+any breakout traders looking to buy upon
+7:19
+the break will have considerable number
+7:23
+of orders and liquidity in this area. So
+7:26
+if the market is able to get into this
+7:28
+area, we then often times see the market
+7:30
+just come back down like this creating a
+7:33
+false break and again stopping out the
+7:35
+buyers and the sellers. So that is the
+7:37
+basic liquidity that you need to
+7:39
+understand. Now we're going to move on
+7:41
+to the more advanced approach of these
+7:42
+inducements and the liquidity around
+7:44
+supply and demand. So while the concepts
+Supply & Demand Liquidity Inducements
+7:46
+of liquidity structure, supply and
+7:48
+demand imbalances all go together in the
+7:51
+form of price action or what some people
+7:53
+call smart money trading, we still need
+7:56
+to be aware of liquidity around areas of
+7:59
+supply and demand. So in this instance,
+8:01
+we're going to be looking at a supply
+8:03
+zone, which is a zone that we would look
+8:05
+to sell from once the market returns to
+8:07
+that level. Now, in this hypothetical
+8:10
+example, what we want to make sure we
+8:12
+are doing is considering factors of
+8:14
+liquidity like equal highs, equal lows,
+8:17
+and trend liquidity when we're looking
+8:19
+at our supply zones. So, if we were to
+8:22
+come into a supply zone and formulate
+8:24
+this kind of price action where we
+8:26
+create this equal high area, this double
+8:30
+top area, we realistically would not
+8:33
+want to sell from here. And the reason
+8:36
+is because although we are reacting from
+8:38
+the supply zone, we still have this
+8:40
+factor of liquidity and we still may be
+8:42
+looking at what we can call an
+8:43
+inducement where we could be drawn into
+8:46
+the market or lured into a sell before
+8:48
+the market takes out those highs. So
+8:50
+let's say we sold here and the market so
+8:53
+let's say we sold here and we were
+8:55
+expecting the market to continue running
+8:56
+down. The risk that we run here is that
+8:59
+we actually get a push up to take out
+9:02
+the equal highs that have been formed.
+9:04
+And the thing is this is quite a common
+9:06
+thing to occur. So when we create equal
+9:09
+highs like this or what we could see as
+9:11
+a double top or resistance inside of a
+9:13
+supply zone, it doesn't mean that we're
+9:15
+going to get that immediate drive away.
+9:17
+And what will commonly happen is we'll
+9:19
+actually drive up and take those highs
+9:21
+out before making the sell move. Which
+9:25
+means if you were selling beneath with a
+9:26
+stop above those highs, you would be
+9:28
+stopped out. Whereas realistically it
+9:31
+could be a movement like this that takes
+9:33
+place. Now, there's another way that
+9:34
+things can go slightly wrong here, and
+9:36
+that is if we have a couple of different
+9:38
+zones to work with, which will happen
+9:40
+quite often when you're looking at
+9:42
+supply and demand. So, we see above
+9:44
+here, there is an imbalance into a
+9:46
+supply zone. Now, if we go ahead and
+9:49
+trust this double top or resistance
+9:51
+that's formed here, even if, for
+9:54
+example, we reacted from it another time
+9:56
+and we started to see some serious
+9:58
+weakness kicking in, we still have the
+10:01
+liquidity problem. We still have this
+10:03
+area above which has a high likelihood
+10:05
+of being taken out. And as we've said,
+10:08
+sometimes it's going to come up and do
+10:10
+this. But what can also happen when we
+10:13
+create liquidity like this is the market
+10:15
+may extend through into the higher
+10:18
+supply. So, not only do we have to worry
+10:21
+about what's going on inside of the
+10:23
+existing supply, we also need to make
+10:25
+sure that we understand the larger
+10:28
+context and if there's any other areas
+10:30
+the market may reach to in order to
+10:32
+create the large meaningful move. So,
+10:34
+how exactly do we combat this then? How
+10:36
+do we make sure we're not getting
+10:37
+liquidated first of all inside of the
+10:40
+supply we're looking at and second of
+10:42
+all inside of even the larger context
+10:44
+where there could be other zones that
+10:46
+the market will be drawn to. Well,
+Confirmation Entry Model for S&D liquidity
+10:47
+there's an entry model that we can use
+10:49
+to get around this problem. I call it
+10:51
+standard confirmation. It's nothing new.
+10:54
+It's just a structural shift that we can
+10:57
+identify inside of this area or inside
+11:00
+of this area to validate our trades
+11:02
+better and have a higher probability of
+11:04
+winning. So, the standard confirmation
+11:06
+is a market that is going from higher
+11:08
+highs and higher lows such as this
+11:12
+movement up here, i.e. an uptrend very
+11:15
+much in the way that we're creating
+11:16
+higher highs and higher lows here and
+11:19
+then shifts down into a lower low where
+11:21
+we then look to sell from the lower
+11:23
+high. So our selling idea would kick in
+11:26
+here. Now what a standard confirmation
+11:29
+shows us is a clear change in control
+11:31
+from buying into selling in a market.
+11:34
+And it's this point here, this break
+11:37
+into a lower low which validates a
+11:39
+change in the trend. Then when we pull
+11:42
+back, we can quite safely sell on any
+11:44
+retracement to bring the market lower.
+11:47
+Now, if we take a look at what we've
+11:48
+seen in this example with the equal
+11:51
+highs, we actually don't have that here
+11:54
+because we haven't had a clear shift
+11:56
+from buying into selling. All we've done
+11:58
+is come up and create a level of
+12:00
+liquidity and then we've started some
+12:02
+movements down inside of the range, but
+12:05
+we don't have the clear change in
+12:07
+control ahead of us. We don't see that,
+12:09
+right? which means which means it's
+12:12
+likely before the execution is made that
+12:15
+we will see a push up and then we'll see
+12:18
+that change in control where the market
+12:20
+shifts into the lows like so. Now if the
+12:23
+market had come into this zone and
+12:25
+instead of creating equal highs had done
+12:27
+this well then this would have swept
+12:29
+liquidity over the swing high and showed
+12:31
+a meaningful change in the trend here
+12:34
+that we could have used to get into a
+12:35
+trade upon the pullback around here. So
+12:38
+our trade could look like this and it
+12:41
+would be very high probability because
+12:42
+what we've actually done is align the
+12:44
+smaller trend here. So this reversal
+12:47
+that's taking place inside of this area
+12:49
+with the larger trend which as we can
+12:52
+see is of course bearish. So we've
+12:55
+pretty much used the larger bearish
+12:56
+picture and then we've gone into the low
+12:59
+time frame structure and found a small
+13:00
+bearish picture here to execute into.
+13:03
+Right? So, at this point, we have high
+13:05
+and low time frame validation and
+13:07
+agreement, which allows us to take a
+13:09
+high probability trade. But when we're
+13:11
+looking at a market with equal highs,
+13:14
+we're not seeing that. We're actually
+13:15
+seeing a magnet price area that the
+13:18
+market is likely to be drawn towards.
+13:20
+And we're not seeing the clear control
+13:21
+shift yet. So, a movement like this
+13:24
+would be more ideal to then provide us
+13:26
+with the pullback sell opportunity
+13:28
+because that would validate a clear
+13:30
+change in trend and it would also mean
+13:32
+the liquidity is taken out. So if we
+13:34
+look at this with the other example of
+13:36
+where we may have multiple supply zones,
+13:38
+the reason this becomes so useful is
+13:40
+because if we created this equal high
+13:43
+liquidity here, rather than just having
+13:45
+to guess into a cell when we get up
+13:47
+here, we can actually wait for the
+13:49
+market to make its movement and confirm
+13:51
+that change in the trend. Now, often
+13:53
+times you're going to see something like
+13:55
+this taking place where this initially
+13:58
+looked like a really good place to sell
+14:00
+and it did create some form of small
+14:02
+downward move. But now, because of your
+14:04
+understanding of liquidity, you would
+14:06
+have avoided selling because you know
+14:08
+that we're under a high probability
+14:09
+point of liquidity that the market is
+14:11
+likely to be drawn into. Now, if instead
+14:14
+of then just selling once liquidity has
+14:16
+been taken, you wait for the standard
+14:18
+confirmation that we've just discussed,
+14:20
+you may see sometimes the market
+14:22
+completely fails to react from the
+14:24
+existing supply and instead moves on
+14:26
+towards another supply like this one
+14:29
+here. At that point, you can employ the
+14:33
+standard confirmation. And when you see
+14:35
+that change in the trend, that's going
+14:37
+to be your validating factor that allows
+14:39
+you to sell. in which case you would be
+14:42
+able to get a trade like this. Now,
+14:44
+because you've also waited for
+14:46
+confirmation of this reversal, it will
+14:48
+help you to avoid taking a loss here or
+14:51
+taking a loss here by just by just
+14:54
+blindly selling either beneath or even
+14:56
+above the equal highs. So this
+14:59
+confirmation pattern here, which is what
+15:01
+we use here to execute a trade like
+15:03
+this, is going to save you from a lot of
+15:05
+losses, and it's also going to help you
+15:07
+to validate the perfect zone to buy or
+15:09
+sell from and also lock in entries from
+15:12
+the highest probability points. So let's
+Real Chart Example of S&D Liquidity
+15:14
+go take a look at this in a real market.
+15:16
+Okay, so we're looking at Euro Swiss
+15:18
+Frank. We're on the 5minut time frame.
+15:20
+This concept works across all time
+15:21
+frames because it's supply and demand.
+15:23
+What we've got here is a market that has
+15:25
+just started moving to the upside. We've
+15:27
+seen a retest of this demand zone and
+15:29
+the market's now pushed up into this new
+15:31
+high. Now, we can begin explaining this
+15:33
+concept by simply looking at what's
+15:36
+already occurred. We had this drive to
+15:39
+the upside. If we wanted to continue
+15:41
+buying, there's actually already been
+15:43
+multiple areas of demand that we could
+15:45
+have potentially looked at for our
+15:47
+buying opportunities. There are really
+15:49
+three demand zones inside of this range.
+15:51
+There's this one here, this one here,
+15:53
+and then this low at the extreme. This
+15:56
+has an efficient range previous to it,
+15:57
+meaning there's no more imbalance. So,
+15:59
+this would be the final zone. Now, if we
+16:01
+think about what we've said, we are
+16:03
+basically looking to choose the right
+16:05
+demand zone and avoid getting
+16:07
+liquidated. So, what we would do here is
+16:10
+not buy the first zone. We didn't get
+16:13
+any confirmation from this point and
+16:14
+there is still imbalance beneath. As you
+16:16
+can see, the market then went on to
+16:18
+liquidate that low.
+16:20
+We would also not have bought the second
+16:22
+zone because as we see when the market
+16:24
+came into this level there was no
+16:25
+confirmation provided and there is still
+16:27
+again imbalance below meaning there is
+16:29
+possibility for the market to come into
+16:31
+this zone. Now you can see after hitting
+16:34
+this zone we've actually seen that shift
+16:36
+in the trend. So if we mark up the trend
+16:38
+we have the high the low lower high
+16:41
+lower low high lower low. That is our
+16:44
+trending move so far. Which means this
+16:47
+high just here where I have the BOS
+16:49
+marked is where the structure would need
+16:51
+to break in order to validate a change
+16:53
+in the trend. Now we see after creating
+16:56
+this price action, we've had our
+16:59
+confirmation. We've had our break into a
+17:01
+new high, which means we can now start
+17:03
+looking for buying opportunities by
+17:05
+simply using demand to then place our
+17:07
+buy limit. Now, that is of course entry
+17:11
+number one. That is the bigger setup and
+17:13
+we'd expect the market to pull back
+17:15
+before leading off into new highs. Okay.
+17:18
+But what we're going to do now is look
+17:19
+at a kind of opportunity inside of an
+17:22
+opportunity. We're going to isolate the
+17:23
+price action to this existing move here.
+17:26
+If we break this down to a lower time
+17:28
+frame, we're seeing pretty much the same
+17:29
+thing again. We've seen a bearish market
+17:31
+shifting into new highs, which creates a
+17:34
+bullish market. And now we have to work
+17:36
+out where to buy from. So we have in
+17:39
+this range a demand zone just here
+17:42
+indecision before a large push away. And
+17:44
+we have this demand zone down here which
+17:46
+is again indecision before a large push
+17:48
+away. Okay. So I'm going to clear these
+17:50
+ones off for now just to keep things
+17:52
+simple and focused on the existing price
+17:54
+action. To note we have a imbalance into
+17:58
+this area of demand and we also have
+18:00
+imbalance into the area of demand above
+18:03
+as well. So how would we pick which of
+18:06
+these zones to buy from? Well, due to
+18:07
+that inducement theory we just
+18:09
+discussed, we would number one want to
+18:12
+see if we get confirmation inside of
+18:14
+these areas. If we get a confirmation in
+18:16
+here, then we may potentially be able to
+18:18
+lead through into new buys. However, we
+18:21
+still have got liquidity imbalance
+18:24
+beneath which would lead us into the
+18:26
+lower zone. So, by looking at this
+18:28
+immediately, we would consider the most
+18:30
+probable outcome is going to be that the
+18:32
+market sweeps this level. The reason
+18:34
+this is important is because if you
+18:35
+start placing buy limits here with your
+18:37
+stop loss underneath the zone, you're
+18:39
+opening your yourself up to the
+18:41
+inducement theory and you're opening
+18:43
+yourself up to being stopped out on a
+18:44
+trade that is in theory correct. You've
+18:46
+got the market direction right. You know
+18:49
+buying is the right move, but you're
+18:51
+buying in a place where you can easily
+18:53
+lose before the market follows through
+18:54
+with its opportunity. So what we would
+18:57
+want to see would be confirmations
+19:00
+inside of one of these zones with a
+19:02
+clear focus as our primary zone on this
+19:04
+lower area which is going to be the kind
+19:07
+of zone beneath inducement. Okay. So
+19:10
+scaling the market forward we see we get
+19:12
+a push down into the first zone. What we
+19:15
+would realistically want to see from
+19:16
+here then would have been a break above
+19:18
+this high. So if we'd come into there
+19:20
+and we'd started to push higher we could
+19:22
+potentially trust that zone. we'd say,
+19:24
+okay, maybe it's not inducement because
+19:25
+we are pushing back at the highs and
+19:27
+creating a bullish shift in this smaller
+19:29
+trend. And the smaller trend for
+19:30
+reference here is going to be this is
+19:33
+our high. This is our low. This is our
+19:36
+lower high. This is our lower low. So,
+19:38
+if the market had broken up, that would
+19:40
+have created what we need to see for a
+19:42
+buying opportunity. However, as you can
+19:44
+see, the market didn't do that. It did
+19:46
+what it usually does, and it pushed
+19:48
+through to fill the imbalance and trade
+19:50
+towards this lower zone. Now, if we want
+19:52
+to be safe that this market isn't just
+19:54
+going to sink all the way down lower, we
+19:56
+can use the entry model that we just
+19:58
+previously discussed to make sure we are
+20:00
+taking a confirmed trade. So, if we
+20:03
+allow this market to scale forward a
+20:05
+little bit more, you can see what we've
+20:08
+actually done here up to this point is
+20:11
+now start to make some changes in the
+20:13
+trend. We had this high. We came down.
+20:16
+We created new lows. We've hit this
+20:18
+demand. And then inside of some of the
+20:20
+refined price action, so 5m minute price
+20:22
+action, we've broke a structure point
+20:24
+just here. The market's pulled back and
+20:26
+pushed higher once again. Now this has
+20:28
+pushed us into what we call an efficient
+20:30
+range. There is no imbalance around
+20:32
+here. So we can happily look to buy this
+20:34
+market given that we've seen a break of
+20:36
+structure there on the lower time frames
+20:38
+and we've also seen the market take out
+20:40
+these highs. Now, ideally, we would want
+20:42
+to see a closure above this level for
+20:44
+the most high confidence trade, but in
+20:46
+this instance, we have everything we
+20:47
+really need to see. We've seen a demand
+20:49
+zone retest, break of the internal
+20:51
+structure, and we've also seen the
+20:53
+market show willingness to go higher
+20:54
+here with no supply zone to cap price.
+20:57
+So if there was a clear imbalance supply
+20:59
+here and we'd wicked into it, we could
+21:01
+say, okay, that is probably not going to
+21:03
+be the trade we want to take simply
+21:04
+because there's possibility for this to
+21:06
+then reverse on us because maybe supply
+21:09
+is going to maintain strength and push
+21:10
+us lower. But because we don't have that
+21:13
+and we've pushed into what we call an
+21:14
+efficient range, which is basically an
+21:16
+area where there is no imbalance
+21:18
+anywhere at all in this range now, we've
+21:21
+essentially opened doors to moving
+21:23
+higher because there's no point of
+21:24
+resistance that should cap price. So, we
+Entering the trade
+21:27
+can look at the next obvious demand. I
+21:29
+mean, this one here, we do have this
+21:31
+little wick that pushes out of it. But
+21:33
+what do we still have? This is very
+21:34
+important to me. We still have a clear
+21:36
+imbalance. Okay? And an imbalance like
+21:38
+this is very likely to be filled before
+21:41
+we start moving into new highs. So, with
+21:43
+this demand zone still having imbalance,
+21:46
+I'd be happy to use this for my buying
+21:47
+opportunity. And we look beneath. There
+21:50
+is no imbalance down here. There is no
+21:52
+area of demand down here. This again is
+21:54
+an efficient range. So this here is the
+21:58
+last inefficiency or the last imbalance
+22:00
+left inside of this price move. So our
+22:02
+trade could go here with a buy limit.
+22:05
+Stop could go under the zone and then
+22:07
+our target could go up towards
+22:10
+the new highs that we want to target for
+22:12
+this trade. Let's just push it towards
+22:14
+this supply zone here. We can of course
+22:17
+extend this out into larger swing
+22:19
+trades. So we'll actually leave it like
+22:20
+that. Yeah. Right. So let's break this
+22:24
+down real quick then. Number one, the
+22:26
+first thing we did was on these higher
+22:28
+time frame perspective, we identified
+22:30
+demand zone here. We didn't buy that
+22:33
+because there was no confirmation. We
+22:35
+identified a demand zone here. We also
+22:38
+didn't buy this one again because there
+22:39
+was no confirmation given. And then the
+22:41
+extreme demand, which is basically the
+22:43
+last demand zone that exists. As you can
+22:44
+see, there's no more demand zones before
+22:46
+this down to around this level. I've
+22:48
+actually accounted for just the smaller
+22:50
+candle above as well, but we didn't have
+22:52
+to do that. That's just because I like
+22:53
+to make sure I've got the full range
+22:55
+covered. We see that this was retested
+22:57
+and then following the retest, this push
+23:00
+up here created a breaking structure
+23:01
+which validates buys are likely to come
+23:04
+into the market. Then we went down and
+23:06
+took an isolated look at some lower time
+23:08
+frame price action. We can do this
+23:10
+completely separately. This could be two
+23:12
+trades because realistically with the
+23:14
+retest we've just had here, we could
+23:16
+have just placed a buy limit, right? But
+23:17
+I'm trying to show you this across kind
+23:19
+of multiple uh time frames or bigger
+23:21
+picture and smaller picture view. So
+23:24
+again, we had the same push. We had a
+23:26
+push which broke us into new highs. That
+23:28
+creates a bullish leg of movement here.
+23:30
+We want to buy from this range. We have
+23:31
+one two demand zones to choose from. We
+23:34
+do not get confirmation from the first
+23:36
+one and we're understanding there is
+23:38
+imbalance still left which could lead
+23:40
+the market into the next one. And then
+23:42
+when the market had reached into the
+23:43
+next one, we looked at the break of
+23:45
+structure, the push into an efficient
+23:46
+range again. And now we can confidently
+23:48
+choose this demand zone as the one to
+23:50
+buy from. And we've avoided a loss by
+23:52
+not buying here. We've played it safe by
+23:55
+waiting for the confirmation. And now
+23:57
+we're getting into basically the safest
+24:00
+possible trade. Okay, now we get a
+24:02
+pullback,
+24:04
+fill the demand zone, and then we get a
+24:06
+drive to the upside. And this market is
+24:10
+taking its time, but we've now pretty
+24:12
+much created a new bullish trend, right?
+24:14
+We saw a drive up. We've pulled back
+24:15
+down. We found footing around here. Had
+24:18
+we taken the profits at that supply
+24:19
+zone, we'd be out already for around a
+24:23
+three-hour trade. But given it the time
+24:24
+it needed, it's actually taken a bit
+24:26
+longer, but still follows through with
+24:28
+that movement of taking us into new
+24:30
+highs and providing an opportunity there
+24:33
+for a good trade. So that is the concept
+24:36
+of using that entry model to avoid the
+24:39
+inducement theory and make sure you
+24:40
+don't get stopped out of trades that can
+24:42
+be easily won. These are the results I
+FREE COURSE - System Building
+24:45
+got from trading these concepts last
+24:46
+year and here are some wins from the
+24:48
+past week from my students so you know
+24:50
+to listen to me. This is a free course.
+24:53
+There's a link in the description to
+24:54
+this. It's going to show you how to
+24:56
+build systems, simplify trading, improve
+24:58
+your trades, and ultimately find
+24:59
+success. So, if you want to do that,
+25:01
+100% free. I think you'll enjoy it and
+25:03
+you know that I can provide you some
+25:04
+value because it's working for myself
+25:06
+and many other people as well. If you
+25:08
+don't want to do that, watch this video
+25:09
+next. Thank you for watching and I'll
+25:11
+see you in the next
+  
+
+
+ntro
+0:00
+there are two different price action
+0:01
+trading Concepts that when combined
+0:03
+create one of my personal favorite entry
+0:05
+models and these Concepts actually build
+0:07
+up the backbone of the majority of my
+0:09
+trading strategy they are liquidity and
+0:12
+Market structure in this class I want to
+0:14
+give you a deep understanding of both
+0:16
+and share with you an entry model and a
+0:17
+trading system that you can start to
+0:19
+apply to make some good trades and make
+0:21
+some profits so with that said and done
+0:23
+let's get into the learning Market
+Market Structure
+0:24
+Structure Theory suggests that markets
+0:26
+move in three phases we have uptrends we
+0:30
+we have downtrends and we have
+0:32
+consolidation now an uptrend is simply a
+0:34
+phase where a market is continually
+0:36
+moving to the upside and through an
+0:38
+uptrend we only want to buy a market a
+0:40
+downtrend is the opposite where a market
+0:42
+is continually moving to the downside
+0:44
+and through these markets we only want
+0:45
+to sell now a consolidation is generally
+0:48
+where we just move sideways there's no
+0:49
+real trading opportunities most of the
+0:51
+time inside of consolidation ranges so
+0:53
+we pretty much want to eliminate this
+0:55
+and just focus on uptrends and
+0:57
+downtrends to determine whether a market
+0:59
+is in an uptrend or a downtrend we want
+1:02
+to look at the highs and the lows in
+1:04
+price so we can see in the uptrend we
+1:06
+form higher highs and higher lows a
+1:10
+market that is forming new highs and
+1:12
+lows higher than the previous highs and
+1:14
+lows is an uptrend okay we can see the
+1:16
+Market's clearly moving up but we Define
+1:18
+that by the fact that the market is
+1:20
+continuing to push past these previous
+1:22
+highs right so this here is what we call
+1:25
+a break of structure it's this push
+1:28
+upwards past the higher high high this
+1:30
+as well is a break of structure and the
+1:33
+actual break of structure we talk about
+1:35
+is taking place at these points because
+1:37
+we get these breaks in structure that
+1:39
+continue pushing the market higher this
+1:41
+is indeed an uptrend a downtrend is
+1:43
+pretty much the same but flipped upside
+1:44
+down so in a downtrend we are forming
+1:46
+lower lows and lower highs and what that
+1:49
+simply means is every low and every high
+1:52
+that forms in the market is lower than
+1:54
+the previous once again we indicate the
+1:56
+continuation of a downtrend with these
+1:58
+breaks of structure which is when the
+2:00
+market pushes past a previous low the
+2:03
+next thing you need to know is that a
+2:04
+trending movement is made up of two main
+2:07
+parts we have impulsive movements and we
+2:10
+have corrective movements so impulses
+2:12
+and Corrections now an Impulse is a prot
+2:15
+trend movement it's the movement that
+2:16
+breaks the structure so in an uptrend
+2:19
+after we form a higher high a corrective
+2:21
+move will pull down to form a higher low
+2:24
+and then the impulsive move is defined
+2:26
+by the movement that breaks through the
+2:28
+previous higher high forming a new
+2:30
+higher high so those are the impulsive
+2:32
+moves the prot trend larger movements
+2:34
+that break structure corrective moves
+2:36
+are just pullbacks that don't really
+2:37
+break any significant structure but they
+2:40
+allow the formation of new higher lows
+2:42
+to keep us understanding which way the
+2:44
+market is going now eventually Trends
+2:46
+come to an end we can Define when
+2:48
+they're coming to an end by looking at
+2:50
+the higher lows so here we have this
+2:52
+impulsive bullish Trend we have an
+2:54
+uptrend in this market we only want to
+2:56
+buy but what happens if the market comes
+2:59
+down and breaks through this low like
+3:02
+this well now we would get a new
+3:04
+impulsive move this movement here but
+3:07
+this would be a bearish impulse the
+3:10
+reason we know this is an Impulse is
+3:11
+because it's broken through the previous
+3:13
+higher low which breaks this higher high
+3:15
+higher low formation and breaks the
+3:17
+uptrend so from this point onwards we
+3:19
+would instead now be expecting the
+3:21
+market to make a lower high and then a
+3:24
+new lower low and then new lower highs
+3:27
+and lower lows to continue this Market
+3:29
+in downtrending fashion where we
+3:31
+basically shift from this bullish Trend
+3:34
+into a bearish one so here is a view of
+3:36
+that full piece of trending structure we
+3:38
+have bullish impulses and Corrections
+3:40
+where the market is continually breaking
+3:42
+through new higher highs and making new
+3:44
+structural higher highs and lows then we
+3:47
+have that break which is a bearish
+3:48
+impulse that pushes past the higher low
+3:50
+forming a lower low then we get a
+3:52
+pullback corrective move forming a lower
+3:54
+high then we break more structure into
+3:56
+new lower lows and lower highs and so on
+3:58
+so that is how a trend works and it
+4:00
+pretty much runs like this all of the
+4:01
+time the majority of the time in the
+4:03
+market the Market's going to be trending
+4:04
+one way or the other except for of
+4:06
+course those consolidation moves that we
+4:07
+said we don't want to trade now let's
+Liquidity
+4:09
+talk about liquidity liquidity refers to
+4:12
+orders or money now markets move due to
+4:15
+orders and money and transactions taking
+4:17
+place and passing hands in the market
+4:19
+now to understand liquidity we just want
+4:21
+to think about where people are
+4:22
+generally buying and selling from so if
+4:24
+we know in this trending movement here
+4:26
+we have a low a swing low and we have a
+4:29
+s swing high and these have formed in
+4:31
+the market already we know there's going
+4:32
+to be some level of buyers down here we
+4:35
+know there's going to be some level of
+4:37
+sellers at the high okay people trade
+4:39
+different strategies generally once the
+4:41
+markets make highs and lows whether it's
+4:43
+based on supply and demand support and
+4:45
+resistance or any other concept people
+4:47
+will be buying above lows selling above
+4:49
+highs now these Traders generally follow
+4:51
+simple advice the majority of them do
+4:54
+any Trader who buys at a swing low or
+4:57
+just after a swing low is formed will
+4:59
+generally have stop- losses underneath
+5:01
+the low anyone who sells will generally
+5:02
+have stop losses just above the high
+5:04
+it's rare that you buy somewhere in a
+5:07
+trend and then just put your stop loss
+5:08
+in that trending movement as well
+5:10
+generally you want to clear highs and
+5:11
+lows it's common education yes it works
+5:14
+but it also creates a lot of liquidity
+5:16
+so these areas that we've just marked
+5:18
+become liquidity okay there's liquidity
+5:20
+here there's liquidity here now why is
+5:23
+that well that is because there's a
+5:24
+significant number of orders at either
+5:26
+of these levels and markets react to
+5:29
+orders the reason markets move is
+5:30
+because of injections of buying orders
+5:32
+and selling orders now if we know that
+5:34
+multiple Buys have been taking place
+5:35
+here potentially thousands by different
+5:37
+Traders well now we know there's a
+5:39
+collection of thousands of different
+5:40
+orders waiting here in the form of stop
+5:42
+losses as well as this we have breakout
+5:45
+traders who would have sell stop orders
+5:47
+here thinking if the market comes and
+5:48
+breaks through this low I want to be
+5:50
+triggered into a sell to take the market
+5:52
+lower so we have stop losses and we have
+5:54
+sell stop orders under here in the
+5:56
+thousands which creates liquidity we
+5:58
+have the same up here at the top but we
+6:01
+have stop losses for Sellers and then we
+6:03
+have buy stops as well so there's a
+6:04
+whole lot of orders transactions
+6:06
+awaiting at the highs and the lows now
+6:08
+because we know that markets react to
+6:10
+orders where is the market most likely
+6:12
+to react now somewhere randomly in the
+6:14
+middle of this area well probably not
+6:16
+it's more likely to see significant
+6:18
+reactions once highs or lows have been
+6:20
+taken because that is where the orders
+6:22
+are going to be that could potentially
+6:23
+Drive the new movements in the market so
+6:26
+we may hit the swing high and then see a
+6:28
+significant sell lower hit the swing low
+6:31
+see a significant move higher that is
+6:33
+the kind of premise of liquidity forming
+6:35
+above swing highs and swing lows it's
+6:37
+simply the market reacting to areas
+6:39
+where the majority of the orders are
+6:41
+situated okay now as we discussed there
+6:44
+are ways to understand where this is
+6:45
+likely to take place so looking over
+6:47
+here now we have a market that's formed
+6:49
+a bearish impulse then we have two highs
+6:52
+which are level with one another and we
+6:54
+have two almost three lows which are
+6:56
+level with one another now from a
+6:58
+support and resistance approach which
+7:01
+the majority of Traders or beginners are
+7:03
+actually looking at we have a support
+7:05
+and a resistance okay what are Traders
+7:07
+looking to do at support and resistance
+7:10
+well generally what we've just discussed
+7:12
+right Traders want to buy Above support
+7:14
+so there will be buy orders placed here
+7:16
+hoping the market moves higher and
+7:18
+Traders want to sell below resistance so
+7:20
+we know from this there are going to be
+7:22
+stop losses down here there are going to
+7:24
+be stop losses up here and we also get
+7:27
+those sell stops and buy stops as we
+7:29
+discussed okay so up here we have stop
+7:31
+losses from buyers but we also have buy
+7:33
+stops from breakout traders who are
+7:35
+looking for a new high to form down here
+7:37
+we have the stop losses and the sell
+7:39
+stops from Traders looking for the
+7:41
+opposite we have these stop- losses for
+7:42
+buyers but we also have sell stops for
+7:44
+breakout traders who are expecting to
+7:46
+see a kind of break retest scenario in
+7:48
+the market and remember these are very
+7:49
+very common Concepts to trade sometimes
+7:52
+you get stuck in the bubble of kind of
+7:53
+price action Concepts on YouTube but
+7:55
+you'd be underestimating how many people
+7:57
+around the world are trading with
+7:59
+support resistance and these basic
+8:01
+similar Concepts where is the liquidity
+8:03
+then is it sitting in the middle of this
+8:05
+slow moving range no it's at the highs
+8:07
+and the lows it's above here it's below
+8:10
+here this is where the liquidity is this
+8:12
+is where those major reactions are
+8:14
+likely to take place so what we would be
+8:16
+looking for as Traders is for the low to
+8:18
+go and then to look for some opportunity
+8:20
+to trade higher or for the market to
+8:22
+trade Above This high and then this is
+8:25
+where we would look for opportunities to
+8:26
+trade lower so when we understand the
+8:28
+liquidity here what we actually do is
+8:30
+get two beneficial things we get
+8:32
+potential targets at these highs and
+8:35
+lows because if we know that the market
+8:36
+is likely to attack these highs and lows
+8:38
+well then we can find opportunity to
+8:40
+trade towards those levels for example
+8:42
+if the market swept this low well now if
+8:45
+we saw a reaction a reversal in the
+8:47
+price we could look for a long
+8:48
+opportunity back up towards this High
+8:50
+because we know it's likely the Market's
+8:52
+going to come and attack this liquidity
+8:53
+as well and if the structure then agrees
+8:55
+with us the structure being what we've
+8:57
+just discussed and don't worry we'll
+8:58
+elaborate on this more then we have good
+9:00
+means for getting into a position and
+9:02
+tackling the other points of liquidity
+9:05
+now as you can imagine the other thing
+9:06
+it's good for is entries as I've just
+9:08
+highlighted if the market was to come
+9:10
+all the way up here and we know there's
+9:11
+more liquidity down here we can use this
+9:14
+area now that it's been swept to find an
+9:17
+opportunity to sell down so we would
+9:19
+actually look for that structural change
+9:22
+so just like this a market that's
+9:24
+changing from higher highs and higher
+9:25
+lows into lower lows and lower highs we
+9:28
+could sell there and we could look to
+9:29
+tackle the next point of liquidity and
+9:32
+probably now you can see how we're
+9:34
+starting to formulate a trading setup so
+Entry Model
+9:36
+this is the entry model that I want to
+9:38
+show you in this video using structure
+9:41
+and liquidity together let me break it
+9:43
+down what we've got is a bearish market
+9:45
+we have bearish impulses and then we
+9:47
+have the small corrective moves as
+9:49
+discussed now in a bearish market we are
+9:52
+seeing these lower lows and lower highs
+9:54
+form we then want to identify points of
+9:56
+liquidity in the form of those equal
+9:58
+highs as we just discussed so where we
+10:00
+saw the resistance level we know there's
+10:02
+stop losses and buy stops Above This
+10:04
+level that's what we want to identify
+10:07
+now sometimes this is going to formulate
+10:09
+inside of a bearish movement and when
+10:11
+you see this this becomes a very high
+10:13
+probability setup so we are looking for
+10:15
+a market that is bearish forming a
+10:17
+notable trend of lower lows and lower
+10:19
+highs then we want to identify that
+10:22
+liquidity in the form of equal highs or
+10:24
+a resistance and then once the market
+10:27
+breaks those equal highs or break breaks
+10:29
+that resistance level comes into the
+10:31
+area where the liquidity is we will use
+10:33
+a final tip called supply and demand to
+10:36
+find our entry now this Zone here is a
+10:38
+supply zone so it is basically a area
+10:42
+just before a large bearish impulsive
+10:44
+movement down and the concept is once
+10:46
+the market comes into this level again
+10:48
+we would then look to sell so after we
+10:49
+come up into it we see this as a high
+10:52
+probability area to sell from because
+10:54
+we've seen significant selling taking
+10:56
+place from this level before which shows
+10:58
+that this is a level that sellers accept
+11:00
+as a premium price to sell from it's a
+11:02
+good level to sell from the market gets
+11:04
+back here it's seen as a good premium to
+11:06
+sell from again so just to recap this
+11:08
+one more time before I show you an
+11:10
+actual example we are looking for a
+11:12
+bearish trend we want to make sure the
+11:14
+market is forming notable lower lows and
+11:16
+lower highs when it does we are then
+11:18
+looking for the formation of some equal
+11:20
+highs some resistance then once that
+11:23
+resistance is taken we are looking to
+11:25
+sell using that final tip the supply
+11:28
+Zone that we just discussed okay now
+11:30
+this can work on any time frame and
+11:32
+don't worry if this is a little bit
+11:33
+confusing now you will see it in real
+11:35
+markets in just one moment now one final
+11:38
+question you might have about this entry
+11:39
+model is how is this not a break of
+11:41
+structure right as we said when the
+11:43
+market breaks through a previous high or
+11:45
+low this should be seen as a break of
+11:47
+structure so why are we now looking to
+11:49
+sell even though we've had what we could
+11:51
+call a break of structure why don't we
+11:53
+look instead for a continuation into new
+11:56
+buys well the reason for that is because
+11:58
+of how the market re reacts to liquidity
+12:00
+right if this wasn't equal highs if this
+12:02
+wasn't a resistance and this didn't have
+12:04
+a significant amount of liquidity above
+12:06
+it then we would indeed see this break
+12:08
+as a breaking structure but because it's
+12:11
+equal highs because the resistance is
+12:13
+still here the stop loss is the buy
+12:15
+stops all of this stuff is here and the
+12:17
+remainder of this bearish trend is still
+12:18
+intact then it remains possible and
+12:20
+highly likely that this will be a false
+12:23
+break of structure where instead of
+12:25
+breaking and then continuing we break
+12:27
+just to sweep liquidity o the equal
+12:29
+highs so if there wasn't any equal highs
+12:31
+here and the market looked like this
+12:33
+instead then yes we would look to buy
+12:35
+but because we have that resistance
+12:37
+because we have those equal highs it
+12:39
+becomes high probability to sell so when
+12:40
+you're trying to work out whether it's a
+12:42
+Breakin structure or a sweep of
+12:44
+liquidity just consider that do we have
+12:46
+a point of significant liquidity like
+12:48
+equal highs or resistance level if we do
+12:51
+then it's likely the break will actually
+12:53
+fail and actually just sweep liquidity
+12:55
+before continuing the selloff now let's
+12:57
+get to an example of this on the chart
+Example
+12:59
+take a look at this price structure here
+13:01
+we have a large upward move forming a
+13:04
+higher high pull back to form a higher
+13:06
+low a push up to form a new higher high
+13:09
+then we have a higher low a higher high
+13:11
+and then we have this break-in structure
+13:13
+here which brings us into lower lows
+13:15
+Okay so we've just made that shift from
+13:18
+bullish into bearish right we've seen
+13:21
+this structure shifting down now we have
+13:24
+a bearish impulse this becomes a bearish
+13:26
+trend or bearish market so this is our
+13:28
+high this is is our low the market then
+13:30
+comes back and forms this lower high
+13:34
+before coming down to make this lower
+13:36
+low now the reason that we don't really
+13:38
+want to consider this intermediate
+13:40
+structure is because this is what we
+13:41
+call the consolidation that we looked at
+13:43
+right we said there's three phases
+13:45
+consolidations we don't really want to
+13:47
+trade but we can see that this area here
+13:49
+the market didn't really make any
+13:50
+movements other than sideways it's only
+13:53
+when we broke through into the next low
+13:56
+at this level here that we continued
+13:58
+with the bearish trend
+13:59
+so it's kind of just a pause in the
+14:01
+trend where the market does nothing but
+14:02
+go sideways so at this point we have a
+14:05
+bearish trend we've got the impulses
+14:06
+that we want to see we've got the
+14:08
+smaller Corrections and then we've got
+14:10
+this messy consolidation now what forms
+14:12
+during a consolidation well
+14:14
+consolidation areas is where we are
+14:16
+going to get these equal highs that we
+14:18
+just discussed so here we can see one
+14:21
+two pushes up and then a little bit
+14:23
+lower down we've got a bunch of other
+14:24
+pushes as well we could pretty safely
+14:26
+say that this area here as a
+14:29
+or if we wanted to get really refined it
+14:32
+would be this area that I've just marked
+14:33
+out is seen as a resistance in price so
+14:36
+there are going to be sellers somewhere
+14:38
+within this range there will be breakout
+14:40
+Traders at this point now looking for a
+14:42
+break Above This high so traders who are
+14:44
+expecting if this happens their buy
+14:47
+stops will trigger them into buys for a
+14:48
+break retest continuation and there will
+14:50
+also be sellers taking place anywhere
+14:53
+inside of this range could be here could
+14:55
+be even where we are now could have been
+14:57
+previous at this resistance retest
+14:59
+whatever but these sellers are going to
+15:01
+generally in Mass at least a lot of them
+15:04
+as a generalization have stop losses
+15:06
+above these equal highs and above this
+15:08
+high so this creates an area where there
+15:10
+is a significant amount of liquidity
+15:12
+orders or transactions which means if
+15:14
+the market reaches back into this point
+15:16
+such as a sweep above the swing High we
+15:19
+would then look for a continuation lower
+15:21
+that's what we would expect to see okay
+15:23
+if we then consider the final thing we
+15:25
+discussed which was a supply Zone I said
+15:28
+a supply Zone was a consolidation area
+15:30
+before a large downward move now this
+15:33
+candle here is a huge Wick where we
+15:35
+opened and closed at the same level so
+15:37
+this is what we consider as our
+15:38
+consolidation area we are looking for
+15:40
+what I call the last candle before the
+15:42
+impulse this is the last candle before
+15:45
+the bearish impulse that broke structure
+15:47
+so this here that large candle that
+15:49
+large bearish candle is our supply Zone
+15:51
+okay so now we've got a few things let
+15:53
+me annotate we've got our low which
+15:56
+indicates a new bearish trend we we've
+15:59
+got our supply Zone which indicates a
+16:01
+solid level to sell from Once the market
+16:03
+reacts to it once again because it was
+16:05
+seen as a premium to sell from before
+16:07
+and we've got uh equal High liquidity
+16:11
+just above the consolidation which is
+16:13
+going to be pretty much this level here
+16:16
+right we can draw this out it is
+16:18
+relative equal Highs at this time so
+16:20
+we're missing it by about one pip but we
+16:22
+can clearly see this is a resistance
+16:23
+level uh they don't have to be to the
+16:26
+PIP direct equal high stone but they
+16:28
+have to be very very very close to the
+16:30
+point that you know when we take a look
+16:31
+at this you can see how refined and how
+16:33
+close together these levels truly are so
+16:35
+with what we can see here on the chart
+16:37
+let me map out the entry model once
+16:39
+again that we just discussed so we have
+16:41
+our bearish Trend we have the formation
+16:44
+of equal highs within that bearish Trend
+16:47
+we then sweep above the equal highs and
+16:49
+then sell back below so the equal highs
+16:52
+just here the supply Zone just here and
+16:55
+this has to be taking place in a bearish
+16:57
+trend right so we see bearish so we see
+17:00
+bearish impulses equal highs sell from
+17:02
+Supply once equal highs have been swept
+17:04
+bearish impulse equal highs sell from
+17:07
+Supply once equal highs have been swept
+17:09
+so how do we approach this then for an
+17:11
+actual trade position well what we're
+17:13
+now looking for as Traders if you
+17:15
+haven't already guessed it is for the
+17:16
+market to sweep equal highs trade into
+17:18
+Supply and then we will be looking to
+17:20
+sell the market down from there so at
+17:23
+this point we can go ahead and place an
+17:24
+order so our sell limit would be at this
+17:27
+level here the best way to get these
+17:29
+trades it's going to be a sell limit
+17:30
+because a sell limit just triggers you
+17:32
+in once the market reaches that level
+17:34
+you get triggered into a sell and then
+17:36
+if the market reverses as we expect it
+17:37
+to you will then profit for the stop
+17:39
+loss I like to keep it above the high
+17:41
+right we can put it above the supply
+17:43
+Zone that would be fine simply because
+17:45
+we're so close to the high here I'd
+17:47
+actually put it just above the high just
+17:49
+in case the market decides to Wick or
+17:50
+anything that is going to make your
+17:52
+trade a little bit safer if you just
+17:53
+always clear the highs you don't need to
+17:55
+kind of push your luck for the biggest
+17:57
+possible risk reward that's going to be
+17:59
+fine now targets wise what we can do
+18:01
+because we are now in a bearish trend is
+18:03
+just look for open areas below for
+18:05
+targets I like to use once again either
+18:07
+points of liquidity so swing lows or
+18:10
+just areas of demand which would be
+18:12
+basically the opposite of a supply Zone
+18:14
+a consolidation before a large upward
+18:16
+move so if we go take a look at the
+18:17
+bottom of this Movement we have here our
+18:19
+area of consolidation before this large
+18:21
+upward move we could use this as a
+18:22
+Target okay that is our demand Zone
+18:25
+trade would look like this and that
+18:27
+would be the entry model pretty much
+18:28
+prepped out so this would be a solid
+18:30
+trade we now have this price range and
+18:32
+this demand that we can trade through so
+18:34
+what we would do at this point is simply
+18:35
+place a solit order and then allow the
+18:38
+market to run through what we're looking
+18:40
+for is for the market to trade into the
+18:42
+area of Supply as we've just seen happen
+18:45
+and then sell off from there towards
+18:47
+wherever our Target may be in this new
+18:50
+bearish trend now you would have been
+18:52
+safe with your stop above the Zone we
+18:54
+went a little bit higher and put it
+18:55
+above the high which is completely fine
+18:57
+this would be 4.6 9% return for every 1%
+19:00
+risked and it followed that entry model
+19:02
+perfectly we have bearish impulses equal
+19:05
+highs sweep equal highs sell from Supply
+19:08
+and Target further down in the trend and
+19:11
+by the way just to highlight it yes you
+19:13
+can trade this the other way if we were
+19:15
+in a bearish trend that shifted into a
+19:17
+bullish Trend we could actually trade
+19:19
+this using equal lows and demand it
+19:21
+works exactly the same both ways doesn't
+19:24
+matter if you're buying or selling you
+19:25
+just need to be following the correct
+19:27
+Trend so if we begin a new uptrend Trend
+19:29
+you can use equal lows and demand zones
+19:31
+to buy instead of sell using the exact
+19:33
+same entry model so that is a simplistic
+Outro
+19:35
+entry model that you can use to start
+19:37
+putting liquidity and Market structure
+19:39
+together into action in the markets to
+19:41
+make profits from your trading what you
+19:44
+should do next is go to the top Link in
+19:46
+the description of this video and sign
+19:47
+up to my completely free system building
+19:49
+course I show you how to turn this into
+19:52
+a trading strategy then how to back test
+19:54
+it Journal it and validate it so you can
+19:56
+trade it live with an understanding of
+19:58
+the win Ates and other important metrics
+20:00
+if you don't have a system you won't win
+20:01
+it trading so take advantage of it it's
+20:03
+completely free and with that said and
+20:05
+done I'll see you in the next video
+
+
+
+Introduction & Market Structure
+0:00
+people love to over complicate trading
+0:02
+but the truth is there's only a few
+0:04
+Concepts that you need to become
+0:05
+profitable and in this video I'm going
+0:07
+to put them all together for you to show
+0:09
+you how you can build your first trading
+0:11
+system let's get to it an uptrend is a
+0:13
+market that is printing higher highs and
+0:15
+higher lows simply meaning each high
+0:18
+that forms is higher than the previous
+0:20
+and each low that forms is also higher
+0:23
+than the previous a downtrend is the
+0:25
+opposite where a market is forming each
+0:27
+low lower than the previous one such as
+0:30
+this low being lower than this one and
+0:32
+each High evidently lower than the
+0:35
+previous now obviously we want to buy
+0:38
+during uptrends and sell during
+0:40
+downtrends a consolidation is the third
+0:43
+type of phase and a consolidation is
+0:46
+simply a sideways price range that
+0:48
+provides no opportunity for buys or
+0:50
+sells it can pretty much be indicated by
+0:52
+a market that is not forming any
+0:54
+significant new highs or lows so in this
+0:57
+instance you can see each high and low
+0:59
+that's formed with in this range is
+1:00
+confined by the larger structure
+1:03
+consolidation provides no Direction so
+1:05
+there are no trades there through
+1:07
+uptrends we buy through downtrends we
+1:09
+sell now during price movements like
+1:11
+this we get what we call impulses and
+1:14
+Corrections and impulsive move is a prot
+1:17
+trend movement so in an uptrend the
+1:20
+impulsive moves are the strong up moves
+1:23
+an Impulse is defined when a new high
+1:26
+has formed so here we have an Impulse
+1:29
+then we have a a higher low then we have
+1:31
+an impulse and because it broke the
+1:33
+structure and formed a new higher high
+1:35
+at the end of this movement that is why
+1:37
+this becomes an Impulse now each of
+1:39
+these movements in this uptrend are
+1:41
+impulses because they each formed a new
+1:44
+high the same goes for impulses in the
+1:46
+downtrend when the structure breaks to a
+1:48
+new lower low such as when we broke the
+1:51
+structure at this point here and formed
+1:53
+this new lower low that is the impulsive
+1:55
+movement that's the first impulse in the
+1:57
+bearish trend every following movement
+2:00
+that breaks structure from there is also
+2:03
+an Impulse so when we come down and
+2:05
+break through this lower low and make a
+2:06
+new lower low that's an impulsive move
+2:10
+now the other type of movement is the
+2:11
+correction or a corrective move and a
+2:14
+correction is simply a pullback so see
+2:17
+here we have this pullback movement
+2:19
+which forms the higher low that is the
+2:22
+correction and every movement following
+2:25
+is also a correction when it pulls back
+2:27
+to form a new high or low now the reason
+2:29
+that we can Define these as Corrections
+2:31
+and not impulses is because they didn't
+2:33
+break any previous structure so let's
+2:36
+highlight this area just here we can see
+2:40
+that we pulled back from this high and
+2:42
+we came down to this level now because
+2:45
+we didn't break through this higher low
+2:48
+the market Trend stays intact it's an
+2:50
+uptrend because we're still forming
+2:52
+higher highs and higher lows so this
+2:54
+becomes a corrective move and not an
+2:57
+impulsive move if the market had driven
+3:00
+all the way down like this and broken
+3:02
+through the previous higher low then
+3:04
+this would no longer be a correction
+3:06
+this would actually be a bearish impulse
+3:08
+which is generally then what leads into
+3:10
+a new downtrend so when we are trading
+3:13
+we are initially looking to find out
+3:15
+which way the Market's going so let's
+3:17
+say the market is in a downtrend because
+3:19
+we've seen lower lows and lower highs
+3:21
+forming our goal is to then wait for
+3:23
+lower highs to form these corrective
+3:26
+movements and on this pullback on this
+3:28
+corrective move we are then looking to
+3:30
+sell at the high okay so we want to use
+3:33
+these pullback opportunities to sell
+3:35
+from and then our trade would carry on
+3:37
+down into new lows and then we would use
+3:40
+other elements to identify where our
+3:42
+targets are going to be and we will
+3:44
+discuss those shortly so now let's take
+Structure chart example
+3:47
+this concept of structure over to a real
+3:49
+chart and map it out so you can see what
+3:51
+it's all about so we have initially a
+3:54
+low in this market we then have a push
+3:57
+up and we break structure so because we
+4:00
+pushed up and broke structure we can
+4:01
+classify this area as our higher high
+4:04
+the market then pulls back and forms a
+4:06
+higher low then we have a push-up we
+4:09
+form a higher high now the reason we are
+4:12
+classifying this higher high and we're
+4:14
+not so worried about any of the
+4:15
+structure before this is because this is
+4:17
+where we started to break the trend okay
+4:19
+so we have the previous higher high at
+4:20
+the top of that Wick the Market's now
+4:22
+pushed up broken that structure so this
+4:25
+becomes our new higher high we then had
+4:27
+a pull back down from that point to form
+4:29
+a higher low once again and a push to
+4:31
+the upside to create a higher high so if
+4:35
+we consider the trending structure of
+4:37
+this Market this phase is in an uptrend
+4:40
+let's mark the uptrend we have from this
+4:42
+low to here is an uptrend now from this
+4:45
+point onwards we had a little bit of
+4:47
+consolidation which would be pretty much
+4:49
+this area just here the market didn't
+4:52
+really make any ground in that area or
+4:54
+even down to this point either because
+4:56
+at this point we had maintained price
+4:59
+above this higher low so the higher low
+5:01
+is there meaning anything that happens
+5:03
+below this high and above this low is
+5:06
+nothing more than a consolidation but as
+5:08
+you see after this consolidation phase
+5:11
+at around this point here we actually
+5:13
+did get a break of structure where this
+5:16
+higher low was broken so this now puts
+5:19
+us into an impulsive downward Trend
+5:22
+meaning this would be the first impulse
+5:24
+in this bearish trend then we have a
+5:26
+corrective movement back up just here we
+5:30
+have the formation of a lower high the
+5:32
+market comes down makes a lower low we
+5:35
+pull back up we form a lower high we
+5:38
+pull down we make a lower low so that
+5:41
+would be the two phases of Market
+5:43
+structure also the three phases because
+5:45
+we consider the consolidation within we
+5:48
+have the uptrend we have the
+5:51
+consolidation and then we have the start
+5:53
+of the new downtrend here's an
+5:55
+interesting point after we formed this
+5:58
+low in the market we have had this pull
+6:00
+back up and if we consider the structure
+6:02
+that we just marked we have actually
+6:04
+broken a couple of the smaller
+6:06
+structural points but after seeing this
+6:09
+happen the market then sank back to the
+6:11
+downside now this is sometimes going to
+6:13
+happen the market May trick you into
+6:16
+thinking its broken structure and then
+6:17
+it will just continue moving in the
+6:19
+larger bearish Direction okay this is
+6:21
+just something that cannot be avoided in
+6:23
+a game of probabilities but I wanted to
+6:25
+make you aware of that so you could see
+6:26
+that nothing is perfect so in hindsight
+6:29
+now that we've had this kind of
+6:30
+inducement this tricky movement where
+6:32
+the Market's pulled higher we could map
+6:34
+the structure as here's the high lower
+6:37
+low lower high lower low lower high we
+6:40
+could consider this lower low and lower
+6:42
+high then we have this lower low we have
+6:44
+this pull back up which tricks us into
+6:46
+thinking the trend is shifted but then
+6:48
+we have a selloff to the downside now
+6:50
+there are ways to identify when
+6:52
+movements like this are going to be true
+6:53
+breaks in structure or whether they are
+6:55
+just going to be traps I've put a link
+6:57
+in the corner of this video a little
+6:59
+card which will take you to a class on
+7:01
+that so let's extend the structure
+7:02
+mapping a little bit further then we see
+7:05
+we come down through this low we form a
+7:07
+new lower low down here then the
+7:09
+structure starts to shift once again so
+7:12
+our lower low is there we have a lower
+7:14
+high coming in at this level and then
+7:17
+after we form this lower high the market
+7:19
+actually breaks into an uptrend so this
+7:21
+pushup here is the start of a new
+7:24
+uptrending sequence because it's a
+7:26
+bullish impulse from this low up to this
+7:28
+High we have actually now pushed through
+7:30
+the previous High putting us back into
+7:32
+an uptrend and as you can see following
+7:34
+on from that point we then moved into a
+7:37
+phase of bullish price action okay and
+7:39
+this continued for a while so that's
+Supply & Demand theory
+7:42
+concept number one the one that's at the
+7:43
+core of the market market structure now
+7:46
+we're going to move on to another
+7:47
+concept which is the best one for
+7:49
+finding our entries and targets for
+7:50
+positions and that is supply and demand
+7:53
+so here is an example of what supply and
+7:55
+demand looks like in a market a supply
+7:58
+or demand Zone is an area of
+8:00
+consolidation before a large up or down
+8:03
+move demand is for Buys so this is a
+8:07
+demand zone right here in an uptrending
+8:09
+Market a Zone before a large upward move
+8:12
+would be a demand Zone a supply zone is
+8:15
+the same but it's in a selling market so
+8:18
+if the market is in a downtrend we want
+8:20
+to identify once again consolidation
+8:22
+areas before large down moves and this
+8:25
+is where our supply zone is going to be
+8:27
+now to explain the theory behind behind
+8:29
+supply and demand we are basically
+8:32
+considering the auction theory of the
+8:34
+market this supply and demand zone is
+8:36
+taking place between the levels of 1.1
+8:39
+1224 and 1.11 163 and what this means is
+8:43
+that that price range between those two
+8:45
+levels that we've just discussed was
+8:47
+seen as a discount price to buy an asset
+8:50
+now the reason that we see this and the
+8:52
+reason that the market is telling us
+8:53
+this is because this is where the market
+8:55
+took off from previously and because
+8:57
+markets move based on buying and sell
+8:59
+selling that shows that this area here
+9:02
+was where a lot of buying took place CU
+9:03
+that's actually what causes the market
+9:05
+to go up like this the same goes for a
+9:08
+selling movement where this is actually
+9:10
+seen as a premium price to sell from so
+9:13
+if the market gets too high Traders will
+9:15
+start selling and taking profits or
+9:17
+short selling the market expecting it to
+9:19
+go down and the fact that we've seen the
+9:20
+market consolidate and then sell
+9:22
+previously tells us that this is one of
+9:24
+those premium price areas now from a
+9:27
+demand perspective in an uptrend then
+9:29
+think about this if a considerable
+9:31
+number of important Market participants
+9:33
+have seen this price range as a
+9:35
+discounted price to buy from if the
+9:37
+market gets back here would it be
+9:39
+unreasonable that Traders would want to
+9:41
+buy again because it's a discounted
+9:43
+price it's a good price to pay for the
+9:45
+asset that is how supply and demand
+9:48
+works now we can expect that if the
+9:50
+market does make its way back down the
+9:52
+price will be cheap enough for Traders
+9:54
+to buy once again which will lead us
+9:56
+into a new push in the uptrend and the
+9:59
+same is true for selling but we're
+10:00
+seeing that premium price to sell from
+10:03
+you don't want to sell your assets if
+10:04
+they're trading down here or you don't
+10:06
+want to short sell the market down here
+10:08
+cu the price is too low it's better to
+10:10
+sell high and buy low as you've probably
+10:13
+heard people say in the investing in
+10:14
+trading space many times so we are
+10:17
+looking to sell from premium areas and
+10:20
+buy from discount areas when we are
+10:22
+considering supply and demand now when
+How to Plot Supply & Demand Zones
+10:25
+it comes to plotting supply and demand
+10:27
+zones we are going to be using
+10:28
+individual candlesticks a demand zone
+10:31
+for me is the last candle before the
+10:34
+impulsive move to the upside and a
+10:36
+supply Zone would be the last candle
+10:38
+before an impulsive move to the downside
+10:41
+now some people follow a rule that they
+10:42
+should use the last down candle before
+10:44
+the up move and the last up move before
+10:46
+the down candle but for me honestly I
+10:48
+don't mind what color the candle is I
+10:50
+don't care if it's a bearish candle or a
+10:52
+bullish candle I like the last candle
+10:55
+before the impulse and the reason for
+10:57
+this is that last candle before the
+10:59
+market took off is showing the area of
+11:01
+which the major buying was accumulated
+11:04
+because of course the buying immediately
+11:06
+followed so the last candle before the
+11:08
+impulse which is generally going to be a
+11:10
+dogey candle like this with little to no
+11:13
+movement and reasonable Wicks either
+11:15
+side that is where I want to be using
+11:17
+for my supply and demand zones heading
+Supply & Demand on the Charts
+11:19
+into that new phase of upward structure
+11:21
+that we just started to look at we have
+11:23
+the structural shifts from bearish to
+11:25
+bullish so we have this lower low lower
+11:28
+high lower low
+11:29
+and then we have this break into a
+11:31
+higher high then we start the uptrend
+11:33
+now once the market breaks into this
+11:35
+higher high just here this is where we
+11:37
+can start identifying where to buy from
+11:40
+and this is where we're going to use
+11:42
+supply and demand now obviously because
+11:44
+we're in an uptrending Market here our
+11:46
+focus is going to be on demand zones we
+11:48
+only want to buy demand in uptrends and
+11:50
+sell Supply in downtrends now as I've
+11:53
+said the last candle before the impulse
+11:56
+is going to be where I want to buy from
+11:58
+so we can see here we have have this
+11:59
+candle this dogee candle as we said
+12:01
+before an indecision candle with Wicks
+12:04
+either side and we would use the supply
+12:07
+and demand and we would use this to plot
+12:10
+our supply and demand zones this is
+12:11
+going to be a demand zone now because
+12:14
+this was seen as a discounted price to
+12:16
+buy from and because this is where we
+12:18
+started to see a new movement into a new
+12:20
+trend this demand would be the area we
+12:23
+would look to buy from and when the
+12:25
+market returns to this level we would be
+12:27
+happy to buy from here so our Buy
+12:29
+position would be executed at this area
+12:32
+just here specifically pretty much along
+12:35
+this level now when we're using supply
+12:38
+and demand for buys we would generally
+12:39
+be entering on the top of the zone and
+12:42
+our stop loss would go below the zone so
+12:45
+the stop loss would be under the low to
+12:48
+make sure that we have a safe entry and
+12:50
+a safe stop loss meaning a hypothetical
+12:53
+position buying from this demand would
+12:55
+be a buy there with a stop there and
+12:57
+then our targets would look to extend
+12:58
+through into new highs because we know
+13:01
+the market is now in an uptrend as you
+13:03
+can see pushing this forward that is
+13:05
+exactly what happens so now we've paired
+Market Efficiency Theory
+13:08
+structure with supply and demand but
+13:10
+there's one more thing we need to
+13:11
+consider and that is the theory of
+13:13
+market efficiency and inefficiency this
+13:16
+Theory suggests the market trades in two
+13:18
+different scenarios efficient scenarios
+13:21
+and inefficient scenarios an efficient
+13:23
+scenario is basically a market that is
+13:26
+continually moving either up or down but
+13:28
+reach testing every demand or Supply
+13:31
+zone so you can see that in this phase
+13:34
+we have pushes away we form demand zones
+13:36
+and then we come back and we retest
+13:38
+those demand zones so there was no open
+13:41
+gaps left in price every time we form a
+13:43
+demand we pull back and we retest that
+13:46
+demand now an inefficient Market is
+13:49
+actually where we start to form open
+13:51
+price ranges like this here so you can
+13:55
+see from this Movement we formed a
+13:56
+demand Zone then we had that nice
+13:58
+impulse away from the demand zone so we
+14:00
+know we're in an uptrend but the market
+14:02
+hasn't yet come back to retest that
+14:04
+demand so this actually leaves us with
+14:06
+what we would call an imbalance or an
+14:08
+inefficient price range so this open
+14:12
+price move here pretty much below this
+14:14
+low is going to be the imbalance or the
+14:17
+inefficiency and when we see
+14:18
+inefficiencies like this it's very much
+14:21
+likely that the market will fill this at
+14:23
+some point in the future before
+14:25
+continuing with the significant movement
+14:26
+of the trend so if we were to see the
+14:29
+market pull back as I've just drawn on
+14:31
+even though we would actually be seeing
+14:33
+a Breakin structure at this point we
+14:36
+wouldn't immediately consider this
+14:37
+shifting into a downtrend because we
+14:39
+know there's still this inefficiency
+14:41
+that is likely to be filled now there
+14:43
+generally won't be many transactions
+14:44
+taking place between these
+14:46
+inefficiencies between these open price
+14:48
+ranges so when we see an inefficiency
+14:50
+open like this we are very much
+14:52
+interested in seeing the market pullback
+14:53
+through that because there's not many
+14:55
+orders taking place within and the
+14:57
+orders will be waiting down here when
+14:59
+orders are activated that opens doors to
+15:01
+new reversals and new movements in the
+15:03
+market let's translate this to the
+15:05
+charts we had the structural shifts to
+Imbalance on the Charts
+15:08
+the upside we marked out our demand Zone
+15:10
+and now with that new tip in mind you
+15:12
+can see we actually have one of those
+15:14
+open price ranges just here so although
+15:16
+the market if we considered it from a
+15:18
+lower time frame perspective has formed
+15:20
+higher high higher low higher high
+15:23
+higher low higher high higher low higher
+15:26
+high and then we actually broke some
+15:27
+structure to the downside just here this
+15:30
+wouldn't become a full-blown downtrend
+15:32
+we would only use this to Target any
+15:34
+inefficient price ranges which would
+15:35
+mean we would only use this to at
+15:37
+maximum target cells into this demand
+15:40
+because once this demand is filled it's
+15:42
+likely that we react from this
+15:44
+inefficiency we fill the inefficiency we
+15:46
+hit demand and then we get a new bounce
+15:48
+into new upward price action as we've
+15:50
+seen take place in this market so with
+15:53
+that efficiency in mind and inefficiency
+15:56
+in mind these can be really great places
+15:58
+to Target for shorter term small trades
+16:01
+so we could look at Short positions sell
+16:03
+positions through this range here and
+16:06
+second of all actually use for our
+16:07
+entries now on that note we would never
+16:10
+want to buy from a demand Zone that
+16:11
+wasn't efficient so see here for example
+16:15
+we have a demand the market retested
+16:18
+this demand already buying at that point
+16:21
+would be okay on the first retest of
+16:23
+demand but now that this demand has been
+16:25
+retested it should absolutely not be
+16:28
+used for f future Buys so this area here
+16:31
+would absolutely not be valid for any
+16:32
+buys because there is no inefficiency
+16:34
+left in this Zone whereas the Zone below
+16:37
+still has that inefficiency so this one
+16:39
+would be the good one for our position
+16:41
+to take place so all things considered
+16:44
+then this position has had a break of
+16:46
+structure to the downside and then a
+16:48
+break of structure to the upside
+16:50
+Shifting the market into bullish price
+16:52
+action or an uptrend in doing so we
+16:55
+found a demand Zone kicked off the
+16:57
+movement which is this demand Zone down
+16:59
+here and just above the demand zone is
+17:01
+an open price range also known as
+17:04
+inefficiency or an imbalance which adds
+17:07
+to the fact that this is likely to be
+17:08
+filled and makes this area here a high
+17:12
+probability place to buy from now
+17:14
+because we know the market is now in an
+Trade Setups & Top Down Analysis
+17:15
+uptrend we have pretty clear targets of
+17:18
+either targeting previous highs such as
+17:20
+this High here or extending the trade
+17:22
+even further to tackle some of the open
+17:24
+Supply areas up here we could actually
+17:27
+consider this area of supply
+17:29
+for a potential Target now that the
+17:31
+trend is moving up our buy position then
+17:34
+for a nice simple setup would be buy
+17:36
+limit on the demand Zone stop loss
+17:39
+beneath the demand Zone and then Target
+17:41
+into either previous highs in the trend
+17:43
+or open areas of imbalanced Supply or
+17:46
+demand in this instance because we are
+17:48
+now in an uptrend our Target would
+17:50
+become this open imbalanced Supply Zone
+17:53
+and as you can see the market trades
+17:55
+through and fills into this region
+18:00
+so for full transparency the one I've
+18:01
+just showed you was not a trade that I
+18:03
+took but the one I'm about to show you
+18:05
+is and it follows the exact same piece
+18:07
+of price action and uses the exact same
+18:09
+Concepts and it's a safer better trade
+18:12
+now in order for me to show you this
+18:13
+next trade example I first need you to
+18:16
+understand the concepts of Swing
+18:17
+structure and substructure it's not too
+18:19
+complicated don't worry basically swing
+18:22
+structure is going to be the larger
+18:24
+movements so when we're in an uptrend
+18:26
+the swing structure movements are those
+18:28
+important Ive movements that we see if
+18:30
+we see a market like this we know it is
+18:32
+bullish from a swing structure
+18:34
+perspective but the concept suggests
+18:36
+that within the swing structure uptrend
+18:38
+in the corrective movements there's
+18:40
+going to be smaller Trends so let's say
+18:42
+we are looking at the 4-Hour time frame
+18:45
+for this bullish upward Trend within the
+18:48
+1 hour and 30 minute time frames we may
+18:50
+see bearish price action and bearish
+18:53
+Trends happening within the corrective
+18:55
+movements so we will actually see
+18:57
+smaller Trends inside of the larger
+18:59
+Trend when we start to look at different
+19:01
+time frames and what we can actually do
+19:03
+as Traders is use this lower time frame
+19:05
+structure to validate trades even more
+19:08
+if we think that we found the higher low
+19:11
+in an uptrending Market we can actually
+19:13
+use that substructure and the lower time
+19:15
+frame Trends within the higher time
+19:17
+frame Trends to identify shifts of their
+19:20
+own so see here in this downward
+19:22
+trending Market we have this lower high
+19:25
+we have this lower low and then the
+19:26
+market breaks up to form this higher
+19:28
+high High well this would be the
+19:30
+validation of a bullish movement on the
+19:33
+lower time frame we have validation of
+19:35
+bullish movement on the higher time
+19:36
+frame so as soon as we get this
+19:38
+agreement that we're seeing in this area
+19:40
+here that confirms setups and gives us
+19:42
+the highest probability way to get into
+19:44
+trades now I don't want to confuse you
+19:46
+with this too much so let's jump back
+19:48
+over to the charts and we'll show you
+19:50
+how that works in reality so this is the
+19:52
+trade we've just been looking at we had
+19:54
+the break of structure just here we have
+19:56
+this higher high the market came down we
+19:58
+retested here and formed a higher low
+20:01
+and then the market pushed up and this
+20:03
+is where we're going to be considering
+20:04
+that sub and swing structure now from
+20:07
+this perspective just real quick we can
+20:08
+see that with this shift from bearish to
+20:11
+bullish we now have a swing structure
+20:14
+bullish Market okay the higher time
+20:15
+frame structure that we're viewing there
+20:17
+is definitely bullish so we want to buy
+20:20
+now if we consider then the range from
+20:22
+this high down to this low this is where
+20:25
+the substructure concept comes in we can
+20:27
+actually see that within this movement
+20:30
+we've got smaller Trends so we have this
+20:32
+kind of higher high higher low higher
+20:35
+high then we break into a lower low a
+20:37
+lower high a lower low a lower high and
+20:40
+then we have this area lower low lower
+20:42
+high then we have the low okay so within
+20:45
+the corrective movement of this bullish
+20:48
+trend on the higher time frame we can
+20:50
+notice a visible bearish trend on a
+20:52
+slightly lower time frame or a more
+20:54
+refined view we have this point here
+20:56
+which is a potential lower high and then
+20:59
+we have this point here which is more
+21:00
+clear as a definite lower high okay so
+21:04
+what we would be looking for would be a
+21:06
+break in the trend to then confirm that
+21:09
+this lower time frame agrees with the
+21:12
+higher time frame which is now bullish
+21:14
+so we've seen bullish higher time frame
+21:17
+we want to see this now agree with a
+21:18
+bullish lower time frame and as you can
+21:21
+see here when the market pushes above
+21:24
+these structural points that validates
+21:27
+that the low time frame now agrees with
+21:29
+the high time frame which means we can
+21:31
+use the other Concepts we've covered to
+21:33
+find a very safe trade so now that the
+21:35
+low time frame agrees from a structural
+21:37
+perspective we want to number one use
+21:39
+imbalance to identify open price ranges
+21:42
+number two use last candle before the
+21:44
+impulse to identify areas of supply and
+21:47
+demand and then we would be ready to
+21:49
+start making our trades so we have an
+21:51
+efficient range now that the market has
+21:53
+filled that previous area of demand that
+21:55
+we just looked at we've had a lower time
+21:57
+frame shift and structure forming higher
+22:00
+Highs at this point here we've then had
+22:02
+a pull back to fill this imbalance or
+22:05
+this market inefficiency and we've had a
+22:08
+retest of this demand zone so if we were
+22:11
+to place our buy limit on this demand
+22:13
+Zone with a stop- loss just below the
+22:15
+low and once again following that same
+22:17
+thesis of targeting previous highs in
+22:20
+the trend such as this open imbalance
+22:23
+Supply Zone we would be able to get a
+22:25
+confirmed entry from there and the the
+22:28
+reason we call this a confirmed entry is
+22:30
+because we haven't just worked with this
+22:32
+higher time frame structure to find the
+22:34
+position but we've actually now seen the
+22:36
+exact same thing taking place on a lower
+22:38
+time frame so we basically have this
+22:40
+exact same format happening on a smaller
+22:43
+scale which means the high time frame
+22:45
+agrees with the low time frame which
+22:46
+gives us the highest probability entry
+22:49
+for our positions risk to reward is how
+The Risk to Reward Edge
+22:51
+much you risk versus how much you stand
+22:54
+to gain so in this position we risk 1%
+22:57
+for the potential to make 6% as you can
+23:00
+see just there this means that we only
+23:03
+would really have to be right one out of
+23:05
+every five times in order to be a
+23:07
+profitable Trader now obviously with a
+23:09
+system that's going to achieve around
+23:10
+50% win rate you will win more trades
+23:12
+than that but it gives you extra peace
+23:14
+of mind that you don't have to win every
+23:16
+trade to remain
+23:18
+profitable and that's it that's how you
+23:20
+can use three simple price action
+23:22
+Concepts to build a successful trading
+23:24
+system now I've got a free course
+23:26
+there's a link in the description and
+23:27
+that's going to show you you how to
+23:29
+build a trading system that you can
+23:30
+repeatedly apply to the markets for
+23:32
+consistent profitability hit the link in
+23:34
+the description to check that out and if
+23:36
+you don't want to do that or you've
+23:37
+already seen it check out this video
+23:39
+instead that's all from me thank you for
+23:41
+watching and I'll see you in the next
+23:43
+video

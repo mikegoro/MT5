@@ -1,0 +1,1434 @@
+
+Introduction to changes
+0:00
+A few months ago, I shared the full
+0:01
+coding of a highfrequency trading robot.
+0:03
+I applied it once in the live trading
+0:05
+environment and broadcast it. In the
+0:06
+video, I promised that if and whenever I
+0:08
+will make some modifications to the EA,
+0:10
+that I will definitely share it. But my
+0:12
+health so far didn't allow me to do so.
+0:14
+But now that I'm starting to post again
+0:15
+before I share more full coding
+0:17
+tutorials, I thought I will start with
+0:19
+sharing the modification that I want to
+0:21
+apply to this EA, which is the
+0:22
+aggressive trading stop-loss from the
+0:24
+scalping year. It just makes sense for
+0:26
+me to want to try that. This HFT is an
+0:28
+aggressive trading bot. So aggressive
+0:30
+trading as soon as we get into the
+0:32
+profit territory just makes sense to me
+0:33
+and it actually might work. Now I
+0:35
+haven't tried it but I want to. And if
+0:37
+you want to try it with me as well, get
+0:39
+your laptop, make a cup of coffee, and
+0:41
+let's start to code it.
+4 Important Points about the Bot
+0:45
+Number one, the EA is supposed to be
+0:46
+applied for a very small period of time.
+0:49
+The EA generates so many orders and
+0:50
+modifications that if you leave it on
+0:52
+for a longer period of time, your broker
+0:54
+is going to ban you. Number two, the EA
+0:56
+is logically designed for a very very
+0:58
+very high momentum period like news on
+1:01
+market open times. So, it probably will
+1:03
+work best when the market is moving in
+1:04
+one direction with a very high momentum.
+1:06
+During dull times, it's going to eat
+1:08
+away at your profit like your girlfriend
+1:09
+with a credit card. Number three, it's
+1:11
+going to generate a lot of trades. So,
+1:13
+logically, you want to apply it to pairs
+1:15
+or asset classes where the spreads are
+1:17
+very low. Otherwise, your broker is
+1:19
+going to get rich. Also, remember to
+1:20
+choose pairs that have high momentum. I
+1:23
+tried it on gold, but I might want to
+1:24
+try it on Dow Jones and Bitcoin when I
+1:26
+see strong momentum. Number four, a
+1:28
+friend of mine shared this trading bot
+1:29
+with me. I haven't used it fully. I'm
+1:32
+not advocating that you use it and
+1:33
+become an overnight millionaire. No, I'm
+1:36
+just sharing what I have and what I find
+1:37
+interesting. I don't know what will
+1:39
+happen, how it will perform, and I
+1:41
+cannot predict the future. With all that
+1:43
+said, with no more shenanigan, let's
+1:45
+start coding.
+Start of the Coding
+1:48
+Let's start with the year where we left
+1:49
+it off. So this is the original code my
+1:51
+friend shared with me and this is what
+1:53
+I've shared in this video and let's
+1:55
+start to make changes to it. So today
+1:56
+we're going to add the trailing
+1:58
+stop-loss to it. So after our inputs
+2:00
+from the last time, we're going to add
+2:02
+one more section and we're going to call
+2:04
+it the trailing stop-loss management.
+2:06
+And here we're going to create an enum.
+2:08
+If you have been following my videos,
+2:09
+you know why we create an enum. So we
+2:11
+can have this dropdown
+2:13
+which is a default trailing scalping
+2:16
+previous candle and fast MA and 10%.
+2:19
+That's what we are writing here. So
+2:20
+default trailing is zero which is the
+2:22
+original trailing stop loss which the
+2:24
+friend shared with me. Then we are going
+2:25
+to add to it a scalping trail, a
+2:28
+previous candle trail, a fast moving
+2:30
+average trail and using the Ichimoku a
+2:32
+10% trail. That's what we have added
+2:34
+into the scalping robot and that's what
+2:36
+we're going to add to this as well. Once
+2:37
+we have this enum now we can use it. So
+2:39
+we say input TSL type which is using
+2:42
+this enum and then we create a variable
+2:44
+by the name of trail type and we're
+2:46
+going to call it one. So scalping trail
+2:48
+is the default now. So once you compile
+2:52
+you will be able to see here this
+2:54
+trailing this this default trailing
+2:57
+drop-down will appear in the input tab.
+3:00
+These are the original inputs and now we
+3:02
+have added the trailing stop-loss
+3:03
+management to it as well. Now if the
+3:05
+user selects the trailing of the stop-
+3:07
+loss to be a scalping then we need to
+3:09
+ask the user
+3:12
+what is the trigger point how much the
+3:14
+trade needs to be in profit before the
+3:16
+trailing of the stop- loss is triggered
+3:18
+and when it is triggered by how much
+3:20
+distance are we trailing the stop- loss
+3:22
+to the price. So 15 will basically mean
+3:25
+that once the trade has moved into
+3:26
+profit by 1 and a half pip that's when
+3:29
+the trailing stop loss will trigger and
+3:31
+10 means the actual trailing of the stop
+3:34
+loss is going to be kept at a distance
+3:36
+of one pip from the current price. Now
+3:38
+if the user selects previous candle or
+3:40
+fast MA or 10 consent then we need to
+3:42
+create variables for that as well. So
+3:44
+we're going to create more sections and
+3:46
+we're going to say if the trailing is by
+3:47
+previous candle then you need to define
+3:50
+how many candles does it need to be
+3:51
+trailed on. So one will mean on the last
+3:54
+candle, two will mean last on last
+3:56
+candle and so on and so forth. And if
+3:58
+the trailing is by fast moving average,
+4:00
+then we ask the user to define what is
+4:02
+the fast moving average period. So is it
+4:04
+a 50 EMA, 5 EMA, 2 EMA, 10 EMA? What is
+4:09
+the mode? Is it simple or exponential
+4:11
+moving average? And what is the applied
+4:13
+price type? Is it median or close, etc.,
+4:16
+etc. Now if I compile it again and we go
+4:19
+back now we're going to see here after
+4:21
+this these sections also appear. So in
+4:24
+points if you have if you have selected
+4:26
+the scalping trailing type then you need
+4:28
+to define this. If you have selected
+4:30
+previous candles then you need to define
+4:32
+here how many candles to trade it by.
+4:34
+And if you have selected the trailing by
+4:35
+fast moving average then you need to
+4:37
+define what is the period for that fast
+4:40
+moving average. Is it exponential,
+4:43
+simple, smoother, linear?
+4:45
+And what is the price type? Low price,
+4:47
+low of the price, high of the price,
+4:48
+close of the price, open of the price or
+4:51
+normally the median. We have defined
+4:54
+here the default parameters.
+4:58
+And here the user can select. After
+5:00
+that,
+5:02
+we also need to create two more
+5:04
+variables.
+5:05
+the handle for the moving average and
+5:08
+the handle for the ichimoku because
+5:10
+we're going to be we're going to be
+5:11
+getting the information of the fast
+5:13
+moving average based on these
+5:14
+parameters. In case of the trailing on
+5:17
+10 consent, we need to get the handle
+5:18
+for for ichimoku as well. So we're going
+5:20
+to define this here. Then we go to the
+5:23
+on initialization function because
+5:25
+that's where we're going to initialize
+5:27
+the handles for ichimoku and fast moving
+5:29
+average. So here I'm going to add these
+5:31
+code. So if the trailing so if the
+5:33
+trailing type is three which is coming
+5:36
+back here. If the trailing type is three
+5:38
+which is the fast moving average then we
+5:40
+need to initiate the handle for the
+5:43
+moving average by calling the function
+5:45
+IMA providing it the symbol which is the
+5:48
+current symbol the period which is the
+5:51
+current period. So whatever is on the
+5:53
+chart then what is the moving average
+5:56
+the what is the period for the moving
+5:57
+average itself and that is what we
+5:59
+collected from the user here.
+6:03
+So five in our case then the mode
+6:08
+which is is it EMA or SMA and then the
+6:12
+applied price.
+6:14
+So this is the function. So we're going
+6:16
+to get the value of the moving average
+6:18
+by calling this function or initialize
+6:20
+it in the initialization.
+6:22
+And then if the trailing type is four
+6:25
+which is the tenkinson
+6:28
+then we need to initialize then we need
+6:30
+to initialize the handle for ichimoku.
+6:33
+So we get iichimoku providing it the
+6:35
+current symbol. So whatever is on the
+6:36
+chart for the current time period
+6:38
+whatever is on what is whatever is the
+6:41
+time frame for the chart and getting for
+6:43
+the values of 926 and 52 which are the
+6:46
+generic standard for the ichimoku 9 26
+6:49
+and 52 periods and then if we go down to
+6:53
+our on function
+6:56
+you will see within the on function here
+6:58
+we had the codes for processing the open
+7:01
+positions which was within the on
+7:04
+function.
+7:05
+processing the open position for PI type
+7:09
+and for cell types. And now because we
+7:11
+are creating five different types of
+7:13
+trailing, we cannot continue to build
+7:15
+the code within the on tick function
+7:16
+because it's going to become too big. So
+7:18
+we're going to go down to the bottom and
+7:20
+we're going to create a separate
+7:21
+function and let's call it trail stop.
+7:24
+So this is going to be the function
+7:25
+where we're going to create all of the
+7:27
+conditions around the trailing of the
+7:29
+stop- loss and then we're going to call
+7:30
+this function from the on tick function
+7:32
+on every tick. So the first thing I'm
+7:34
+going to do
+7:36
+is I'm going to go up to where we were
+7:40
+processing all of the open positions and
+7:42
+I'm going to cut paste the entire thing.
+7:45
+So I'm going to cut it from here
+7:48
+and I'm going to paste it within the
+7:51
+trailing of the stop-loss function. So
+7:53
+now this processing of the open position
+7:57
+which was the default which came with
+7:59
+the code that my friend shared with me,
+8:01
+we copy paste it here. So now it's part
+8:03
+of this function and now because we are
+8:06
+creating five different types and we
+8:07
+have given it certain numbers which the
+8:11
+user can select up here which is the
+8:13
+default trailing which is the original
+8:15
+code is zero scalping is one previous
+8:18
+candle is two fast MA is three and 10
+8:21
+consent is four.
+8:24
+So now these codes should only be run
+8:27
+when the original trailing method is
+8:30
+selected here the default trail and this
+8:34
+we're going to achieve by saying here
+8:37
+that if the trailing type is zero
+8:42
+then only
+8:46
+run all of these run all of these codes.
+8:49
+So everything within this is going to be
+8:51
+run only when the trail type is zero.
+8:54
+Now we open this parenthesis. So we need
+8:56
+to close it as well. So after this line
+8:59
+I'm going to close it.
+9:02
+And let's just click here to make sure
+9:04
+that this one is properly closed. So I
+9:06
+see here and here that this these two
+9:09
+are properly matching and these are
+9:10
+closed. And before we go on to the other
+9:13
+conditions, what we need to do here is
+9:15
+say return, which is if the trailing
+9:17
+type is zero, which is the default, then
+9:19
+you run all of these codes until here
+9:22
+and then you return. You mean you exit
+9:25
+this function, you don't go below
+9:27
+because if the trail type is zero, you
+9:29
+just simply run these codes and then you
+9:31
+exit the function. You don't run the
+9:32
+course for scalping trailing, fast
+9:35
+moving average trailing, tenons and
+9:36
+trailing and those kind of things. And
+9:38
+this is why we say here return. So that
+9:39
+after all of these codes are run, we
+9:41
+exit the function. But if the trailing
+9:44
+type is not zero, all of this is not
+9:46
+going to be run. The system is going to
+9:48
+come here and this is where we're going
+9:50
+to start to build the version two
+9:51
+changes. We're going to start by
+9:53
+creating some variables. So a stop-loss
+9:55
+as a double. Double means it will have
+9:57
+decimal values. And we're starting it
+9:59
+with a value of zero. Same for TP. The
+10:02
+ask price is going to be equal to symbol
+10:04
+ask price. Whatever is the current
+10:06
+chart, the ask price of that. And bid is
+10:09
+going to be whatever is on the current
+10:11
+chart, the bid price of that. And we're
+10:14
+also checking for the stop levels. What
+10:16
+are the stop levels? So, how much gap
+10:18
+does the broker require the trailing
+10:19
+stop loss to be from the price which is
+10:22
+currently in the market. Some brokers
+10:24
+allow zero. So, you can set the trailing
+10:26
+stop-loss immediately below, but some
+10:28
+brokers require that you have distance
+10:31
+like one pit, two pip of the stop-loss
+10:34
+from the current price. So, we're going
+10:36
+to check for that. And then the last
+10:38
+variable I'm creating is indicator
+10:40
+buffer and it's an array variable
+10:41
+meaning it can store more than one value
+10:43
+at a time and we're going to create it
+10:45
+as a double so it can store decimal
+10:47
+places.
+10:49
+So with these I'm going to loop through
+10:51
+all of the current positions which are
+10:53
+open. So we do that by starting a four
+10:58
+and creating another variable by the
+11:00
+name I as an integer and saying whatever
+11:03
+is the total positions. So what however
+11:05
+many positions are open currently minus
+11:08
+one. So the value starts at one low
+11:10
+because the loops run from zero to
+11:13
+whatever number. So if there are five
+11:14
+positions open the loop is going to run
+11:16
+for 0 1 2 3 and four. So you need to go
+11:19
+total positions minus one because zero
+11:21
+should also be included. And then we say
+11:24
+as long as the value of the i is greater
+11:26
+than or equal to zero and on every
+11:28
+iteration reduce it by one by saying i
+11:31
+-. i - basically means whatever is the
+11:34
+value of i minus one. So start from four
+11:37
+then three then 2 then 1 then zero and
+11:40
+then on the next iteration is going to
+11:42
+be minus one. So it's going to be less
+11:43
+than zero. So don't run the loop
+11:45
+anymore. So loop through all of the
+11:47
+positions and then if the position
+11:50
+select by index I which basically means
+11:52
+if you're successful in selecting the
+11:54
+position and select it by index of I. So
+11:57
+whatever so if you're on the fourth then
+12:00
+the index is four then three then two
+12:01
+then 1 then zero select it and if you
+12:04
+are able to select it then get the
+12:06
+ticket number of that position by saying
+12:08
+by creating a ulong variable. U is a
+12:11
+long number creating a variable ticket
+12:12
+and assigning to it the position input
+12:15
+ticket. So whatever is the position
+12:17
+whatever position is selected the ticket
+12:19
+number of that then if the position info
+12:22
+magic number so selected positions magic
+12:25
+number equals to our magic number which
+12:28
+is here the user defines it. So if the
+12:32
+magic number is input magic number so
+12:34
+provided by us and the symbol of the
+12:36
+position is also our symbol then we know
+12:39
+this is our trade and on the current
+12:41
+chart. If that is true, then first we
+12:44
+check if it's a buy position or a sell
+12:47
+position because we're going to change
+12:48
+the stop- loss for a buy differently
+12:50
+from sell. So if it's a buy position,
+12:53
+then we check that if the bid minus the
+12:56
+price open is greater than the TSL
+12:59
+trigger point, meaning it whatever
+13:01
+trigger point we have set if the price
+13:04
+has come above it because otherwise
+13:06
+we're not going to change the stop loss.
+13:08
+So if it is above this, it's time to
+13:10
+change the stop loss. Now then the DP
+13:12
+value which we created here is now going
+13:16
+to be assigned the take-profit value of
+13:18
+the position. And now we're going to
+13:20
+start looping through all of the types
+13:22
+of the trailing stop-loss. So if the
+13:24
+case is one, which is the aggressive
+13:27
+trailing stop-loss, then the stop-loss
+13:31
+becomes the current price, the bid in
+13:33
+the market minus the TSL point. So how
+13:35
+much to trail it by times the points. So
+13:38
+that will be our stop loss. and then we
+13:40
+say break so that if you find it to be
+13:43
+case one stop loss equals this and then
+13:46
+you break this switching you don't
+13:49
+switch through the second case but if it
+13:51
+wasn't case one so if it wasn't the
+13:53
+aggressive trail type then you're not
+13:55
+going to break you're going to go to
+13:57
+case two and in that case the stop loss
+13:59
+is going to be the low of whatever
+14:02
+number of candles the user has defined
+14:03
+so if the user has defined it to be
+14:05
+three candles then on the current chart
+14:08
+with the current symbol
+14:10
+get the low value of the that candle
+14:13
+like three candles previous two candles
+14:15
+previous and then break. So that's going
+14:17
+to become the stop loss. Then in case if
+14:20
+the switch type is three which is the
+14:22
+fast moving average then in that case we
+14:24
+need to copy the value of the main line
+14:27
+from the handle trailing by moving
+14:30
+average which we created above and
+14:32
+initialized
+14:34
+here in the on initialization function.
+14:37
+So we're going to use this handle and
+14:39
+for Ichimoku we're going to use that
+14:40
+handle.
+14:42
+In case the value is three which is the
+14:44
+fast moving average then in that case
+14:46
+copy the value from the handle [music]
+14:48
+trailing moving average. The main line
+14:51
+is starting at one. Get one value only
+14:54
+because we only need one and copy it
+14:56
+into the indicator buffer array variable
+14:59
+that we had created
+15:02
+that we have created here. and then set
+15:04
+this indicator buffer as a series.
+15:06
+Normally when you have more than one
+15:08
+value, you want to set it in in in an
+15:10
+order by index. And this is what it
+15:12
+does. But because we're getting only one
+15:14
+value, you might want to skip this if
+15:15
+you want. But just a good practice to
+15:17
+always set it as a series. And then the
+15:20
+stop loss in this case is going to
+15:21
+become whatever is the value in the
+15:23
+indicator buffer at position zero. It
+15:25
+goes from 0 1 2 3 4 5. We had stored it
+15:28
+into the indicator buffer only one
+15:30
+value. So that's going to be at index
+15:32
+zero. So normalize that with digits. So
+15:35
+however many digits there are on that
+15:37
+currency pair. So let's normalize it and
+15:40
+then that will become the stop loss and
+15:42
+then we break so that we don't go to
+15:44
+case four. But if it is neither case one
+15:47
+nor case 2 nor three then we go to case
+15:50
+four which is the Ichimoku 10 consent.
+15:53
+And here like the moving average now
+15:54
+we're going to use the handle Ichimoku.
+15:56
+We're going to get the value of the 10
+15:58
+consent line starting position one only
+16:00
+one value. and store it into the
+16:03
+indicator buffer.
+16:05
+Again, we set it as a series, just a
+16:07
+good practice. And now the stop loss is
+16:09
+going to become whatever is the
+16:10
+indicator buffer at zero index, which is
+16:14
+because it's only one value. So, it's
+16:15
+going to be at zero index. [music]
+16:17
+We normalize it for the number of digits
+16:19
+for symbols. So, for example, gold has
+16:21
+probably five digits or sometimes three.
+16:24
+Bitcoin has two, I guess. Um, USD JPY
+16:28
+has three. Euro USD GBBUSD have five.
+16:32
+[music] So we normalize it and then we
+16:34
+break. So at the end of this switching
+16:37
+depending on which is the trail type the
+16:39
+stop loss is either going to come out to
+16:40
+be TSL point or the previous candle
+16:43
+value or the moving average value or the
+16:46
+tenon value or in case if it was zero
+16:50
+then it would be the default.
+16:53
+So once we have gotten the value of the
+16:55
+stop-loss we go that if the stop-loss is
+16:59
+greater than the position in for the
+17:01
+stop loss meaning whatever is the
+17:02
+previous stop- loss now if the stop loss
+17:04
+is higher than that for a buy position
+17:07
+we want to move it and if it's not zero
+17:10
+because we don't want calculation to
+17:12
+give us a zero number so it has to be
+17:15
+checked that it is not zero and then it
+17:18
+is bigger than the price open which
+17:20
+means that we don't want to have the
+17:22
+stop loss trailing below below whatever
+17:24
+was the opening price. We want it to be
+17:26
+above the opening price and it's not
+17:29
+smaller than the bid. That's just a
+17:30
+check to make sure that it is not below
+17:33
+the current market price. Otherwise,
+17:35
+it's just going to be rejected by the
+17:36
+broker. If all of these conditions are
+17:38
+met, then we change the stop-loss by
+17:40
+using the trade position info, providing
+17:43
+it the ticket that we got here,
+17:48
+and sending the new stop-loss and
+17:50
+sending the same TP that we got from the
+17:52
+position info. So original take profit.
+17:54
+Now we need to first close this
+17:56
+parenthesis.
+17:58
+So I'm going to close it. And let's just
+18:00
+check that this is closing the
+18:02
+parenthesis here. And we need to close
+18:05
+the parenthesis here as well.
+18:09
+And this parenthesis close is for this
+18:13
+if statement. So we are now back again
+18:16
+to if position magic in if position
+18:18
+magic number is our magic number and the
+18:20
+symbol is our symbol. So this is where
+18:22
+we are because we have closed down this
+18:24
+one and we have closed down this one. So
+18:27
+now we go else if the position type is
+18:31
+sell then we start by checking the same
+18:34
+thing which is if ask is now because now
+18:37
+we are looking at the sell position. So
+18:39
+we need to look at the ask price. So if
+18:42
+ask plus the trailing stop-loss trigger
+18:44
+point is smaller than the open price. So
+18:47
+the ask price has moved below the
+18:49
+opening price and it has moved more than
+18:53
+the TSL trigger point. In that case, we
+18:56
+will want to start trading and we do
+18:58
+exactly the same thing as above. For the
+19:00
+sell position, for the buy position, we
+19:02
+went
+19:04
+we went get the TP value. So we're going
+19:06
+to get the TP value again. We're going
+19:08
+to switch through all of the trailing
+19:09
+types. So if it's case one, then the
+19:11
+stop loss is whatever is the ask price
+19:14
+plus the TSL point because now we're in
+19:16
+the sell position. So the the trailing
+19:18
+of the stop loss is going to be above
+19:20
+the price. So ask plus the trailing stop
+19:23
+loss. If it is case two for the trail
+19:25
+type, which is the previous candle, then
+19:26
+we get the high of the previous candle.
+19:29
+Again, it's a sell position, so you want
+19:30
+to set it at the high of the previous
+19:32
+candle or high of whatever number of
+19:34
+candle the user wants. If it is moving
+19:37
+average, then we just get the moving
+19:38
+average number. And if it is the
+19:40
+ichimoku then we get the 10 consent line
+19:42
+number. So once we get those values just
+19:45
+like the buy position we're now going to
+19:47
+go if the stop loss is below the
+19:51
+original stop-loss which we got from the
+19:53
+position info and it's not zero. So
+19:55
+these calculations are not giving us a
+19:57
+zero value because it can accidentally
+20:00
+happen that you get a zero value here
+20:02
+and then all of a sudden your stop loss
+20:03
+becomes zero or it disappears. I mean
+20:06
+it's more relevant for the buy position
+20:08
+than sell position. So for sell position
+20:10
+the stop loss of zero is just going to
+20:11
+be rejected. But I'm going to check it
+20:13
+that it's not zero and that it is below
+20:16
+the opening price. So whatever the
+20:18
+opening price of the trade is it is
+20:19
+below that. So we want to trade and that
+20:22
+the current stop loss that we have
+20:23
+calculated is is still above the ask. So
+20:26
+it is still above the current market
+20:27
+price. So the order is not going to be
+20:29
+rejected. And then we proceed to modify
+20:32
+exactly the same way as for the Y
+20:33
+position by providing the ticket number,
+20:36
+the new SL and the old TP. The TP
+20:40
+doesn't change. So once we are here, we
+20:43
+need to close all the brackets properly.
+20:45
+So I need to close this and this
+20:46
+bracket, which I'm going to do here. So
+20:48
+this one closes this bracket and this
+20:50
+one closes this bracket. So now we are
+20:54
+at bracket this one. So we need to close
+20:57
+this as well.
+21:00
+So we close that bracket as well. And
+21:02
+now we are at bracket this one. So we
+21:07
+need to close this one as well. So we
+21:09
+close it. And now we are at bracket 4,
+21:14
+the for loop bracket. So let's close
+21:17
+that one as well. So now we have closed
+21:20
+the entire looping.
+21:22
+And now we are back again to the trail
+21:24
+stop-loss.
+21:26
+So this last bracket is basically
+21:28
+exiting the function. If I compile now
+21:32
+everything compiles properly and I don't
+21:35
+have any app now that we have completed
+21:37
+the trail stop-loss function as a
+21:39
+separate function that we can call. So
+21:41
+let's go back above
+21:45
+and here where we deleted the entire
+21:47
+section of trailing the stop loss in the
+21:49
+previous version. This is where we're
+21:51
+going to call the trailing stop-loss. So
+21:54
+I'm going to write here
+21:56
+changes in V2 all trading moved all
+21:59
+trading has been moved to trailing
+22:00
+stop-loss function and here we call the
+22:01
+trailing of the stop- loss. So once the
+22:04
+orders have been placed and the EA comes
+22:07
+down here the next thing it's going to
+22:10
+do is process all of the open positions
+22:12
+like before. But before all of the codes
+22:15
+for trailing the stop- loss in the
+22:16
+original version were here but now we
+22:18
+have moved it all to this new trailing
+22:21
+the stop-loss function. And this is why
+22:23
+now we can call it here. So from here it
+22:26
+jumps
+22:28
+to the trail stop loss and then it
+22:30
+checks whether is the trail type zero
+22:31
+which is the default. And in case it is
+22:34
+the default then it will still do
+22:35
+exactly the same processing of the
+22:37
+positions like before. But in case the
+22:40
+user has selected one of the four new
+22:43
+methods that we have added, then it's
+22:44
+going to go through all of the positions
+22:46
+and go through all of these to calculate
+22:48
+the stop-loss for the buy positions and
+22:50
+the sell positions and change or modify
+22:54
+that stop loss according to what's
+22:56
+according to whatever comes from the new
+22:57
+calculations. So this is how we're going
+22:59
+to trade it. So this is it for our
+23:01
+coding tutorial for including these four
+23:03
+more trading types into our codes. I
+23:05
+haven't tested it. I like the trailing
+23:08
+stop-loss of the scalping year. This one
+23:10
+is an extremely aggressive EA as well,
+23:12
+just like the scalping year. So, I
+23:14
+thought that it will make sense for me
+23:15
+to try the trailing stop-loss from the
+23:17
+scalping year with this EA as well and
+23:19
+see how it does. Now, one more thing,
+23:22
+this is the the trailing stop-loss from
+23:24
+the scalping year. And you can see how
+23:26
+easily with one set of codes as a trail
+23:29
+stop-loss separate function and calling
+23:31
+it within the ontick function, we can
+23:34
+utilize it. That basically means that
+23:36
+you can use this in any of the EAS that
+23:38
+you currently have. If you have the
+23:40
+course and you want to include to any
+23:42
+existing EA the trailing stop-loss of
+23:45
+the scalping year, this is how you can
+Testing the new Trailing Stops
+23:48
+do it. Now, I'm going to do a very quick
+23:50
+test for maybe just one or two
+23:52
+positions. So, let's put it here a
+23:54
+block. So, if whenever the stop loss for
+23:57
+the buy position is modified and
+23:59
+whenever the stop loss for the sell
+24:01
+position is modified. The first one I'm
+24:03
+going to check is the trailing based on
+24:05
+a scalping year. So if I go back here
+24:08
+now we have selected that. So if I start
+24:12
+so here the EA has has stopped and if I
+24:16
+run this one more time then I can come
+24:19
+back here and I can see that the
+24:20
+trailing is happening according to the
+24:22
+TSL values that we have set which is one
+24:25
+pip at this point in time. So this seems
+24:27
+to be working. So you can see that it is
+24:29
+trading very closely. If I go next, next
+24:32
+next a few more times, you can see that
+24:34
+it is continuing to trail at the
+24:36
+distance of one pip. And once again
+24:38
+guys, because these candles are huge
+24:41
+candles, so these have the momentum. And
+24:44
+this is where this EA can come alive,
+24:46
+which is it opens a trade and very
+24:47
+aggressively trail. So these are the
+24:49
+kind of candles that you want to see
+24:52
+when you want to apply this EA big
+24:54
+candles in one direction or big momentum
+24:56
+in the market. Let's quickly see if we
+24:59
+can get a sell position as well. So you
+25:02
+can see that the trading is still
+25:03
+happening.
+25:05
+So if I continue pressing the play
+25:07
+button, maybe we remove this here and
+25:10
+let's go until we have a sell position.
+25:12
+So now we have a sell position
+25:13
+somewhere. And now I can see that for
+25:15
+the sell position as well, the trailing
+25:16
+is starting to trail once we are in
+25:18
+profit by more than the trigger of the
+25:20
+stop-loss points. It is trailing at one
+25:22
+pip difference. Let's click it a few
+25:25
+more times to see. Yeah, it is trailing.
+25:28
+So the the code seems to be working. I'm
+25:31
+going to put the stop here again. And
+25:33
+now we're going to try the previous
+25:36
+candle. So if I again go and start in
+25:39
+the debug mode, we can see here one
+25:42
+position has started and the year has
+25:44
+come to a stop here because now we are
+25:47
+in a sell position. I think so if I play
+25:49
+one time next. So this is a buy position
+25:53
+and sell position. So I can see that it
+25:56
+is trailing at the bottom of the
+26:00
+previous candle. So this is a new candle
+26:02
+and it is at the bottom of the previous
+26:03
+candle. So we have a sell position for
+26:06
+which we are trailing at the top of the
+26:08
+previous candle. You can see here.
+Very Important to Understand
+26:12
+So this is it with the modification of
+26:14
+the existing HFTA including to it the
+26:16
+scalping trading trailing stop-loss
+26:19
+method. I think after trying this for a
+26:21
+while I would want to make more changes
+26:23
+to it. So once I make those changes, I
+26:25
+will come back and I will update here as
+26:27
+well. I will make this available in the
+26:29
+store as well. But once again for the
+26:31
+store, the idea is not that you are
+26:32
+buying an EA from me. The idea is if you
+26:35
+don't want to write the codes yourself,
+26:37
+you don't have time or you're making
+26:38
+mistakes and you're stuck somewhere.
+26:40
+This can be used as a reference. I
+26:43
+cannot be selling something which I'm
+26:45
+sharing 100% completely free in the
+26:47
+videos. It's only if you don't want to
+26:49
+write the codes or you are unable to or
+26:51
+you're stuck somewhere and cannot figure
+26:53
+it out. There is this reference help
+26:55
+available. I have a couple more years
+26:57
+that I want to share the entire coding
+26:58
+tutorial in the coming weeks if my
+27:01
+health allows. So until next time guys,
+27:03
+stay safe and trade safe. [music]
+27:10
+[music]
