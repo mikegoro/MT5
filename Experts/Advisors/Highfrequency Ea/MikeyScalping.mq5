@@ -144,6 +144,20 @@ input string   _s4_                      = "=== Session Filter ===";
 input enumTime SessionStart              = Inactive; // Start time (broker server time)
 input enumTime SessionEnd                = Inactive; // End time (broker server time)
 
+//--- Grid behaviour derived from the video audit (see MikeyScalping_AUDIT.md).
+//--- These are NOT part of AXIOM's input panel; they exist because the observed
+//--- behaviour needs values the screenshots could not supply.
+input string   _s5_                      = "=== Grid Behaviour (audit) ===";
+input int      LayerIntervalSeconds      = 10;  // Seconds between grid layers (ESTIMATE - tune this)
+input int      MaxGridTiers              = 4;   // Hard cap on lot tiers (safety, not observed)
+
+//--- Short-session operation: attach for a 10-15 minute window, hit a target,
+//--- come off flat. The session is defined by SessionStart/SessionEnd above.
+input string   _s6_                      = "=== Session Target & Flatten ===";
+input double   SessionProfitTarget       = 0;     // Close all + stop at this session profit ($). 0 = off
+input bool     CloseAllAtSessionEnd      = true;  // Flatten everything when the window closes
+input bool     BlockLayersOutsideSession = false; // Also stop adding layers outside the window
+
 //--- symbol geometry
 int      g_digits          = 0;
 double   g_point           = 0;
@@ -154,8 +168,9 @@ int      g_slippage        = 0;      // deviation in points
 
 //--- cycle / recovery state
 int      g_recoveryLevel   = 0;      // 0 = normal, 1..MaxRecoveryAttempts = recovering
-double   g_cycleBaseLot    = 0;      // fixed lot for every layer of the active cycle
+double   g_cycleBaseLot    = 0;      // tier-1 lot for the active cycle (recovery-scaled)
 datetime g_cycleStart      = 0;
+datetime g_lastLayerTime   = 0;      // AUDIT B5-2: layering is time-gated, not price-gated
 bool     g_cycleActive     = false;
 
 //--- daily / circuit breaker state
@@ -163,6 +178,12 @@ datetime g_dayStart        = 0;
 double   g_dailyClosed     = 0;
 bool     g_haltedForDay    = false;
 bool     g_haltedByDrawdown= false;
+
+//--- session state
+datetime g_sessionOpenTime = 0;      // when the current session window opened
+bool     g_inWindowPrev    = false;  // for detecting window open/close transitions
+bool     g_haltedForSession= false;  // session profit target reached
+double   g_sessionProfit   = 0;      // realised since session open + current floating
 
 //--- dashboard
 string   g_dashPrefix      = "Tremor";
@@ -218,8 +239,9 @@ int OnInit()
    BasketStats(cnt, vol, wavg, profit, dir, lastEntry);
    if(cnt > 0)
    {
-      g_cycleActive = true;
-      g_cycleStart  = EarliestPositionTime();
+      g_cycleActive   = true;
+      g_cycleStart    = EarliestPositionTime();
+      g_lastLayerTime = TimeCurrent();   // don't fire a layer the instant we attach
    }
 
    CreateDashboard();
@@ -254,6 +276,9 @@ void OnTick()
 {
    RollServerDay();
 
+   //--- session window transitions, flatten-on-close, and the session target
+   ManageSession();
+
    //--- circuit breaker 1: floating drawdown against balance
    if(CheckDrawdownBreaker())
       return;
@@ -277,13 +302,13 @@ void OnTick()
 //+------------------------------------------------------------------+
 void ManageEntries()
 {
-   if(g_haltedByDrawdown || g_haltedForDay)
+   if(g_haltedByDrawdown || g_haltedForDay || g_haltedForSession)
       return;
 
    int cnt; double vol, wavg, profit, lastEntry; int dir;
    BasketStats(cnt, vol, wavg, profit, dir, lastEntry);
 
-   //--- no basket: start a new cycle at the recovery-scaled base lot
+   //--- no basket: start a new cycle at the recovery-scaled tier-1 lot
    if(cnt == 0)
    {
       //--- new cycles only inside the session window; an already-open basket
@@ -294,39 +319,71 @@ void ManageEntries()
       g_cycleBaseLot = NormalizeVolume(InitialLotSize * MathPow(MartingaleMultiplier, g_recoveryLevel));
 
       ENUM_ORDER_TYPE type = EntryDirection();
+      double lot = TierLot(0);
       double sl = 0, tp = 0;
-      ComputeInitialStops(type, g_cycleBaseLot, sl, tp);
+      ComputeInitialStops(type, lot, sl, tp);
 
-      if(SendMarketOrder(type, g_cycleBaseLot, sl, tp, "TREMOR cycle R" + IntegerToString(g_recoveryLevel)))
+      if(SendMarketOrder(type, lot, sl, tp, "TREMOR cycle R" + IntegerToString(g_recoveryLevel)))
       {
-         g_cycleActive = true;
-         g_cycleStart  = TimeCurrent();
+         g_cycleActive   = true;
+         g_cycleStart    = TimeCurrent();
+         g_lastLayerTime = TimeCurrent();
       }
       return;
    }
 
-   //--- existing basket: add a layer only on an adverse move of DistanceForPending
-   if(cnt >= MaxSimultaneousPositions)
+   //--- AUDIT B5-1 / B6-2 / B7-1: MaxSimultaneousPositions is the number of
+   //--- positions held PER LOT TIER, not a cap on the basket. Baskets of 7, 8,
+   //--- 9, 10, 11, 12, 14 and ~17 positions were all observed against a setting
+   //--- of 5. The old `cnt >= MaxSimultaneousPositions` block was wrong.
+   //--- MaxGridTiers is our own safety ceiling; AXIOM shows no equivalent input.
+   //--- optional: stop building an in-flight basket once the window closes
+   if(BlockLayersOutsideSession && !InTradingWindow())
       return;
 
-   double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
-   double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
-
-   bool adverseMoveReached = false;
-   if(dir > 0)
-      adverseMoveReached = (lastEntry - ask) >= DistanceForPending;
-   else
-      adverseMoveReached = (bid - lastEntry) >= DistanceForPending;
-
-   if(!adverseMoveReached)
+   int tier = CurrentTier(cnt);
+   if(tier > MaxGridTiers)
       return;
 
-   //--- every layer inside a sequence keeps the same fixed base lot
+   //--- AUDIT B5-2 / B6-3 / B7-2: layer spacing is TIME based, not price based.
+   //--- 59 measured gaps between consecutive entries ranged 0.00 to 1.47 with no
+   //--- floor and no mode at any value, and layers were added both with and
+   //--- against the basket. A distance gate cannot produce that; a fixed
+   //--- interval sampling whatever price is current can.
+   if((TimeCurrent() - g_lastLayerTime) < LayerIntervalSeconds)
+      return;
+
+   double lot = TierLot(cnt);
    ENUM_ORDER_TYPE type = (dir > 0) ? ORDER_TYPE_BUY : ORDER_TYPE_SELL;
    double sl = 0, tp = 0;
-   ComputeInitialStops(type, g_cycleBaseLot, sl, tp);
+   ComputeInitialStops(type, lot, sl, tp);
 
-   SendMarketOrder(type, g_cycleBaseLot, sl, tp, "TREMOR grid " + IntegerToString(cnt + 1));
+   if(SendMarketOrder(type, lot, sl, tp,
+                      "TREMOR L" + IntegerToString(cnt + 1) + " T" + IntegerToString(tier)))
+      g_lastLayerTime = TimeCurrent();
+}
+
+//+------------------------------------------------------------------+
+//| Lot tier helpers                                                 |
+//|                                                                  |
+//| AUDIT B5-1: lot escalates INSIDE an open basket, stepping up      |
+//| every MaxSimultaneousPositions positions, and the step is LINEAR  |
+//| (0.01 -> 0.02 -> 0.03), not the x2 the spec described. Verified   |
+//| against 13 of 14 reconstructable baskets via total-margin decode. |
+//+------------------------------------------------------------------+
+int CurrentTier(const int existingCount)
+{
+   int perTier = MathMax(1, MaxSimultaneousPositions);
+   return((existingCount / perTier) + 1);
+}
+
+double TierLot(const int existingCount)
+{
+   int tier = CurrentTier(existingCount);
+   if(tier > MaxGridTiers) tier = MaxGridTiers;
+
+   //--- g_cycleBaseLot already carries any between-cycle recovery scaling
+   return(NormalizeVolume(g_cycleBaseLot * tier));
 }
 
 //+------------------------------------------------------------------+
@@ -371,6 +428,18 @@ void ComputeInitialStops(const ENUM_ORDER_TYPE type, const double lots, double &
 //|                                                                  |
 //| Solves for the price at which the whole basket is worth the      |
 //| target, then writes that price to every position's TP.           |
+//|                                                                  |
+//| *** UNVERIFIED — CONTRADICTED BY THE VIDEO ***                   |
+//| AUDIT item 4: baskets were observed sitting open at +1.35, +3.71,|
+//| +5.55, +8.61, +10.47 and +14.71 against ProfitTargetInDollars of |
+//| 0.50, and no per-trade TP at 1.00 ever fired either. So AXIOM is |
+//| NOT exiting on a fixed basket target.                            |
+//|                                                                  |
+//| None of the 32 screenshots shows a basket closing, so the real   |
+//| exit rule is unknown. This is left in place deliberately:        |
+//| removing it without a replacement would leave baskets with no    |
+//| defined exit at all. Treat it as a placeholder, not as verified  |
+//| behaviour.                                                       |
 //+------------------------------------------------------------------+
 void SyncBasketTakeProfit()
 {
@@ -566,6 +635,66 @@ void RollServerDay()
       g_haltedForDay = false;
       g_dailyClosed  = 0;
       Print("TREMOR: new server day - daily counters reset");
+   }
+}
+
+//+------------------------------------------------------------------+
+//| Session manager                                                  |
+//|                                                                  |
+//| Built for short-window operation: attach for 10-15 minutes in the |
+//| NY session, work toward a fixed dollar target, come off flat.     |
+//|                                                                  |
+//|  - window opens  -> reset the session counters                    |
+//|  - target hit    -> close everything, stop until the next window  |
+//|  - window closes -> flatten if CloseAllAtSessionEnd               |
+//+------------------------------------------------------------------+
+void ManageSession()
+{
+   bool inWin = InTradingWindow();
+
+   //--- window just opened: start a fresh session
+   if(inWin && !g_inWindowPrev)
+   {
+      g_sessionOpenTime   = TimeCurrent();
+      g_haltedForSession  = false;
+      g_sessionProfit     = 0;
+      PrintFormat("TREMOR: session opened, target %.2f", SessionProfitTarget);
+   }
+
+   //--- window just closed: flatten if asked
+   if(!inWin && g_inWindowPrev)
+   {
+      if(CloseAllAtSessionEnd && CountPositions() > 0)
+      {
+         PrintFormat("TREMOR: session closed at %.2f - flattening %d positions",
+                     g_sessionProfit, CountPositions());
+         CloseAllPositions();
+      }
+      else
+      {
+         PrintFormat("TREMOR: session closed at %.2f", g_sessionProfit);
+      }
+   }
+
+   g_inWindowPrev = inWin;
+
+   //--- running session P/L: realised since the window opened, plus floating
+   if(g_sessionOpenTime > 0)
+   {
+      int cnt; double vol, wavg, floating, lastEntry; int dir;
+      BasketStats(cnt, vol, wavg, floating, dir, lastEntry);
+      g_sessionProfit = RealizedProfit(g_sessionOpenTime - 1, TimeCurrent() + 1) + floating;
+   }
+
+   //--- target reached: bank it and stand down for the rest of the window
+   if(SessionProfitTarget > 0 && inWin && !g_haltedForSession &&
+      g_sessionProfit >= SessionProfitTarget)
+   {
+      PrintFormat("TREMOR: session target hit (%.2f >= %.2f) - closing all",
+                  g_sessionProfit, SessionProfitTarget);
+      CloseAllPositions();
+      g_haltedForSession = true;
+      UpdateDashboard();
    }
 }
 
@@ -898,7 +1027,7 @@ void CreateDashboard()
    ObjectSetInteger(0, bg, OBJPROP_XDISTANCE,  10);
    ObjectSetInteger(0, bg, OBJPROP_YDISTANCE,  20);
    ObjectSetInteger(0, bg, OBJPROP_XSIZE,      290);
-   ObjectSetInteger(0, bg, OBJPROP_YSIZE,      232);
+   ObjectSetInteger(0, bg, OBJPROP_YSIZE,      250);
    ObjectSetInteger(0, bg, OBJPROP_BGCOLOR,    C'22,26,32');
    ObjectSetInteger(0, bg, OBJPROP_BORDER_TYPE,BORDER_FLAT);
    ObjectSetInteger(0, bg, OBJPROP_COLOR,      C'70,78,90');
@@ -916,7 +1045,8 @@ void CreateDashboard()
    MakeLabel("Lot",     22, 164,  9, C'175,185,195');
    MakeLabel("Daily",   22, 182,  9, C'175,185,195');
    MakeLabel("Sess",    22, 200,  9, C'175,185,195');
-   MakeLabel("Status",  22, 222,  9, C'235,240,245');
+   MakeLabel("Target",  22, 218,  9, C'175,185,195');
+   MakeLabel("Status",  22, 240,  9, C'235,240,245');
 }
 
 void SetLabel(const string name, const string text, const color clr)
@@ -948,11 +1078,12 @@ void UpdateDashboard()
             (dd >= ddLimit * 0.5 ? bad : neutral));
    SetLabel("Float", StringFormat("Floating P/L %10.2f", profit),
             (profit >= 0 ? good : bad));
-   SetLabel("Pos",   StringFormat("Positions    %10d  / %d", cnt, MaxSimultaneousPositions),
-            neutral);
+   int tier = CurrentTier(cnt);
+   SetLabel("Pos",   StringFormat("Positions    %10d    tier %d/%d", cnt, tier, MaxGridTiers),
+            (tier >= MaxGridTiers ? warn : neutral));
    SetLabel("Rec",   StringFormat("Recovery lvl %10d  / %d", g_recoveryLevel, MaxRecoveryAttempts),
             (g_recoveryLevel > 0 ? warn : good));
-   SetLabel("Lot",   StringFormat("Base lot     %10.2f", g_cycleBaseLot),
+   SetLabel("Lot",   StringFormat("Next layer   %10.2f   (base %.2f)", TierLot(cnt), g_cycleBaseLot),
             (g_recoveryLevel > 0 ? warn : neutral));
    SetLabel("Daily", StringFormat("Closed today %10.2f  / %.2f", g_dailyClosed, DailyProfitTarget),
             (g_dailyClosed >= 0 ? good : bad));
@@ -968,10 +1099,18 @@ void UpdateDashboard()
    else
       SetLabel("Sess", "Session           inactive (24h)", neutral);
 
+   if(SessionProfitTarget > 0)
+      SetLabel("Target", StringFormat("Session P/L  %10.2f  / %.2f", g_sessionProfit, SessionProfitTarget),
+               (g_sessionProfit >= SessionProfitTarget ? good :
+                g_sessionProfit >= 0 ? neutral : bad));
+   else
+      SetLabel("Target", "Session P/L       no target set", neutral);
+
    string status = "TRADING";
    color  sclr   = good;
 
    if(g_haltedByDrawdown)      { status = "HALTED - DRAWDOWN BREAKER"; sclr = bad;  }
+   else if(g_haltedForSession) { status = "DONE - SESSION TARGET MET"; sclr = good; }
    else if(g_haltedForDay)     { status = "HALTED - DAILY TARGET MET"; sclr = warn; }
    else if(cnt > 0)            { status = StringFormat("IN BASKET (%s)", dir > 0 ? "BUY" : "SELL"); sclr = neutral; }
    else if(filterOn && !inWindow) { status = "WAITING - OUTSIDE SESSION"; sclr = warn; }

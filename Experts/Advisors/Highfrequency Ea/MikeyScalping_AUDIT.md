@@ -683,6 +683,28 @@ is unknown.
 Also unknown: **what opens a cycle and what picks its direction.** Our
 last-closed-bar rule remains a pure invention with zero supporting evidence.
 
+## ONE observed exit — recovered from balance arithmetic
+
+S10 -> S8 is an actual close, missed on first pass.
+
+```
+S10  balance 11.81   equity 12.16   1 buy 0.01 @ 4337.49 -> 4337.84  = +0.35
+                                    Orders: sell 0.01 at market, "started"
+S8   balance 12.16
+```
+
+11.81 + 0.35 = 12.16 exactly. The in-flight sell order in S10 was the close, and
+the position exited at **+$0.35**.
+
+That is **below** `ProfitTargetInDollars` (0.50) and far below
+`TakeProfitPerTrade` (1.00), so neither is the exit trigger for a single
+position. A trailing stop armed at some higher price and hit on a retrace fits;
+so does a time-based exit. One sample cannot distinguish them.
+
+Also relevant: **no basket was ever observed shrinking.** Across 32 shots,
+baskets only ever gain positions (S22->S21, S12->S1). Weak evidence that exits
+close the whole basket at once rather than leg by leg.
+
 ## Recommended changes, in order of confidence
 
 1. **Remove the 5-position cap; make 5 the per-tier count.** High confidence,
