@@ -1,0 +1,1264 @@
+
+Intro
+0:00
+I know I'm making a big claim that this is potentially the most comprehensive time r that you can find on the internet
+0:05
+I might be wrong and this is where you come in you will be the judge of that but let's start by looking at all the
+0:11
+features that have built into this time range year so far and then let's make it Greater by even more suggestions so with
+All Features of the EA
+0:17
+no motion any Gans let's start now feature one the E can form a
+0:23
+range based on a start time and an end time defined by the user feature two the user can Define what the minimum or the
+0:29
+maximum range SI price can be so anything outside of that the range is going to be invalid and the year is not
+0:34
+going to take a trade then feature three the user can decide to trade either one-sided or both sided if you select
+0:40
+one-sided then after the range has developed the year is going to place an order at the top of the range and at the
+0:46
+bottom of the range but if one of them is triggered and you have selected one-sided the other one is going to be deleted both sided will mean that even
+0:53
+if the trade has been taken on one side the order place on the other side will still stay until the end of the day and if the price comes back in the other
+1:00
+Direction and hits that one that trade will also be taken then the fourth feature is you can either trade with the
+1:06
+break or opposite to it so if you select with the break the EA is going to trade when the breakout happens and take the
+1:11
+trade in that direction but if you select opposite to the break then the EA is going to place the order opposite to
+1:18
+the break which is if the break is going to happen on this side the EA is going to place a buy order here and the sell
+1:24
+order here like this so now if the price comes back to that range level then we're going to be taking taking a sell
+1:30
+instead of a buy now this goes against the trend but don't worry we're going to apply a moving average filter and A Juku
+1:37
+filter to make sure that we only trade in the direction of the trend the fifth feature is you can decide whether the
+1:42
+lot SI is going to be fixed or as a percentage of the capital if you select fix then you're going to have to provide
+1:48
+the value and if you select risk as a percentage of capital then you have to Define what risk on one trade are you
+1:54
+willing to take and the sixth feature is a simple one which is defining the stop- loss and TP as a percentage of the R so
+2:00
+if the range is 30 Pips and you say 100% that will mean 30 Pips PP and 30 Pips stop loss if you say 200% PP then the TP
+2:08
+is going to be double the stop loss then the seventh feature is on the stop- loss whether you want to Trail it or you don't want to Trail it if you don't want
+2:14
+to Trail it then you define what the fixed Pips are going to be but if you choose to Trail it then you have three
+2:20
+other options the first one is as a percentage of the range so if the range size is 30 Pips and you select 80% of
+2:26
+the range then that's going to be 24 Pips that the trailing is going to happen on so here our order is triggered and the trailing stop starts to move by
+2:33
+the percentage of the range that we have provided if you want the trailing to happen by the recent high and low in the market then the EA is going to Trail the
+2:40
+stop loss by whatever is the recent low or high in the market plus a small buffer that the user can Define and here
+2:47
+you define the buffer so if you're defining it to be two Pips below the low or two Pips above the high that's what
+2:53
+the E is going to trail by so this is the most recent low so the trailing is going to happen two Pips below this low
+2:58
+and then you have the option of tra trailing by fixed Pips amounts so if you say 30 Pips is the trailing the trailing
+3:03
+is going to happen by 30 Pips only then feature number 8 9 and 10 are related to filters the first one is the news filter
+3:09
+so you can define whether you want to filter out a day for a news and you can Define it by giving a keyword from the
+3:15
+title of the news for example NFP jels non-farm PMI Etc against a currency and
+3:21
+you can Define more than one currency if you want as long as there's a combination of the keyword and the currency the EA can find in the next
+3:28
+upcoming whatever number of days you find here that day the trading is going to be disabled then the ninth feature
+3:33
+I've added is a moving average filter and this is to establish that we trade in the direction of the trend the EA is
+3:39
+going to look at whether the fast moving average is above the slow moving average and if that is the case it's only going
+3:44
+to put a buyer stop this way we ensure that we're only trading in the general direction of the trend and not opposite
+3:50
+and then the 10th feature is an ichimoku filter and here if you turn it through you have a lot of options to Define how
+3:58
+to define the trend so you can Define the trend by if the price is above the cloud the price is above tenken Sun line
+4:03
+the price is above kijan Sun line Senus span a or Senus span B then you can also have the option of saying no only buy
+4:11
+when 10 consen is above kij junen or 10 consen is above kij junen which are both
+4:16
+above the cloud or tenen is above the cloud or keunen is above the cloud let's first look at Price above the cloud so
+4:23
+now even though we have told the year to trade on both side the year is going to look whether the price is above the cloud or is it below the cloud and if
+4:29
+it's above the cloud then it's only going to place a buy order and not the sell order and if it's below the cloud
+4:34
+then it's only going to place the sell order and not the buy order and if it is inside the cloud the price then nothing
+4:40
+is going to happen the E is not going to place any trade at all and this is where the taking of the trade on the opposite
+4:45
+side comes into place so for example this is the range but because the price is above the cloud so we only interested
+4:50
+in taking a buy but we place the buy at the bottom so we are trading on the opposite side but it's still trading in
+4:57
+the general direction of the trend by only taking a buy but now we're getting the buy not here but here so at a
+5:04
+discounted price you can go price above the cloud price above 10 consent kijun senan senen B you can also select when
+5:11
+tenen is above Ken or Ken is above Cloud or 10 is above Cloud and all sorts of
+5:17
+combinations which are available so e is only going to take the trade in the general direction of the trend based on the parameters that you define on the
+5:24
+filter and then you have the possibility to either trade with the break so getting a higher price or wait for the
+5:30
+price to come back to the bottom of the range and then take the trade the downfall of that is that the price might
+5:36
+never come back to that level and you miss the trade at all so these are the features that we currently have in the EA but I will be looking through the
+5:42
+comment section and collecting suggestions and if I have enough good suggestion then I will make more videos of how to incorporate those suggestions
+5:50
+to make it even tighter so with no further Ado let's start coding the
+Important Point
+5:55
+year before we start the video just one very important point and I cannot emphas ize this enough follow the video and
+6:02
+code it for yourself because that way you will know what the coding is and how the year is written yes for people who
+6:07
+downloaded to still follow the video and understand the entire coding procedure so you know how this EF works and what
+6:14
+are the codes written behind so you can use them in the best possible way so with no further Ado let's start with the
+Global Variables
+6:22
+coding we go to the coding environment by going to the development environment by clicking this button ibe and here
+6:29
+within this folder YouTube I'm going to create a new expert advisor and let's call it time
+6:36
+range with filters you hit next next next and you
+6:42
+end up with the default template I'll clean it up and here we are with the clean
+6:48
+template with the three functions which are the initialization function the de initialization function and the onti
+6:53
+function initialization as the name goes when you attach the EA to the Chart all the quotes written here are going to be
+7:00
+run then the de initialization all the codes between this and this are going to be run when you de initialize the es or
+7:06
+removing the E from the chart and the third one is the on tick function which is every code written here is going to
+7:12
+be run on every new tick arrival into mql so let's start coding and here in
+7:18
+the global section outside all of the functions is the global section and every variable that we Define here is
+7:24
+available to all of the functions if you define a variable within a function it's only available to that function unless
+7:29
+unless you send the value out to the other function but the global variables are accessible everywhere so within the
+7:36
+global section we'll start by creating a reference to the trade. mq file which is
+7:41
+sitting here in the include folder in trade and trade. mq by referencing to
+7:47
+this file now we have access to a lot of trading operations and we don't need to write the codes for them because mql has
+7:52
+already written the codes for them in this file trade. mq the ones that we're going to use are three the first one is
+7:59
+the class trade which we are going to use to do all of the trading operations like buying selling opening closing the
+8:05
+trades or changing the the stop- loss the next one is the C position info which we're going to use to get the
+8:11
+information on the positions which are currently open and then the c order info which we're going to use to get the
+8:17
+information on all of the orders which are currently pending on the server so all of the buy stops sell stops buy
+8:23
+limits and sell limit I'm assigning these classes to variables trade position info and order info then
+8:29
+because we're using two indicators in this year so I need to also reference to the trade indicator file which is
+8:35
+available here the indicator folder as trend. mq and this file contains all of the coding that the mql has written for
+8:41
+all of the trend based indicators and ituku and moving averages are two of them now I'm using the class C ichimoku
+8:49
+and C moving average and I'm assigning them to variable ichimoku that I'm going to use for ichimoku and then I'm going
+8:55
+to need two indicators for moving averages a fast one and a slow one so
+9:01
+I'm going to change it to fast and slow next thing we're going to
+9:08
+do is create a lot of enums as youve seen in the year there are a lot of drop- down boxes that we use to ask the user to provide us the input and those
+9:15
+drop down boxes are created by using enums the ones I'm going to create you have already seen them the first one is
+9:20
+the stoploss type and I'm going to allow the user to pick between fixed and risk percentage then what hours to start the
+9:28
+trading so I'm going to need an hours drop down menu so I'm creating an underscore 1core 2 underscore 3 and
+9:33
+providing them the value all the way until
+9:39
+24 then we have the minutes and I'm not going minute by minute I'm only going by a 5 minute interval then the trading
+9:46
+sites so it's either one-sided or both sided a stoploss type where we're going to ask the user the question do you want
+9:52
+to trade and then the answer is either yes or no then in case he selects it to be
+9:58
+trailing then what type of trailing do you want and we're going to provide the options of whether as a percentage of
+10:04
+the range whether as high or low or as six pits then the trading style do you
+10:09
+want to trade with the break or opposite to the break as we've already seen and then when it comes to ichimoku we're
+10:14
+going to provide all of these nine options to select from all the way from Price above Cloud to kij junen above
+10:22
+Cloud I'm going to scroll down slowly so you can see so this is the beginning and this is the end
+10:30
+and then for the news filter we're going to create a dropdown which is separator dropdown where we're going to ask the
+10:36
+user whether he wants to separate that long string of values that he provides by comma or by semicolon so these are
+10:44
+all the enems we going to require and then we start creating the variables so the first group that I'm going to create
+10:50
+is the EA specific variable so what's the magic number what's the trade comment if you want to put a comment and
+10:56
+then the trading style do you want to trade with the break or opposite and and then the trading size whether you want to trade one-sided or both sided then
+11:02
+the next section I'm creating is the range parameters where I'm going to ask for the start hour the start minute the
+11:08
+end hour the end minute for the range itself and then the closing hour and the closing minute for closing of the trading at the end of the day then the
+11:15
+maximum and minimum range sizes out of which the range is not valid anymore and then if it is valid then what color for
+11:21
+the range and then if it's disable then what color for the range then we go to trade management and the first variable
+11:28
+that I'm asking the user to Pro input on is the lot size type whether it's fixed or as a percentage of the capital if it
+11:34
+is fixed then what's the lot size and if it's risk percentage then what percent of the capital do you want to risk on
+11:39
+every trade and what's the time frame that you're going to put the EA on let's code it to a default value of
+11:48
+M5 then the order distance points so once the range has been defined where do you how far from the range value top and
+11:55
+bottom do you want the price to be before you place the order because you don't want want to place the order just one pip below the range top then the
+12:03
+stop loss percent and the TP percent so if the range is 30 pip 100% will mean 30
+12:08
+pip PP 30 pip stoploss the next section is the stop loss management so once the trade has been taken do you want to
+12:14
+Trail the stop loss and if you want to Trail the stop- loss then what type of stop loss do you want to trade it by as
+12:20
+a percentage of range high or low or fixed Pips if you go for fixed Pips then what are those fixed Pips if it's a
+12:27
+percentage of the range then what percentage of the range do you want to Trail so 100% will mean 30 if the range
+12:33
+size is 30 80% will mean 24 and so on and so forth and if you select it to be
+12:39
+high or low because these are the three values that we provided to the user as a
+12:45
+trail type and if you say high low then the EA needs to know how many bars to use in order to find the high and find
+12:50
+the low you will see it in the coding when we do it how do we find the high and low and then if it is the high and
+12:56
+low then do you want to have a bit of a buffer below the low below above the high or do you want it to be exactly on
+13:02
+the low and high that you Trail the stop loss then there are some variables where I do not need input from the user but I
+13:08
+need these variables in order to create the EA and these are start time end time and close time in two different dat
+13:14
+formates the first one is the mql date time and the other one is date time and these are two different ways of writing
+13:20
+the time so these are same variable just written in different formats of time and you will see why we need these two
+13:26
+different formats then I need some integer variables and I need some double variables double variables are variables
+13:32
+where you can store the decimal values so for example the Range High the range low the range size or the trailing stop
+13:38
+loss that will be in decimals so we need the values stored in a double variable
+13:44
+type then the next section we're going to need is for the news filter and here we start with whether or not the news
+13:49
+filter is on so whether it's applied then if it is then in within this line
+13:54
+where you're going to give the keywords of the news do you want to separate it by or
+14:00
+semicolon by assigning it to the enum that we created as separator drop down up
+14:06
+here and comma equals 0 and semicolon equals
+14:11
+1 so here zero will mean comma and then the key news and the News
+14:17
+currency because a combination of these two is what we're going to use to find the the upcoming news then how many days
+14:24
+from today to look forward to find the news now the filter code is going to stop once we have found the first news
+14:30
+event upcoming but providing it a 100 day sort of provides a
+14:35
+buffer and then when the trading is disabled then I want also the chart color to change so I want to change it
+14:41
+to red but we're providing this option to the user as an input select the color that he wants to see the chart in when
+14:47
+the trading is disabled and then these three variables I'm going to need but I'm not going to ask for an input from
+14:52
+the user the next section is the moving average filter we start again by asking whether or not you want to apply the
+14:59
+filter and if you do want to apply the filter what time frame do you apply the filter so the EA can run on a 5 minute
+15:04
+chart for example but for the moving average crossover you want to see it on a daily chart on a 4H hour chart on a
+15:10
+higher time frame so you have the ability to Define that then what's the value of the slow moving average and the
+15:15
+fast moving average what period and then what's the mode and the price median and then I'm going to need these
+15:21
+two variables but I don't need the input from the user so I'm creating them separately as bu bu variables are
+15:27
+variables that return the value of yes yes and no so they can store those values you will see during the coding
+15:33
+how we use it and the last section is the ichimoku which goes like the moving average so we start by asking whether or
+15:39
+not to apply it and if to apply it then what is the type of the filter you want to apply and now you can select it from
+15:45
+IC types which are all of the drop- down values that we defined here in this enum
+15:51
+so by referencing this variable H filter type to IC type variable type now the
+15:57
+user will have that drop down available to then what's the time frame for ichimoku then the values of the 10 consent KY and
+16:04
+senu span input variables now if you have used the ichimoku indicator you know that the default values are 9 26
+16:09
+and 252 but I'm providing the user the ability to change them if if he wants
+16:15
+then like moving average I need these two BO variables for the EA but I don't need input from the user so this
+16:20
+concludes our variables definition section and now if I compile
+16:26
+it and we go back to metat tr Trader and we select our EA from the
+16:33
+YouTube folder As Time range EA with filters we can see all of these inputs
+16:40
+that the user can provide based on what we have created in our EA with all of
+16:46
+the dropdowns for example here we can select all of these
+OnInit() Function
+16:52
+values with the variable section completed now we can continue on the initialization function and we start by
+16:58
+by setting the input magic number by using the trade and using the set expert magic number and providing the value of
+17:05
+the input magic number that we collect from the user then I don't want to see the grids
+17:10
+on the chart so I'm using the chart set integer function and I'm changing the grid show to
+17:15
+false then we have the ichimoku filter and I only want to show the ichimoku on
+17:21
+the chart if the filter is turned on so on the initialization I'm saying if the ichimoku filter is true then create an
+17:26
+ichimoku variable by creating a new ichimoku and then initializing that
+17:32
+ichimoku by saying ichimoku do create providing it the symbol value the time frame value and the 10 consent Keyon and
+17:38
+span values from here that the user has defined now I'm doing it as if the value is true because I only want to show this
+17:46
+indicator if the user has selected it then the same thing we do for moving average filter so in case if the user
+17:52
+has selected it so that moving average filter on is true then only we want to show it on the chart and then we create
+17:58
+create these slow and fast moving average variables and we initialize them by saying create and providing the
+18:04
+symbol the moving average time frame the value of the the period the mode and the
+18:10
+applied price to the function this concludes our initialization function on
+18:15
+De initialization we don't need anything and on take function we're going to do that at the end once we have written all
+18:21
+of the functions that we require so now I'm going to go down to the bottom and I'm going to create some space and here
+18:27
+I'm going to start writing the function which are standard functions that I use almost in every year and you've seen
+18:32
+that already in the scalloping year as well so if you followed that series you already know what these standard functions
+Standard Functions
+18:39
+are the first function that we're going to create is the is new bar function which checks whether or not there is a new Candle on the chart now I will link
+18:46
+a video up here which goes a bit more into details of how this function works you can go check it out but very shortly
+18:53
+we we start with a date time variable of previous time as zero then we check the current time by checking the time of the
+18:59
+open of the current candle and then we compare these two times and if these two times are different then we know it's a
+19:05
+new candle so we return true but before we return the value true we store the value of the current time which is the
+19:11
+opening time of the current candle back into the previous time variable that we have created here as a static variable
+19:16
+so this variable will store the values and not lose it so the next time when the EA comes back here then on the same
+19:23
+candle the current time of the opening of that candle will still be the same as the previous time so it will return for
+19:28
+false the next function is the calculate lot size function and this is a double
+19:33
+function so it will return the value of the lot size calculated we start by creating a risk
+19:39
+variable and that risk variable is going to be the account balance times whatever is the risk percentage that the user has
+19:44
+selected divided by 100 so we're converting the risk percentage from percentage to an actual dollar value
+19:50
+then we get the value of the tick size The Tick value and the lot size by using these functions which are generic in mql
+19:56
+and then we create a variable and we divide the SL points buy the tick size
+20:02
+tick value and lot steps and that should give us the money per lot step so how
+20:07
+much money every lot step is worth and then we can calculate
+20:13
+the Lots by dividing the risk by money per lot step and multiplying it by lot step to get the value of what the lot
+20:20
+size should be and then these three variables are variables to check B is
+20:25
+basically minimum volume maximum volume and the volume limit on the so minimum volume is what your broker allows as the
+20:31
+minimum volume maximum volume what your broker allows as the maximum volume so we can check it here as well that if the
+20:37
+maximum values is not equal to zero so broker has a maximum value and then we
+20:43
+calculate our lot size then we need to return the value of whatever is the smaller of the two so for example if our
+20:50
+lot size was 30 calculated here but the max volume that's allowed on the broker
+20:55
+is 20 then we send the math minimum so the lower of these two amounts the 30
+21:01
+and the 20 so the return value of the lot size is going to be 20 in that case same goes for minimum let's say if our
+21:07
+lot size comes out out of this calculation as 0.001 but the minimum value allowed on
+21:13
+the broker is 0.01 then select the math Max which is the higher of the two values then we
+21:20
+normalize it and then we return the Lots now I have another video here which you can go check out to have more
+21:27
+understanding and details of this function works then the next function we're going to create is check for open orders and open positions and again I
+21:34
+have a video on this in the channel which you can go check out in order to understand it better but very quickly we run through all of the orders
+21:40
+total and then we select it by index whatever is the index here and then we
+21:46
+check whether it's a buy stop sell stop buy limit or sell limit and then if the order symbol value equals to the symbol
+21:53
+value of the chart and the order Magic number equals to the input magic number that we have then it's our order so we
+21:59
+increase the buy total the variable that we have created here buy total and sell
+22:05
+total we increase the value of that by one by saying buy total Plus+ or sell
+22:10
+total Plus+ now in case of sell stop and sell limit we increase the value of the sell total by one in case of buy stop or
+22:17
+buy limit we increase the value of the buy total by one then we do the same for the positions so we Loop through the
+22:23
+positions total and then we select it by index and then we check whether it's a position type Buy or cell and if it is
+22:30
+against the current symbol and our input magic number in which case we know that it is related to the current chart and
+22:36
+it is our EA which has placed this position in that case also we increase the buy total and sell total by one and
+22:43
+we do all of this because if there is already an order on the server or if there is already an open position then I
+22:49
+do not want to create another position or another order let's compile it and we don't have any errors so far then the
+22:55
+next function I'm going to create is to find highest because if the user selects as a trailing stop the possibility to
+23:01
+Trail it by high or low then we need to find that high I will create a video in more details and Link it up here so you
+23:08
+can go check that out once it's available but very quickly we start with the highest higher value of zero then we
+23:14
+Loop through starting at zero which will be the current candle and going back 200
+23:20
+candles and then on every iteration getting the value of that candle's high
+23:25
+and then we check that starting at that candle so let's say if that that candle is candle
+23:32
+number 10 it's starting at that candle minus 5 meaning five bars to the right
+23:38
+so starting five bars to the right of our candle and looking at a range of 11
+23:44
+candles because if bars n is five then 5 * 2 + 1 is 11 so starting at five bars
+23:50
+to the right of our candle and then a range of 11
+23:56
+candles so the our candle is right in the middle as a six candle we check what is the highest point and if that highest
+24:03
+point turns out to be equal to our candle which is I then we know that our
+24:08
+candle is sitting right in the middle of five candles on the right and five candles on the left and this is why it
+24:15
+is it is a valid high and then we store the value into
+24:21
+the high or in fact we already got the value into the high so we return that high back and in case if the system
+24:27
+cannot find in 200 iterations any candle which meets our criteria of five candles on the right and five candles on the
+24:33
+left as lower then it just returns a minus one which is going to be an error then we do the same to find the lows but
+24:39
+in Reverse so we start with the maximum value allowed within mql as a low price
+24:44
+and then we loop again starting at the current Candle Going Back 200 candles and then we're going to check the
+24:50
+starting five parts to the right of that candle 11 candle range and see if the
+24:55
+lowest of that candle matches our candle and if it does then we know it's a valid
+25:00
+low and in that case we return the low otherwise we return a minus one which is error if I compile everything seems fine
+25:08
+so far now that we have our standard functions now we can go back up to where
+25:13
+we created the space and start writing the code specific to this year so the first one I'm going to do is
+Time Range Specific Functions
+25:21
+I'm going to create a convert times function I will start by storing the value of the current time so whatever is
+25:28
+the time now into the start time variable which is an mql date time
+25:35
+variable these two datetime formats are slightly different from each other the datetime format is the default format
+25:42
+which just has the date completely like okay well date month year hour minute and
+25:47
+seconds the mql date time format breaks it down into different parts and you
+25:53
+will see very soon so what I'm going to start with I'll take the current time and store it into the mql datetime
+25:59
+format variable which is the start time and once I do that now I have the
+26:04
+possibility to by hitting this now I can divide the time into day hour minute
+26:12
+seconds year whichever way I want so now this is start time mql date time
+26:18
+variable is going to have the current time broken down and then whatever is
+26:24
+the day and the hour and minutes is stored into this varable now I can change it so now I change it by saying a
+26:32
+start time hour is equal to whatever is the start range hour what our user has
+26:37
+provided as the time that the range is going to start and the start time minute is going to be the range start minute so
+26:44
+thereby we have the entire thing as the hour and the minute is stored into this start time now we started with current
+26:50
+time but we changed the hour and minute and now I can reformat it into the format of the date time by going
+26:57
+structure to time and taking this variable start time and converting it into the time start so even though time
+27:04
+start was blank in the beginning we use the current time to start the entire thing we change the hour and minute and
+27:10
+now that we store back it into the time start now the time start will have the values of the start of the range time
+27:17
+but in a date time format we do exactly the same thing with end time and then we
+27:23
+do exactly the same time with the close time so now we have the time of the start of the range the time of the end
+27:29
+of the range and the time of the close of the range defined in the date time format that mql can use very easily and
+27:35
+then one more thing that I'm going to do here is that this variable that we created up into the global section so it
+27:42
+has a zero value I'm going to check if it is zero and the time current meaning
+27:47
+the time on the server currently is bigger than the start time meaning whenever is the start of the range if it
+27:54
+is bigger than that and this value is zero then we set a value into the bars
+28:00
+range start by getting the value of the bar when this time became bigger so for
+28:05
+example if the user has set 6:00 in the morning the range is going to start the moment that the time becomes bigger than
+28:12
+that so at 6 hours 0 minute 1 second because it has become bigger than the
+28:17
+time start value we get the value of that bar number and store it into this
+28:23
+variable so now we have the bar number of when the the range is starting now
+28:29
+that we have the value of the start and the end of the range we can get the value of the range and we start by
+28:34
+creating these two variables high and highest bar setting them both to zero at the start and then we go what's the bars
+28:41
+now and that we get by using the iar function providing the input time frame and the symbol and then we say if the
+28:48
+time current time is bigger than the start time that we have found here time
+28:54
+stop and the time current is less than the time n end of the range so if it is
+28:59
+in between the beginning and the end of the range as defined by the user then we can calculate how many bars
+29:06
+to count by saying well whatever is the current bars the bars now I'm providing the
+29:13
+formula here but you can also write bars now and the bars start of the range because we have already calculated here
+29:20
+when does the range start in terms of the number of bars now we get the current bars and we say okay one minus
+29:26
+the other we get the bar to count so we know what's the bar number at the beginning of the range and what's the
+29:32
+bar number at the end of the range so we know the range of the bars that we have stored here so now we can find what's
+29:37
+the highest bar within that range by using the I highest function looking for high mode and providing the range of
+29:44
+bars to count it's starting at zero it's starting at the current candle and whatever is that bar number get the high
+29:51
+of that bar by using the I high function and if the high is not equal to the
+29:56
+Range High so whatever is the range high from the previous time that this function was run if it is different than that then return the value of that high
+30:03
+back so this is how we get the high value of the range and it's Dynamic so on every next candle as long as we are
+30:10
+still within the range the value is going to be updated then we do the same thing to get the low which is we start
+30:16
+with these two variables of low and lowest bar then we say if the time current is between the start time and
+30:22
+the end time of the range so we're in the range get the bars to count so get the range of how many bars are there in
+30:28
+the range by using the I bars of now the current candle minus when the range is
+30:35
+started which we calculated here + one and then from that range find the lowest
+30:41
+bar by using the I lowest providing the low mode and providing the range that we
+30:46
+have calculated here once we have what's the what's the number of that bar or how
+30:51
+many bars to go back then we can find the low of that bar by using the I low
+30:57
+function and providing the lowest Bar number so from zero if the lowest Bar number turns out to be 12 then current
+31:05
+candle is zero so look back 12 candles and go to the 12th candle and then get the low of that and then we return that
+31:11
+low back as long as the low is different from whatever is the current stored value in the range low so it's a dynamic
+31:17
+one so as long as the range is valid it will continue to calculate the range size and change the size of our range so
+31:24
+this is how we get the low now that we have the high and the low and we have the start time and the end time now we
+31:30
+can create the range visually on the chart and this we do by creating a function and call it show range and
+31:36
+we're going to send to it the value of high and the value of low and then inside we're going to say well create an
+31:42
+object a rectangle and the start time of that will be equal to a start time that
+31:48
+we have converted here the time start the value of the high of that
+31:54
+rectangle is going to be the high which we're going to send to this function which which is going to be our Range High then the time end is going to be
+32:00
+the time end that we have converted here and the bottom of the rectangle is going to be the low value that we're going to send here which is going to be the low
+32:07
+of the range then we need to check whether or not the range is within the parameter that the user has defined for the minimum value and the maximum value
+32:14
+of the range in our case we had put 15 and 30 so what we're saying here is that
+32:19
+if the range size is less than the max range size and is bigger than the minimum range size and then within that
+32:26
+range change the color to the range color so when the range is valid the user has
+32:33
+defined the color to be beige and when the range is disabled the color is to be red and this is what we're doing here so
+32:40
+if it is within the range then color is range color else it's outside of the
+32:46
+range which means it's outside of the range provided by the user as a valid range so then the range color is to the
+32:52
+range color disable whatever the user has selected then we create a box which is the box here between the end time and
+32:59
+the end of the day closing so we're going to need this line at the closing but we also need this box here and
+33:05
+that's the one that we are creating here as a rectangle which starts at end time and ends at closing time of the day with
+33:12
+the high and low and we only put the color of the lines and we don't fill it
+33:20
+with the range color and then at the end I want to put an object line vertical
+33:25
+line which is going to be at time close and we also color it to the range color so this is what it's going to look like
+33:31
+then the next function we're going to create is to check whether we are inside the time so we start with mql date time
+33:38
+format a start and now and we have an integer that we're creating here as
+33:43
+start minute and now minute and then again we do exactly the same thing as we did in converting the time which we take
+33:49
+the current time and we store that time into the now date time format but mql
+33:55
+date time format so now we can split it so now we can say well now minute is
+34:01
+equal to whatever is the now hour time 60 and now minutes added to it so for
+34:09
+example if the time now is 2:45 in the morning then the minutes now minutes are going to be now hour which
+34:16
+is 2 multip by 60 so 120 and 45 minutes added to it so 165 minutes so 6 165
+34:25
+minutes from the start of the day and then we do the the same thing for the time start so when does our range start
+34:31
+we convert it into start minute as well by starting okay well if the user had said to start the range at 3:00 then we
+34:37
+say three as the hours multiply by 60 so 180 plus 0 minutes is 180 so now what we
+34:43
+have is from the beginning of the day we now know how many minutes have passed and how many minutes before the user
+34:50
+says the range needs to start so now we can check by saying if now minutes is bigger than the start minute then we
+34:57
+know that we are inside the range so we return a true otherwise we return a false let's compile it to see if we have
+35:04
+any errors and so far we do not have any errors then we go on and we create our next function which is going to be the
+35:11
+preparation of the order and I'll make the screen a little smaller I hope you can still see it I'll try to zoom it on
+35:16
+the screen so that it's visible but I want to show it all in one place and
+35:22
+this is where we're going to prepare the orders so if the time current is bigger than the end time
+35:28
+of the range so the range has finished and the current time is smaller than the
+35:33
+close of the day so now we are in the period where the range has developed and now we can trade before the end of the
+35:39
+day we get the value of the current price by getting the ask value and then we start checking that if the range is
+35:46
+bigger than the minimum range size converting it to points and to the right decimal figure and the range size is
+35:53
+less than the maximum range size Allowed by the user again converting it to two points and the right decimal figure so
+35:59
+we check that we are within that range the range is not outside of those parameters then we check if the ask the
+36:07
+current price is less than the high of the range minus the order distance point
+36:13
+and is bigger than the low of the range plus the order distance point because if this is the range we don't want to place
+36:20
+the order when the price is just one pip below or two pip below the order point and same for the low and then the next
+36:26
+thing we're going to check is what's the trading style are we trading with the break or opposite to the break because
+36:32
+if it is with the break then we need to place buy stop and sell a stop and if it
+36:37
+is opposite to the break then we need to place buy limit and sell limit so if it
+36:43
+is zero so we're trading with the break then in that case we're going to be sending buy a stop and sell stop so then
+36:48
+we check that if the buy totals is less than zero that there is currently no order sitting already and there is no
+36:54
+position open and then we're going to write these functions later but if the buy is
+37:01
+allowed by the moving average and the ichimoku filter then we send the buy stop at the
+37:07
+range price at the top and the stop- loss is going to be whatever is the
+37:13
+range price at the high because that's where the order is minus whatever is the range size multipli by the stop loss
+37:19
+percentage because that's what the user is going to Define as the stop loss the opposite for the cell so put it on the
+37:26
+Range low and the stop loss is going to be wherever is the low of the range because the stop loss is going to be above where
+37:33
+we place the order so range size times the stop- loss percent add it to the low
+37:40
+so that we have the stop loss above and if the trading style is one which means that we are going opposite to the break
+37:46
+then we need to place buy limit and sell limit and this is what we do here so we place a buy limit at the low of the
+37:53
+range so that when the price comes back and hit the low we take a buy and now the stop loss is going to be at the low
+38:00
+minus whatever is the range size times the stop- loss percent and in case of a sell we're placing a cell limit at the
+38:06
+top plus whatever is the range size times the stop-loss percentage that the user is defined so this is how we
+38:13
+prepare the orders this is the entire function on one screen and then we write the function where we actually going to
+38:19
+open the trade so we're going to send to this function what's the order type going to be so whether it's sell limit
+38:25
+buy limit sell stop Buy stop what will be the price and what will be the stop
+38:30
+loss and then we're going to define the TP by adding the to the price the stop- loss and then we're going to start with
+38:36
+a loss size of 0.01 as a default but then we're going to check what is the
+38:41
+stop loss type that the user has defin whether it's fixed or whether it's risk percentage if it is fixed which is the
+38:48
+case zero here fix equals z and risk percentage equals 1 so we're going to
+38:55
+Loop through the L size type where variable and then if the case is zero that means it's fixed so then in that
+39:01
+case the loss is going to be fixed loss size what the user has defined and we'll break so we don't run this but if it is
+39:08
+not zero then go to the next one and it's one and if it is one then calculate the lot size by providing the value of
+39:15
+price minus the stop loss now that we have everything then we can open up the trade by saying trade.
+39:22
+open order by providing the symbol the type is going to come from here the lots are going to come from from here the
+39:28
+price is going to come from here the stop loss is going to come from here the TP we are creating here and then the
+39:34
+trade comment is whatever is the trade comment that the user provides and I'm putting the function as
+39:41
+if it's not trade. order meaning try to open the order but if you're are unsuccessful then print that message and
+39:48
+then at the end of the day when the time for the trading has finished defined by the user we're going to close everything and reset we're going to Loop through
+39:55
+all of the positions which are currently open open we're going to get the ticket number and then if the position symbol
+40:02
+equals our symbol on the chart and the info magic number equals our magic
+40:08
+number then it's our trade on our chart then just simply close it and similarly
+40:13
+if there are any orders pending then we're going to Loop through the orders and do exactly the same thing but this
+40:19
+time deleting the order by providing the ticket number and then the bars range is start variable that we used here
+40:28
+to get the highs and the lows we're going to reset it to zero so that the next day the range can be
+40:34
+calculated again and we're going to set the buy total and the sell total to zero as well so that the next day the year
+40:41
+starts with a zero and it can open trades after this the last function that we're going to require before we get to
+40:47
+the filters is the trailing stop so let's start looping through all of the open positions by creating a for Loop we
+40:54
+Loop through all of the positions by saying I equals positions total minus one because I will start at zero so if
+41:00
+there are three positions it will be 0er 1 and two so we say positions total minus one as long as it's bigger than
+41:06
+and equal to zero run these scores here run these iterations every time reducing
+41:12
+the value of I by one so if there are three positions open it start at two
+41:18
+then go one and then go zero for the value of I then we start by selecting the position by index so
+41:25
+whatever index you are at 3 2 1 1 Z select the order select the position and
+41:32
+then gets it magic number and store it into magic get its ticket number store it in ticket gets its position type
+41:38
+whether it's buy or sell store it into a position type variable post type and get
+41:44
+it symbol value and store it into symbol then if the symbol value that we got
+41:49
+from the position selected equals to the current symbol and the magic number that
+41:55
+we got here equals to input magic number so our magic number that means it's our
+42:01
+trade then get the value of the market price currently by using either the bid
+42:06
+or the ask get the stop-loss information of the position get the TP value of the
+42:12
+position then the open price of the position then Define two more variables
+42:17
+as high and low and find the high and find the low because we're going to need it in case if the user has selected to
+42:24
+Trail the stop- loss by the market highs and lows get the high and the Low by triggering These Fine high and fine low
+42:30
+functions that we defined here to find the highs and lows in the market and
+42:36
+then we're going to run through the trailing types we ask the user to define whether he wants to Trail and if he
+42:42
+wants to Trail then what's the type of the trail and there were three types that we provided as an option as a risk
+42:48
+percentage high low and fixed pits 0 1 or two so now we need to Loop through these
+42:57
+and go if it is zero meaning it is a percentage of the range then we check
+43:03
+whether it's a position type buy or it's a position type cell that value comes from
+43:12
+here position type if it's buy or is it is it buy or is it
+43:18
+sell if it is buy then if the price has moved above whatever is the price open
+43:25
+price this one and the price minus whatever is the range size is bigger than the current
+43:33
+stop- loss of the position meaning the price has moved up it's above the open
+43:39
+price and it has moved so much that it's bigger than whatever is the percentage
+43:44
+meaning if it's 30 Pips To Trail it's now 31 if it's bigger than the current stop
+43:50
+loss then set the stop loss to price minus whatever the user has defined as a
+43:55
+range size minus the Trail Range percentage and then modify the trade
+44:00
+position by using trade. modify giving it the ticket number and providing the SL and TP value the TP value Remains the
+44:08
+Same we don't change that and then look if it is cell type and if it is sell
+44:14
+type then we need to check that if the current price has moved below the open price so it's in profit it's a sell
+44:20
+position and then if the price plus the range size is a smaller then whatever is
+44:27
+is the SL price whatever is the current stop- loss then change the stop- loss to
+44:32
+whatever is the price plus whatever the user has defined as a percentage of the range size and
+44:39
+modify the position then if the trail type is one which means find the last high and low in the market and trade it
+44:46
+by that then again we need to check whether it's a buy position or a sell position if it's a buy position then we
+44:51
+check that the price has moved above the open price and that the low is not zero
+44:57
+because if it's zero that means it's an error if it is above the open price and the low is not zero then we need to
+45:02
+change the stop loss to whatever is the low minus whatever is the buffer that the user has provided in Pips convert it
+45:08
+to points and change it to the right decimal values because we want to Trail it by whatever is the low minus a
+45:15
+certain buffer that the user is defined so two Pips three Pips below the low so we change the stop loss to that and then
+45:23
+if a stop loss is bigger than the positions in force current stop loss because we only want to Trail it upwards
+45:30
+and never go down if it's bigger than the current stop loss of the position then change the stop loss by providing
+45:37
+the ticket value stop loss value and the TP value the reverse for the sell so if the position type is sell then again
+45:43
+check if the price has come below the open price and the high is bigger than zero so it's not an error then change
+45:50
+the stop loss to whatever is the high in the market plus whatever buffer the user wants to leave and then if the stop loss
+45:57
+is smaller than whatever was the stop loss before because we don't ever want the stop loss to go backwards we only
+46:03
+want it to Trail downwards and then change the position is stop loss by sending a position modify and then for
+46:11
+the third type which is the fix then in that case we're checking that the
+46:16
+position type is buy or sell and if the price has come above the open price of
+46:22
+that position then just change the stop- loss to whatever is the fixed stop- loss converting it into points because we
+46:28
+collecting it in Pips so we convert it into points and convert it into the right decimal and then if the stop loss
+46:33
+is bigger than whatever was a last stop- loss of the position because we only want to Trail it upwards modify the
+46:40
+position then the reverse for sell which is check that the price is below the opening price of the
+46:48
+position we don't need this check that the price is below the the opening price
+46:54
+and then change the stop loss to whatever is the price in the market currently plus because it's a sell order
+47:00
+plus whatever is the fixed stop loss in Pips change it into points and convert
+47:06
+it into right decimals and then if the new stop loss is smaller than whatever
+47:11
+is the current stop loss of the position because we only want to Trail downward modify the position now here is the
+47:17
+entire Trail stoploss I unfortunately cannot fit it on one screen but this is where all of these parentheses opening
+47:24
+and closing is extremely important so I'll show it screen by screen so here's
+47:29
+the beginning of the trailer stoploss and
+47:37
+this and the trail is stop loss type one and the trailer stop loss type two
+47:43
+until the end this one you might want to pause it and code it properly with all
+47:48
+the brackets and the parentheses opening and closing at exactly the point that you see on the screen then the last
+47:54
+thing we check is for trading sites because we provided our users the
+48:00
+ability to select whether he wants to trade one-sided or both sided one-sided
+48:05
+being zero and both sided being one so if he has
+48:11
+chosen so if he has chosen to trade both sided then we just simply return we don't need to do anything but if he has
+48:17
+chosen it to be one-sided only then in the beginning the EA is going to put two orders but once one of them is triggered
+48:24
+the other one needs to be deleted and this we do by creating an open position variable and then looping through the positions total selecting by index and
+48:30
+then checking whether the symbol of the position equals our symbol and and the
+48:36
+magic number of the position matches our magic number then in that case we know that there is an open position and if
+48:42
+the positions total is greater than zero and the positions and the open positions is greater than zero meaning there are
+48:48
+open positions on the server and they are our open positions then we Loop through the orders select the order get
+48:56
+it sticking number and then if the order info symbol is our symbol and the magic number is our magic number so it's our
+49:02
+other order which needs to be deleted then we delete that order you can simplify it as well by just
+49:11
+removing this and removing this because we don't
+49:16
+care whether it's a position type which has open is buy or sell we only want to know whether the position which has been
+49:22
+open is carrying our symbol and is caring our magic
+49:30
+number now if I compile I don't have any errors and this concludes our functions
+49:36
+before we start writing the functions for the filters but let's go now to the ontick function and start writing our
+OnTick() Function
+49:44
+codes so here we come and the first thing we're going to do is we're going to check whether it's a new bar by
+49:50
+saying if it's not a new bar return so if it's not a new bar don't do anything below just exit the function and Lea so
+49:57
+everything here above this line is going to be run on every day everything below this line is going to be run only when
+50:03
+there is a new candle we're only interested in once there is a new candle so we're only going to write the course
+50:09
+below this line the first thing we're going to do is check for the trading sides whether it's one-sided or two-sided and if it is one-sided then
+50:15
+delete the orders if there is a position already open then we check for the open orders and open positions the function
+50:22
+that we created so get how many positions are open currently then if the stop loss trailing is zero meaning yes
+50:30
+and the buy total or the sell total is bigger than zero so there is an open position currently then we need to
+50:36
+trigger the trailing stoploss function that we have just written then we convert the times so we get the start
+50:42
+time the end time and the closing time and convert it into the right formats then we check if it is inside Time by
+50:48
+triggering that function that we have written and then if it is inside time then we set the high of the range the
+50:54
+low of the range and the size of the range by triggering the get high function that we wrote The Get Low
+51:00
+function that we wrote getting the value of the high of the rain and the low of the rain and then the range size becomes
+51:05
+one minus the other and then trigger the show range function to actually draw the
+51:10
+range on the chart and this is the power of the function so once you have created all the functions separately you can
+51:16
+just simply call them here and then we call the prepare order which will
+51:21
+trigger the prepare order function and if it is an order to be
+51:28
+sent then it will call the open trade function which is the next function to
+51:33
+actually open the trade as well so it's calling two functions At Once by calling this function prepare order we're also
+51:40
+calling the open trade function from within that and then this function is also going to be triggered and the trade
+51:46
+will be open and then at the end of the day what we want is to close all of the orders and reset everything so we're
+51:52
+going to check that if the current time has become bigger than the closing time then just close and reset all by calling
+51:58
+the function close and reset all this function let's compile and we
+52:06
+have zero errors and this concludes our EA without the filters so now this will
+52:12
+work but without the filters and the way I'm doing this video is if you want to stop here you can stop here as well if
+52:19
+you don't want to apply the filters but if you do want to apply the filter then we need to create three more functions and then update them here
+Coding the Filters
+52:27
+so if you're interested in the filters as well we go back again to the bottom where we're going to create the
+52:33
+functions for the filters the first function we're going to create is the is news is it there an upcoming news
+52:40
+function and we're creating it as a bull so we're going to only get back a value of whether or not there is an upcoming
+52:45
+news so if the news filter is false then just simply return just exit the function because the user does not want
+52:52
+to apply this filter but if he does then we get the mq date time so in the format
+52:59
+where you can break down the hours and days and minutes we get we create two variables now and the News time then we
+53:06
+start with the separator and we switch the separator by going through the cases so
+53:12
+if the case is zero then the user has selected comma and if the case is one then the user has selected colon as the
+53:19
+separator and then we get the code for that because mql does not understand comma or colon it understands the code
+53:26
+behind whether it's 2493 5412 whatever it is so we get that code by saying a
+53:32
+string get character providing the value of whatever is the separator and asking for the character to be returned and is
+53:39
+stored into the SE code variable then we split the string of the
+53:45
+key news where the user has provided all of the news that he wants separated by
+53:50
+comma or semicolon and we split it by using the separator code and we store
+53:56
+the value into the variable that we created as an array as news to avoid in the global
+54:02
+section and this function also Returns the value of how many strings was it able to split the entire thing into so
+54:10
+in this case we're going to get the value of nine that I want to store here then we start with creating an mql
+54:17
+calendar value variable and I'm calling it values then we start with a date time so
+54:22
+what's the start time it's going to be whatever is the time now and what's the end time the end time is whatever is the
+54:28
+start time so whatever is the time now plus whatever the user has defined on
+54:33
+how many days to look and converting because we're asking in number of days to look we're
+54:39
+converting it by using the the period day one into period seconds because this date time variable stores the values in
+54:45
+seconds so we need to convert it and add it into the start time then we get the value all of the history of the calendar
+54:52
+and store it into this values variable that we have created is starting at a start time and ending at a end
+55:02
+time then for the array size of values because here we have stored all of the
+55:08
+calendar entries that came back from this function so there is an array size of that so run through that array size
+55:16
+so do the loop it's starting at zero and as long as the value of I is less than
+55:21
+the array size of that value so you're running through that array size fully increasing it by one every time create
+55:28
+an event get the IDE of that event and store it into this variable that we have
+55:34
+created then get the country and store it into this country variable and then
+55:39
+we say if you try to find in the news currencies if the currency of that news
+55:45
+you're not able to find it into the news currencies which is the variable where
+55:52
+we're restoring the currencies separated Again by comma if you're not able to find it if you're
+55:59
+not able to find in that news event the currency to be in our list of currencies
+56:05
+then just continue meaning do the loop again take the next value of the calendar because this value is not
+56:11
+useful for us and then if you do find it then run through the loop of J where
+56:19
+J starts at zero and runs through how many Str strings did we find
+56:25
+here run through that Loop and on every one you try to find the current event
+56:31
+which is the split value of that string that we have provided so let's say NFP
+56:37
+try to find the NFP into the current news which is the event name so whatever is the total name of that event try to
+56:44
+find it if you cannot find it then continue meaning go to the next but if you do find it then it means that it is
+56:51
+on our currency and it has the title of the news has has our keyword in it in
+56:58
+which case comment it on the chart that the next news upcoming is on USB with
+57:04
+the event name and what's the time of that news then we're going to take the current
+57:09
+time and convert it into the format where you can split it by day hour and
+57:15
+minute and store it into this variable today that we created here as mql date
+57:20
+time then we're going to take the news time as well and convert it into the same format of mql date time so we can
+57:26
+compl it and stored it into the mql daytime variable news time now that
+57:31
+these two are stored in that format now we can check whether today's date
+57:37
+whatever is the day today is equal to whatever is the news time day so if the news time day is on the 11th of November
+57:43
+and today is the 7th of November then today the trading isn't to be disabled but if it is the same day then we want
+57:50
+to change the background of the chart to when the trading is disabled and also print the the trading
+57:56
+is disabled today on symbol such and such due to the upcoming news such and such and then we'll say news printed
+58:03
+equals to true and then just return true for this function because that means that we have found an event which is
+58:10
+going to happen today so the trading needs to be disabled and if not if none of that happens then just return
+58:17
+false and if none then also return false so this is the entire function so this
+58:23
+is the first part and this is the second
+58:29
+part and this is the end so pause the video and code it all the brackets and
+58:35
+curly brackets need to be completely in place let's compile to see if we have any error and I don't have any error
+58:40
+then we go to the moving average filter and this one is a very simple one we
+58:46
+we're going to return a value in a string so as a text because I only wanted to return whether the fast moving
+58:51
+average is above or below the the slow moving average so we're going to create
+58:57
+a double variable slow moving average and fast moving average and we're going to use the
+59:03
+ichimoku variable that we have created moving average fast and moving average slow and initialized it on the
+59:11
+initialization function here so we're going to get the value of
+59:17
+the fast moving average and the slow moving average by just saying return the value of main on candle number zero so
+59:24
+current candle and and then if the fast moving average is above the slow moving average I want to return the word above
+59:30
+and if the fast moving average is below the slow moving average then I want to return the word below and and if neither
+59:37
+then just return the word error and in the same way we're going to do ichim muku but we need to go through the loop
+59:43
+of all of the options that we provided our user so I'm going to start by creating these five variables and
+59:50
+storing the value by calling on the ichimoku variable that we created and initializing the initialization function
+59:56
+and getting the Senus span a value B value 10 consent value kenson value for
+1:00:01
+the candle zero so for the current candle and then I'm getting the market price by getting the ask price or the
+1:00:07
+bid price it wouldn't really make any difference and then I run through the different options so if the user has
+1:00:12
+selected zero which is above the cloud then I need to check if the ask is above
+1:00:17
+the Senus fan a and also above the Senus pen B then return above then if the ask which is the market price if is below
+1:00:24
+the Senus pen a and to spend B that means it's below the cloud so return below then if the filter type is one
+1:00:32
+which is if the price is above 10 consent line so I'm checking if the ask is above 10 consent or ask is below 10
+1:00:37
+consent and returning above and below and so on and so forth so for kij junen so for Senus Spen a Senus Spen B then
+1:00:44
+the value five in that drop down was if 10 consent is above the kij junen line
+1:00:50
+and in that case I'm checking for tenen above kijun is above below and so on and
+1:00:55
+so forth so we go back to the onti function so that now we can apply these filters so the first thing I'm going to
+1:01:01
+do on every candle is refresh the value of the ichimoku filter and the moving
+1:01:06
+average filter by saying ichimoku do refresh or fast moving average and slow moving average. refresh but only if the
+1:01:13
+filter is on because if it's not on then I don't want to do it I don't need to refresh the values then I can put here
+1:01:20
+if is upcoming news then return because if there is an upcoming news today then
+1:01:26
+we don't want to do anything we just want to return so don't run all of the codes below just exit the function from
+1:01:32
+here until the next time when there is no news and then we need to modify our open trade
+1:01:39
+function to now look at the filters as well so the first thing I'm going to
+1:01:46
+check here that if the ma filter is true and the ma by on is true which is the
+1:01:51
+default value then if the order type is by limit or the order type is by a stop but the
+1:01:59
+fast moving average is actually below because that's what the function is going to return then we don't want to
+1:02:05
+buy so in that case we turn the ma Buy on filter to false and just return and
+1:02:12
+then if the ma filter is true and the sell on is true which is the default value for the start of the day then if
+1:02:19
+the order type is sell limit or sell is stop which is we're going for a sell but
+1:02:24
+the fast moving average is above the slow moving average because that's what this function is going to return then in
+1:02:31
+that case we also turn the Ma cell on to false and return exit the function so in
+1:02:37
+that case all of these CES are not going to be run and then we do the same thing for ichimoku where we check that if the
+1:02:44
+ichimoku filter is true and the buyon is true which is going to be the default value but then if the type of the order
+1:02:51
+we're sending is either buy limit or buy stop so we're sending buy orders but the function where we're checking whether or
+1:02:58
+not the price is above or below our parameter whether it's price above K line 10 above Kon whatever is our option
+1:03:06
+if it returns below then we're not interested in buying so then in that case we're going to turn the M filter to
+1:03:13
+buy on false and we're going to return so this trading operation is not going
+1:03:19
+to happen because the EA is going to exit the function from here and then if the chuku filter was
+1:03:26
+true and the sell on was also true which is the default value but then if it was
+1:03:31
+a type sell but the price was actually or whatever is the criteria for ichimoku
+1:03:37
+if it's returning the value above then we're not interested in selling so in that case we turn the sell on to false
+1:03:44
+and we exit the function so these are not going to be run and no trade is going to be placed so now that we have
+1:03:51
+turned these to false all of these values which started as true at the beginning of the day then at the end of
+1:03:57
+the day which is the function close everything and reset we also need to reset these values back again to true so
+1:04:05
+that the next day EA can check again and then also for the news filter we need to
+1:04:10
+change the value of the news printed to false so that the EA can again print tomorrow and also change the chart color
+1:04:18
+back again to the original color which was black because here we said that if it's not printed news meaning the news
+1:04:26
+printed variable is false then only print this so we need to reset it back
+1:04:34
+to false so that when the next time the news event is going to happen on the same day as the trading day then we can
+1:04:41
+print the message again so if I compile now I don't have any errors and this
+1:04:48
+concludes all of our coding for the with the filters now I will be looking through the comment section for any
+1:04:53
+suggestions of any additional filters or any other variation that you want to add and in case if there are enough good
+1:04:59
+suggestion that I can make another video with three or four modifications then I'll come back and I'll update how those
+1:05:05
+modifications can be made so until next time guys stay safe trade safe
+1:05:13
+[Music]

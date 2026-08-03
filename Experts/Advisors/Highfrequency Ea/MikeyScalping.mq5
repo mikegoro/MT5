@@ -1,4 +1,4 @@
-//+------------------------------------------------------------------+
+﻿//+------------------------------------------------------------------+
 //|                                                MikeyScalping.mq5 |
 //|                                              TREMOR_Grid_Recovery |
 //|                                                                  |
@@ -150,11 +150,63 @@ input enumTime SessionEnd                = Inactive; // End time (broker server 
 input string   _s5_                      = "=== Grid Behaviour (audit) ===";
 input int      LayerIntervalSeconds      = 10;  // Seconds between grid layers (ESTIMATE - tune this)
 input int      MaxGridTiers              = 4;   // Hard cap on lot tiers (safety, not observed)
+input double   MaxTotalLots              = 0.30;// Hard cap on total basket volume. 0 = unlimited
+input bool     ApplyRecoveryToLots       = false;// Let recovery level scale lots on top of tiers
+
+//--- Entry signal. The video never showed what opens a cycle, so every option
+//--- here is a hypothesis being tested, not observed behaviour.
+enum enumEntrySignal
+  {
+   Sig_Momentum = 0,   // Continuation: follow the last completed bar
+   Sig_Fade     = 1,   // Reversion: fade the last completed bar
+   Sig_MAslope  = 2,   // Follow the slope of a fast MA
+   Sig_Breakout = 3,   // Break of the prior N-bar range (waits if no break)
+   Sig_AlwaysBuy= 4,   // CONTROL: always long. Measures drift + costs only
+   Sig_SessionRange = 5 // Break of a validated session range (see below)
+  };
+
+//--- Account scaling: exposure and session limits derived from balance, so a
+//--- small account trades one lot-step and unlocks deeper baskets as it grows.
+//--- This is survival sizing, not an edge - it makes decay geometric rather
+//--- than linear.
+input string   _s8_                      = "=== Account Scaling ===";
+input bool     ScaleWithBalance          = true;  // Derive caps from balance instead of fixed values
+input double   MaxLotsPer1000            = 0.30;  // Total basket lots allowed per $1000 of balance
+input double   SessionTargetPct          = 0.5;   // Session profit target as % of balance
+input double   SessionLossPct            = 0.5;   // Session loss limit as % of balance
+
+input string   _s7_                      = "=== Entry Signal (experimental) ===";
+input enumEntrySignal EntrySignal        = Sig_Momentum; // Which entry hypothesis to trade
+input int      SignalMAPeriod            = 20;   // MA period for Sig_MAslope
+input int      BreakoutBars              = 15;   // Lookback bars for Sig_Breakout
+
+//--- Session range, borrowed from the time-range EA in fix.txt.
+//--- Build a high/low over a defined window, reject the day if the range is
+//--- an unusable size, then trade the break of it. The size validation is the
+//--- point: it throws away whole sessions rather than individual trades, which
+//--- is the only lever that meaningfully cuts the transaction-cost drag.
+input string   _s9_                      = "=== Session Range (Sig_SessionRange) ===";
+input enumTime RangeStart                = _1500; // Range build starts (server time)
+input enumTime RangeEnd                  = _1530; // Range build ends (server time)
+input double   MinRangeDollars           = 1.0;   // Reject the day if range is smaller than this ($)
+input double   MaxRangeDollars           = 10.0;  // Reject the day if range is larger than this ($)
+input double   BreakBufferPct            = 10.0;  // Price must clear the edge by this % of range
+
+//--- Range-relative sizing: targets and stops scale with measured volatility
+//--- instead of being fixed dollar amounts that are too tight on a wild day
+//--- and unreachable on a dead one.
+input bool     UseRangeRelativeSizing    = true;  // Derive targets/stops from the range size
+input double   RangeTargetPct            = 25.0;  // Basket profit target as % of range
+input double   RangeTrailPct             = 25.0;  // Basket trail gap as % of range
+input double   RangeStopPct              = 100.0; // Per-trade stop loss as % of range
 
 //--- Short-session operation: attach for a 10-15 minute window, hit a target,
 //--- come off flat. The session is defined by SessionStart/SessionEnd above.
 input string   _s6_                      = "=== Session Target & Flatten ===";
+input double   BasketTrailGap            = 0.5;   // Basket trail: retrace from peak that closes all ($)
+input int      CycleCooldownSeconds      = 30;    // Wait this long after a basket closes before re-entering
 input double   SessionProfitTarget       = 0;     // Close all + stop at this session profit ($). 0 = off
+input double   SessionLossLimit          = 0;     // Close all + stop at this session loss ($). 0 = off
 input bool     CloseAllAtSessionEnd      = true;  // Flatten everything when the window closes
 input bool     BlockLayersOutsideSession = false; // Also stop adding layers outside the window
 
@@ -165,10 +217,13 @@ double   g_pip             = 0;      // 1 pip in price terms
 double   g_stopsLevel      = 0;      // broker minimum stop distance (price)
 double   g_freezeLevel     = 0;
 int      g_slippage        = 0;      // deviation in points
+int      g_sigMA           = INVALID_HANDLE;  // handle for Sig_MAslope
 
 //--- cycle / recovery state
 int      g_recoveryLevel   = 0;      // 0 = normal, 1..MaxRecoveryAttempts = recovering
 double   g_cycleBaseLot    = 0;      // tier-1 lot for the active cycle (recovery-scaled)
+double   g_cycleStartBal   = 0;      // balance when the cycle opened - exact P/L reference
+datetime g_lastCycleClose  = 0;      // for the re-entry cooldown
 datetime g_cycleStart      = 0;
 datetime g_lastLayerTime   = 0;      // AUDIT B5-2: layering is time-gated, not price-gated
 bool     g_cycleActive     = false;
@@ -179,7 +234,20 @@ double   g_dailyClosed     = 0;
 bool     g_haltedForDay    = false;
 bool     g_haltedByDrawdown= false;
 
+//--- session range state
+double   g_rangeHigh       = 0;
+double   g_rangeLow        = 0;
+double   g_rangeSize       = 0;
+bool     g_rangeValid      = false;  // passed the min/max size test
+bool     g_rangeBuilt      = false;  // window has closed and range is final
+datetime g_rangeDay        = 0;      // server day the range belongs to
+
+//--- basket exit state (armed trailing stop)
+double   g_basketPeak      = 0;      // best basket profit seen since the trail armed
+bool     g_trailArmed      = false;
+
 //--- session state
+double   g_sessionStartBal = 0;      // balance at session open - basis for % limits
 datetime g_sessionOpenTime = 0;      // when the current session window opened
 bool     g_inWindowPrev    = false;  // for detecting window open/close transitions
 bool     g_haltedForSession= false;  // session profit target reached
@@ -230,6 +298,16 @@ int OnInit()
       return(INIT_PARAMETERS_INCORRECT);
    }
 
+   if(EntrySignal == Sig_MAslope)
+   {
+      g_sigMA = iMA(_Symbol, PERIOD_CURRENT, MathMax(2, SignalMAPeriod), 0, MODE_EMA, PRICE_CLOSE);
+      if(g_sigMA == INVALID_HANDLE)
+      {
+         Print("TREMOR: failed to create signal MA handle");
+         return(INIT_FAILED);
+      }
+   }
+
    g_dayStart = ServerDayStart();
    g_recoveryLevel = 0;
    g_cycleBaseLot = NormalizeVolume(InitialLotSize);
@@ -276,6 +354,9 @@ void OnTick()
 {
    RollServerDay();
 
+   //--- build/validate the session range before anything reads it
+   UpdateSessionRange();
+
    //--- session window transitions, flatten-on-close, and the session target
    ManageSession();
 
@@ -285,10 +366,7 @@ void OnTick()
 
    //--- basket housekeeping first, so exits always get priority over entries
    DetectCycleClose();
-   SyncBasketTakeProfit();
-
-   if(UseTrailingStop)
-      TrailPositions();
+   ManageBasketExit();
 
    //--- circuit breaker 2: daily profit target
    if(CheckDailyTarget())
@@ -316,10 +394,31 @@ void ManageEntries()
       if(!InTradingWindow())
          return;
 
-      g_cycleBaseLot = NormalizeVolume(InitialLotSize * MathPow(MartingaleMultiplier, g_recoveryLevel));
+      //--- cooldown after the previous basket. Without this a new cycle opened
+      //--- on the very next tick after one closed - testing showed 14 cycles
+      //--- inside a few minutes, which is not what the source EA does.
+      if(g_lastCycleClose > 0 && (TimeCurrent() - g_lastCycleClose) < CycleCooldownSeconds)
+         return;
 
-      ENUM_ORDER_TYPE type = EntryDirection();
+      //--- Recovery scaling is OFF by default. Combining it with the tier
+   //--- escalator is multiplicative: at recovery 3 the tiers become
+   //--- 0.08 / 0.16 / 0.24, i.e. 2.40 lots across three full tiers. Testing
+   //--- that combination lost 94% of a 1000 USD account in one session
+   //--- (-939.40 on 2026.07.02). The video only ever showed tier escalation
+   //--- from a 0.01 base, never recovery stacked on top of it.
+   g_cycleBaseLot = ApplyRecoveryToLots
+                    ? NormalizeVolume(InitialLotSize * MathPow(MartingaleMultiplier, g_recoveryLevel))
+                    : NormalizeVolume(InitialLotSize);
+
+      ENUM_ORDER_TYPE type;
+      if(!GetEntrySignal(type))
+         return;
+
       double lot = TierLot(0);
+      double capOpen = EffectiveMaxLots();
+      if(capOpen > 0 && lot > capOpen)
+         lot = NormalizeVolume(capOpen);
+
       double sl = 0, tp = 0;
       ComputeInitialStops(type, lot, sl, tp);
 
@@ -327,6 +426,7 @@ void ManageEntries()
       {
          g_cycleActive   = true;
          g_cycleStart    = TimeCurrent();
+         g_cycleStartBal = AccountInfoDouble(ACCOUNT_BALANCE);
          g_lastLayerTime = TimeCurrent();
       }
       return;
@@ -354,6 +454,14 @@ void ManageEntries()
       return;
 
    double lot = TierLot(cnt);
+
+   //--- hard exposure ceiling. Balance-derived when ScaleWithBalance is on, so
+   //--- basket depth grows with the account: a small balance permits only one
+   //--- position, and further layers unlock as equity builds.
+   double capLayer = EffectiveMaxLots();
+   if(capLayer > 0 && (vol + lot) > capLayer + 0.0000001)
+      return;
+
    ENUM_ORDER_TYPE type = (dir > 0) ? ORDER_TYPE_BUY : ORDER_TYPE_SELL;
    double sl = 0, tp = 0;
    ComputeInitialStops(type, lot, sl, tp);
@@ -387,13 +495,80 @@ double TierLot(const int existingCount)
 }
 
 //+------------------------------------------------------------------+
-//| Entry direction - last completed bar's body                      |
+//| Entry signal                                                     |
+//|                                                                  |
+//| Returns false when there is no entry this tick, so a signal is    |
+//| allowed to stand aside rather than being forced to pick a side.   |
+//|                                                                  |
+//| Every branch here is a HYPOTHESIS. The source video showed only   |
+//| mid-flight baskets, never a cycle opening, so nothing about the   |
+//| entry is evidenced. Sig_AlwaysBuy is the control: whatever it     |
+//| returns is drift plus transaction costs, and any signal that      |
+//| cannot beat it is not a signal.                                   |
 //+------------------------------------------------------------------+
-ENUM_ORDER_TYPE EntryDirection()
+bool GetEntrySignal(ENUM_ORDER_TYPE &type)
 {
-   double o = iOpen(_Symbol, PERIOD_CURRENT, 1);
+   double o = iOpen(_Symbol,  PERIOD_CURRENT, 1);
    double c = iClose(_Symbol, PERIOD_CURRENT, 1);
-   return (c >= o) ? ORDER_TYPE_BUY : ORDER_TYPE_SELL;
+   bool   bullBar = (c >= o);
+
+   switch(EntrySignal)
+   {
+      case Sig_Fade:
+         type = bullBar ? ORDER_TYPE_SELL : ORDER_TYPE_BUY;
+         return(true);
+
+      case Sig_MAslope:
+      {
+         double ma[];
+         if(g_sigMA == INVALID_HANDLE) return(false);
+         if(CopyBuffer(g_sigMA, 0, 1, 2, ma) < 2) return(false);
+         ArraySetAsSeries(ma, true);
+         if(MathAbs(ma[0] - ma[1]) < g_point) return(false);   // flat: stand aside
+         type = (ma[0] > ma[1]) ? ORDER_TYPE_BUY : ORDER_TYPE_SELL;
+         return(true);
+      }
+
+      case Sig_Breakout:
+      {
+         int n = MathMax(2, BreakoutBars);
+         int hiIdx = iHighest(_Symbol, PERIOD_CURRENT, MODE_HIGH, n, 1);
+         int loIdx = iLowest (_Symbol, PERIOD_CURRENT, MODE_LOW,  n, 1);
+         if(hiIdx < 0 || loIdx < 0) return(false);
+
+         double hi  = iHigh(_Symbol, PERIOD_CURRENT, hiIdx);
+         double lo  = iLow (_Symbol, PERIOD_CURRENT, loIdx);
+         double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+         double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+
+         if(ask > hi) { type = ORDER_TYPE_BUY;  return(true); }
+         if(bid < lo) { type = ORDER_TYPE_SELL; return(true); }
+         return(false);                                        // no break: wait
+      }
+
+      case Sig_AlwaysBuy:
+         type = ORDER_TYPE_BUY;
+         return(true);
+
+      case Sig_SessionRange:
+      {
+         //--- no range yet, or the day was rejected on size: stand aside
+         if(!g_rangeBuilt || !g_rangeValid)
+            return(false);
+
+         double buffer = g_rangeSize * BreakBufferPct / 100.0;
+         double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+         double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+
+         if(ask > g_rangeHigh + buffer) { type = ORDER_TYPE_BUY;  return(true); }
+         if(bid < g_rangeLow  - buffer) { type = ORDER_TYPE_SELL; return(true); }
+         return(false);                                  // inside the range: wait
+      }
+
+      default:                                                 // Sig_Momentum
+         type = bullBar ? ORDER_TYPE_BUY : ORDER_TYPE_SELL;
+         return(true);
+   }
 }
 
 //+------------------------------------------------------------------+
@@ -404,7 +579,7 @@ void ComputeInitialStops(const ENUM_ORDER_TYPE type, const double lots, double &
    double entry = (type == ORDER_TYPE_BUY) ? SymbolInfoDouble(_Symbol, SYMBOL_ASK)
                                            : SymbolInfoDouble(_Symbol, SYMBOL_BID);
 
-   double slDist = MoneyToPriceDistance(StopLossPerTrade,   lots);
+   double slDist = MoneyToPriceDistance(EffectiveStopPerTrade(), lots);
    double tpDist = MoneyToPriceDistance(TakeProfitPerTrade, lots);
 
    double minDist = MathMax(g_stopsLevel, g_point);
@@ -424,80 +599,104 @@ void ComputeInitialStops(const ENUM_ORDER_TYPE type, const double lots, double &
 }
 
 //+------------------------------------------------------------------+
-//| Unified basket take profit                                       |
+//| Basket exit â€” armed trailing stop                                |
 //|                                                                  |
-//| Solves for the price at which the whole basket is worth the      |
-//| target, then writes that price to every position's TP.           |
+//| Replaces the fixed basket take profit, which the video audit      |
+//| falsified: baskets were observed sitting open at +1.35, +3.71,    |
+//| +5.55, +8.61, +10.47 and +14.71 against ProfitTargetInDollars of  |
+//| 0.50, and no per-trade TP at 1.00 ever fired either.              |
 //|                                                                  |
-//| *** UNVERIFIED — CONTRADICTED BY THE VIDEO ***                   |
-//| AUDIT item 4: baskets were observed sitting open at +1.35, +3.71,|
-//| +5.55, +8.61, +10.47 and +14.71 against ProfitTargetInDollars of |
-//| 0.50, and no per-trade TP at 1.00 ever fired either. So AXIOM is |
-//| NOT exiting on a fixed basket target.                            |
+//| Evidence for what replaces it is thinner â€” ONE exit was recovered |
+//| (S10->S8: a single position closed at +0.35, below both targets), |
+//| which is consistent with a trailing exit but cannot prove it.     |
+//| AXIOM does ship `Use trailing stop = true`.                       |
 //|                                                                  |
-//| None of the 32 screenshots shows a basket closing, so the real   |
-//| exit rule is unknown. This is left in place deliberately:        |
-//| removing it without a replacement would leave baskets with no    |
-//| defined exit at all. Treat it as a placeholder, not as verified  |
-//| behaviour.                                                       |
+//| Mechanism:                                                        |
+//|   arm    when basket profit reaches ProfitTargetInDollars         |
+//|          (or TakeProfitPerTrade while only one position is open)  |
+//|   track  the basket's peak profit from that moment                |
+//|   exit   when profit retraces BasketTrailGap from that peak       |
+//|                                                                  |
+//| The level is mirrored to every position's stop loss so a terminal |
+//| disconnect still exits, with a market close as the primary path.  |
 //+------------------------------------------------------------------+
-void SyncBasketTakeProfit()
+void ManageBasketExit()
 {
    int cnt; double vol, wavg, profit, lastEntry; int dir;
    BasketStats(cnt, vol, wavg, profit, dir, lastEntry);
 
+   //--- flat: reset and wait for the next basket
    if(cnt == 0 || vol <= 0)
+   {
+      g_trailArmed = false;
+      g_basketPeak = 0;
+      return;
+   }
+
+   if(!UseTrailingStop)
       return;
 
-   //--- a lone position uses the per-trade target; a real basket uses the basket target
-   double targetMoney = (cnt == 1) ? TakeProfitPerTrade : ProfitTargetInDollars;
+   double armAt = (cnt == 1) ? TakeProfitPerTrade : EffectiveProfitTarget();
 
-   //--- swap and commission already accrued must be earned back on top
-   double costs = BasketCosts();
-   double needed = targetMoney - costs;
-
-   double dist = MoneyToPriceDistance(needed, vol);
-   double targetPrice = (dir > 0) ? wavg + dist : wavg - dist;
-   targetPrice = NormalizeDouble(targetPrice, g_digits);
-
-   double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
-   double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
-
-   //--- respect the broker's minimum distance from the live price
-   double minDist = MathMax(g_stopsLevel, g_point);
-   if(dir > 0 && targetPrice < bid + minDist) targetPrice = NormalizeDouble(bid + minDist, g_digits);
-   if(dir < 0 && targetPrice > ask - minDist) targetPrice = NormalizeDouble(ask - minDist, g_digits);
-
-   for(int i = PositionsTotal() - 1; i >= 0; i--)
+   if(!g_trailArmed)
    {
-      if(!posinfo.SelectByIndex(i))                continue;
-      if(posinfo.Symbol() != _Symbol)              continue;
-      if(posinfo.Magic()  != MagicNumber)          continue;
+      if(profit < armAt)
+         return;
 
-      double curTp = posinfo.TakeProfit();
-      double curSl = posinfo.StopLoss();
-
-      if(MathAbs(curTp - targetPrice) < g_point * 0.5)
-         continue;
-
-      //--- do not fight the freeze level
-      double ref = (posinfo.PositionType() == POSITION_TYPE_BUY) ? bid : ask;
-      if(g_freezeLevel > 0 && MathAbs(targetPrice - ref) < g_freezeLevel)
-         continue;
-
-      if(!trade.PositionModify(posinfo.Ticket(), curSl, targetPrice))
-         LogTradeFailure("PositionModify(TP)", posinfo.Ticket());
+      g_trailArmed = true;
+      g_basketPeak = profit;
+      PrintFormat("TREMOR: basket trail armed at %.2f (%d positions, %.2f lots)",
+                  profit, cnt, vol);
    }
+
+   if(profit > g_basketPeak)
+      g_basketPeak = profit;
+
+   double stopMoney = g_basketPeak - EffectiveTrailGap();
+
+   //--- primary exit: close at market on the retrace
+   if(profit <= stopMoney)
+   {
+      PrintFormat("TREMOR: basket trail hit - peak %.2f, now %.2f, closing %d positions",
+                  g_basketPeak, profit, cnt);
+      CloseAllPositions();
+      g_trailArmed = false;
+      g_basketPeak = 0;
+      return;
+   }
+
+   //--- secondary: put the same level on the broker as a stop loss
+   SyncBasketTrailStop(dir, vol, wavg, stopMoney);
 }
 
 //+------------------------------------------------------------------+
-//| Trailing stop, per position, once it has earned TakeProfitPerTrade|
+//| Mirror the basket trail level onto every position's stop loss     |
+//|                                                                  |
+//| Solves for the price at which the basket is worth stopMoney, then |
+//| writes it to all positions. Never loosens an existing stop.       |
 //+------------------------------------------------------------------+
-void TrailPositions()
+void SyncBasketTrailStop(const int dir, const double vol, const double wavg,
+                         const double stopMoney)
 {
+   if(vol <= 0)
+      return;
+
+   //--- accrued swap and commission shift the break-even point
+   double needed = stopMoney - BasketCosts();
+   double dist   = MoneyToPriceDistance(needed, vol);
+
+   double stopPrice = (dir > 0) ? wavg + dist : wavg - dist;
+   stopPrice = NormalizeDouble(stopPrice, g_digits);
+
    double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
    double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
-   double minDist = MathMax(g_stopsLevel, g_point);
+   double minDist = MathMax(MathMax(g_stopsLevel, g_freezeLevel), g_point);
+
+   //--- must sit on the correct side of the market by the broker's margin,
+   //--- otherwise the modify is rejected. If it cannot, the market-close
+   //--- path in ManageBasketExit is doing the work anyway.
+   if(dir > 0 && stopPrice > bid - minDist) return;
+   if(dir < 0 && stopPrice < ask + minDist) return;
 
    for(int i = PositionsTotal() - 1; i >= 0; i--)
    {
@@ -505,38 +704,21 @@ void TrailPositions()
       if(posinfo.Symbol() != _Symbol)     continue;
       if(posinfo.Magic()  != MagicNumber) continue;
 
-      double lots  = posinfo.Volume();
-      double open  = posinfo.PriceOpen();
       double curSl = posinfo.StopLoss();
       double curTp = posinfo.TakeProfit();
 
-      double armDist   = MoneyToPriceDistance(TakeProfitPerTrade, lots);
-      double trailDist = MathMax(MoneyToPriceDistance(DistanceForPending, lots), minDist);
-
-      if(posinfo.PositionType() == POSITION_TYPE_BUY)
+      //--- never move a stop backwards
+      if(curSl > 0)
       {
-         if((bid - open) < armDist) continue;
-
-         double newSl = NormalizeDouble(bid - trailDist, g_digits);
-         if(newSl <= open) continue;                       // never trail below entry
-         if(curSl > 0 && newSl <= curSl) continue;         // never loosen
-         if((bid - newSl) < minDist) continue;
-
-         if(!trade.PositionModify(posinfo.Ticket(), newSl, curTp))
-            LogTradeFailure("PositionModify(trail buy)", posinfo.Ticket());
+         if(dir > 0 && stopPrice <= curSl + g_point * 0.5) continue;
+         if(dir < 0 && stopPrice >= curSl - g_point * 0.5) continue;
       }
-      else
-      {
-         if((open - ask) < armDist) continue;
 
-         double newSl = NormalizeDouble(ask + trailDist, g_digits);
-         if(newSl >= open) continue;
-         if(curSl > 0 && newSl >= curSl) continue;
-         if((newSl - ask) < minDist) continue;
+      if(MathAbs(stopPrice - curSl) < g_point * 0.5)
+         continue;
 
-         if(!trade.PositionModify(posinfo.Ticket(), newSl, curTp))
-            LogTradeFailure("PositionModify(trail sell)", posinfo.Ticket());
-      }
+      if(!trade.PositionModify(posinfo.Ticket(), stopPrice, curTp))
+         LogTradeFailure("PositionModify(basket trail)", posinfo.Ticket());
    }
 }
 
@@ -551,8 +733,19 @@ void DetectCycleClose()
    if(CountPositions() > 0)
       return;
 
-   //--- the basket just went flat: settle the cycle's realised result
-   double netPL = RealizedProfit(g_cycleStart - 1, TimeCurrent() + 1);
+   //--- The basket just went flat: settle the cycle's realised result.
+   //---
+   //--- This used to be RealizedProfit(g_cycleStart - 1, TimeCurrent() + 1).
+   //--- That was wrong: the one-second padding on each end meant that when a
+   //--- cycle completed in under a second, the window swallowed the PREVIOUS
+   //--- cycle's closing deals and counted them again. In testing this produced
+   //--- runs like -3.50, -4.25, -4.36, -6.92, -9.48 within twelve seconds and
+   //--- drove the recovery level to maximum on losses that were largely phantom.
+   //---
+   //--- Balance delta is exact: balance only moves when a position closes, and
+   //--- we only reach here when the basket is flat. (Assumes this EA is the only
+   //--- thing trading the account - true for the tester, worth knowing live.)
+   double netPL = AccountInfoDouble(ACCOUNT_BALANCE) - g_cycleStartBal;
 
    if(netPL <= -LossToTriggerRecovery)
    {
@@ -572,9 +765,10 @@ void DetectCycleClose()
                   netPL, g_recoveryLevel);
    }
 
-   g_cycleBaseLot = NormalizeVolume(InitialLotSize * MathPow(MartingaleMultiplier, g_recoveryLevel));
-   g_cycleActive  = false;
-   g_cycleStart   = 0;
+   g_cycleBaseLot   = NormalizeVolume(InitialLotSize * MathPow(MartingaleMultiplier, g_recoveryLevel));
+   g_cycleActive    = false;
+   g_cycleStart     = 0;
+   g_lastCycleClose = TimeCurrent();
 }
 
 //+------------------------------------------------------------------+
@@ -639,6 +833,136 @@ void RollServerDay()
 }
 
 //+------------------------------------------------------------------+
+//| Session range builder                                            |
+//|                                                                  |
+//| Tracks the high and low across the RangeStart..RangeEnd window,   |
+//| then freezes it and validates the size once the window closes.    |
+//| An invalid range disables Sig_SessionRange for the whole day.     |
+//+------------------------------------------------------------------+
+void UpdateSessionRange()
+{
+   int rs = (int)RangeStart;
+   int re = (int)RangeEnd;
+   if(rs < 0 || re < 0)
+      return;                                   // Inactive on either end
+
+   //--- new server day resets everything
+   datetime today = ServerDayStart();
+   if(today != g_rangeDay)
+   {
+      g_rangeDay   = today;
+      g_rangeHigh  = 0;
+      g_rangeLow   = 0;
+      g_rangeSize  = 0;
+      g_rangeValid = false;
+      g_rangeBuilt = false;
+   }
+
+   MqlDateTime t;
+   TimeToStruct(TimeCurrent(), t);
+   int now = t.hour * 60 + t.min;
+
+   bool inWindow = (rs <= re) ? (now >= rs && now < re)
+                              : (now >= rs || now < re);   // wraps midnight
+
+   if(inWindow)
+   {
+      double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+      if(bid <= 0) return;
+
+      if(g_rangeHigh == 0 || bid > g_rangeHigh) g_rangeHigh = bid;
+      if(g_rangeLow  == 0 || bid < g_rangeLow ) g_rangeLow  = bid;
+      return;
+   }
+
+   //--- window has closed: freeze and validate, once per day
+   if(!g_rangeBuilt && g_rangeHigh > 0 && g_rangeLow > 0 && g_rangeHigh > g_rangeLow)
+   {
+      g_rangeSize  = g_rangeHigh - g_rangeLow;
+      g_rangeValid = (g_rangeSize >= MinRangeDollars && g_rangeSize <= MaxRangeDollars);
+      g_rangeBuilt = true;
+
+      PrintFormat("TREMOR: range %.2f - %.2f, size %.2f -> %s",
+                  g_rangeLow, g_rangeHigh, g_rangeSize,
+                  g_rangeValid ? "VALID, trading enabled"
+                               : "REJECTED, no trading today");
+   }
+}
+
+//+------------------------------------------------------------------+
+//| Range-relative sizing                                            |
+//|                                                                  |
+//| When enabled, targets and stops are a percentage of the measured  |
+//| range instead of fixed dollars. Values are price distances, which  |
+//| equal account currency at 0.01 lots on gold - the basis the rest   |
+//| of this EA is written against.                                    |
+//|                                                                  |
+//| Falls back to the fixed inputs whenever no valid range exists, so  |
+//| the other entry signals are unaffected.                           |
+//+------------------------------------------------------------------+
+bool RangeSizingActive()
+{
+   return(UseRangeRelativeSizing && g_rangeBuilt && g_rangeValid && g_rangeSize > 0);
+}
+
+double EffectiveProfitTarget()
+{
+   if(!RangeSizingActive()) return(ProfitTargetInDollars);
+   return(g_rangeSize * RangeTargetPct / 100.0);
+}
+
+double EffectiveTrailGap()
+{
+   if(!RangeSizingActive()) return(BasketTrailGap);
+   return(g_rangeSize * RangeTrailPct / 100.0);
+}
+
+double EffectiveStopPerTrade()
+{
+   if(!RangeSizingActive()) return(StopLossPerTrade);
+   return(g_rangeSize * RangeStopPct / 100.0);
+}
+
+//+------------------------------------------------------------------+
+//| Account scaling helpers                                          |
+//|                                                                  |
+//| Exposure cap and session limits track the balance, so the same    |
+//| settings work on a 50 USD account and a 5000 USD one. Session     |
+//| limits use the balance captured at session open, not live equity, |
+//| so the target cannot drift while a basket is running.             |
+//+------------------------------------------------------------------+
+double EffectiveMaxLots()
+{
+   if(!ScaleWithBalance)
+      return(MaxTotalLots);
+
+   double bal = AccountInfoDouble(ACCOUNT_BALANCE);
+   double cap = (bal / 1000.0) * MaxLotsPer1000;
+
+   //--- always allow at least one minimum-volume position, otherwise a small
+   //--- account can never open anything at all
+   return(MathMax(SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN), cap));
+}
+
+double EffectiveSessionTarget()
+{
+   if(!ScaleWithBalance)
+      return(SessionProfitTarget);
+
+   double basis = (g_sessionStartBal > 0) ? g_sessionStartBal : AccountInfoDouble(ACCOUNT_BALANCE);
+   return(basis * SessionTargetPct / 100.0);
+}
+
+double EffectiveSessionLoss()
+{
+   if(!ScaleWithBalance)
+      return(SessionLossLimit);
+
+   double basis = (g_sessionStartBal > 0) ? g_sessionStartBal : AccountInfoDouble(ACCOUNT_BALANCE);
+   return(basis * SessionLossPct / 100.0);
+}
+
+//+------------------------------------------------------------------+
 //| Session manager                                                  |
 //|                                                                  |
 //| Built for short-window operation: attach for 10-15 minutes in the |
@@ -656,9 +980,11 @@ void ManageSession()
    if(inWin && !g_inWindowPrev)
    {
       g_sessionOpenTime   = TimeCurrent();
+      g_sessionStartBal   = AccountInfoDouble(ACCOUNT_BALANCE);
       g_haltedForSession  = false;
       g_sessionProfit     = 0;
-      PrintFormat("TREMOR: session opened, target %.2f", SessionProfitTarget);
+      PrintFormat("TREMOR: session opened, balance %.2f, target %.2f, loss limit %.2f, max lots %.2f",
+                  g_sessionStartBal, EffectiveSessionTarget(), EffectiveSessionLoss(), EffectiveMaxLots());
    }
 
    //--- window just closed: flatten if asked
@@ -687,11 +1013,28 @@ void ManageSession()
    }
 
    //--- target reached: bank it and stand down for the rest of the window
-   if(SessionProfitTarget > 0 && inWin && !g_haltedForSession &&
-      g_sessionProfit >= SessionProfitTarget)
+   double sesTarget = EffectiveSessionTarget();
+   double sesLoss   = EffectiveSessionLoss();
+
+   if(sesTarget > 0 && inWin && !g_haltedForSession &&
+      g_sessionProfit >= sesTarget)
    {
       PrintFormat("TREMOR: session target hit (%.2f >= %.2f) - closing all",
-                  g_sessionProfit, SessionProfitTarget);
+                  g_sessionProfit, sesTarget);
+      CloseAllPositions();
+      g_haltedForSession = true;
+      UpdateDashboard();
+   }
+
+   //--- loss limit: the mirror image of the target.
+   //--- Without this, wins stop at SessionProfitTarget while losses run to the
+   //--- closing bell. Testing showed exactly that asymmetry - four sessions
+   //--- capped at about +5 and a single unbounded -28.54 that erased them all.
+   if(sesLoss > 0 && inWin && !g_haltedForSession &&
+      g_sessionProfit <= -sesLoss)
+   {
+      PrintFormat("TREMOR: session loss limit hit (%.2f <= -%.2f) - closing all",
+                  g_sessionProfit, sesLoss);
       CloseAllPositions();
       g_haltedForSession = true;
       UpdateDashboard();
@@ -1099,12 +1442,15 @@ void UpdateDashboard()
    else
       SetLabel("Sess", "Session           inactive (24h)", neutral);
 
-   if(SessionProfitTarget > 0)
-      SetLabel("Target", StringFormat("Session P/L  %10.2f  / %.2f", g_sessionProfit, SessionProfitTarget),
-               (g_sessionProfit >= SessionProfitTarget ? good :
+   double dTgt = EffectiveSessionTarget();
+   double dLos = EffectiveSessionLoss();
+   if(dTgt > 0 || dLos > 0)
+      SetLabel("Target", StringFormat("Session P/L  %8.2f  +%.2f/-%.2f  cap %.2f",
+               g_sessionProfit, dTgt, dLos, EffectiveMaxLots()),
+               (g_sessionProfit >= dTgt && dTgt > 0 ? good :
                 g_sessionProfit >= 0 ? neutral : bad));
    else
-      SetLabel("Target", "Session P/L       no target set", neutral);
+      SetLabel("Target", "Session P/L       no limits set", neutral);
 
    string status = "TRADING";
    color  sclr   = good;
