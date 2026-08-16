@@ -1,8 +1,8 @@
 //+------------------------------------------------------------------+
 //|                        High Frequency EA cleaned up by Mr CapFree |
 //+------------------------------------------------------------------+
-#property copyright "Copyright 2025, Mr. CapFree"
-#property link      "https://www.mrCapFree.com"
+#property copyright "Copyright 2025, Tremor Beast"
+#property link      "https://www.Tremor Beast.com"
 #property version   "1.00"
 
 #include        <Trade\Trade.mqh>
@@ -40,8 +40,18 @@ input group "TRADE SETTING IN POINTS"; // TRADE SETTINGS
    input double MaxTrailing = 4; // COS (Start of Trailing Stop)
    input int MaxSpread = 5555; // Max Spread Limit
 
+input group "=== Order Modification ==="
+input int    InpMinSeconds    = 60;         // Min seconds between modifications
+input int    InpMaxSeconds    = 180;        // Max seconds before forced refresh (0 = off)
+input double InpMinOrderMod   = 0.5;        // Min order modification (x spread)
+input double InpMaxOrderMod   = 7.0;        // Max order modification (x spread)
+
 
 double DeltaX = Delta;
+
+//--- Order Modification working values (clamped copies of the inputs above)
+double minOrderModX = 0, maxOrderModX = 0;
+int    minSecondsX  = 0, maxSecondsX  = 0;
 
 // Addition in v2
 //=========================
@@ -142,9 +152,27 @@ int OnInit(){
 
 //=========================================
 
-   if ((MinOrderDistance > Delta)) {
-      DeltaX = (MinOrderDistance + 0.1);
-   }
+   //--- Order Modification clamps
+   //--- minimum band has a floor, and Delta is pushed above it so a freshly
+   //--- placed order does not immediately sit inside the modification band
+   minOrderModX = InpMinOrderMod;
+   if(minOrderModX < 0.1)
+      minOrderModX = 0.1;
+
+   DeltaX = Delta;
+   if(minOrderModX > DeltaX)
+      DeltaX = minOrderModX + 0.1;
+
+   //--- max band must clear the placement distance, otherwise the order is
+   //--- born already violating it and the EA thrashes modify requests
+   maxOrderModX = InpMaxOrderMod;
+   if(maxOrderModX <= DeltaX)
+      maxOrderModX = DeltaX + 1.0;
+
+   minSecondsX = (InpMinSeconds < 1) ? 1 : InpMinSeconds;
+   maxSecondsX = InpMaxSeconds;
+   if(maxSecondsX > 0 && maxSecondsX <= minSecondsX)
+      maxSecondsX = minSecondsX * 2;
    if ((MaxTrailing > MaxTrailingLimit)) {
       MaxTrailingLimit = (MaxTrailing + 0.1);
    }
@@ -248,6 +276,7 @@ void OnTick(){
          }
       }
    }
+   
 
    double Ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
    double Bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
@@ -269,14 +298,30 @@ void OnTick(){
 
    // Calculate order distances
    AdjustedOrderDistance = MathMax(AverageSpread * Delta, MinStopDistance);
-   MinOrderModification = MathMax(AverageSpread * MinOrderDistance, MinFreezeDistance);
+   MinOrderModification = MathMax(AverageSpread * minOrderModX, MinFreezeDistance + _Point);
 
    // Calculate trailing stop values
    TrailingStopActive = AverageSpread * MaxTrailing;
    TrailingStopMax = AverageSpread * MaxTrailingLimit;
-   MaxOrderPlacementDistance = AverageSpread * MaxDistance;
+   MaxOrderPlacementDistance = AverageSpread * maxOrderModX;
    OrderPlacementStep = MinOrderModification / OrderModificationFactor;
    CalculatedStopLoss = MathMax(AverageSpread * Stop, MinStopDistance);
+      // ========== ADD DEBUG CODE HERE ==========
+   if(TickCounter % 100 == 0) {
+      Print("=== DEBUG INFO ===");
+      Print("Ask: ", Ask, " Bid: ", Bid);
+      Print("CalculatedStopLoss: ", CalculatedStopLoss);
+      Print("AverageSpread: ", AverageSpread);
+      Print("MinStopDistance: ", MinStopDistance);
+      Print("BrokerStopLevel: ", BrokerStopLevel);
+      Print("CurrentSpread: ", CurrentSpread);
+      Print("Delta: ", Delta);
+      Print("Stop: ", Stop);
+      Print("MinFreezeDistance: ", MinFreezeDistance);
+      Print("AdjustedOrderDistance: ", AdjustedOrderDistance);
+      Print("MaxOrderPlacementDistance: ", MaxOrderPlacementDistance);
+   }
+   // ========== END DEBUG CODE ==========
 
    for(int i = PositionsTotal()-1; i >= 0; i--) {
       if(posinfo.SelectByIndex(i) &&
@@ -353,11 +398,17 @@ void OnTick(){
 
          int timeDiff = (int)(CurrentTime - LastBuyOrderTime);
 
-         bool needsModification = (timeDiff > Secs) ||
-            (TickCounter % OrderCheckFrequency == 0 &&
-            ((OpenBuyCount < 1 && (openPrice - SymbolInfoDouble(_Symbol, SYMBOL_ASK)) < MinOrderModification) ||
-            (openPrice - SymbolInfoDouble(_Symbol, SYMBOL_ASK)) < OrderPlacementStep ||
-            (openPrice - SymbolInfoDouble(_Symbol, SYMBOL_ASK)) > MaxOrderPlacementDistance));
+         //--- forced refresh: drag a stale order back to the correct price even
+         //--- if none of the distance conditions are met (0 disables)
+         bool forcedRefresh = (maxSecondsX > 0 && timeDiff > maxSecondsX);
+
+         bool needsModification =
+            (TickCounter % OrderCheckFrequency == 0) &&
+            (forcedRefresh ||
+             ((timeDiff > minSecondsX) &&
+              ((OpenBuyCount < 1 && (openPrice - SymbolInfoDouble(_Symbol, SYMBOL_ASK)) < MinOrderModification) ||
+               (openPrice - SymbolInfoDouble(_Symbol, SYMBOL_ASK)) < OrderPlacementStep ||
+               (openPrice - SymbolInfoDouble(_Symbol, SYMBOL_ASK)) > MaxOrderPlacementDistance)));
 
          if(needsModification == true) {
             double distance = AdjustedOrderDistance;
@@ -385,11 +436,17 @@ void OnTick(){
 
          int timeDiff = (int)(CurrentTime - LastSellOrderTime);
 
-         bool needsModification = (timeDiff > Secs) ||
-            (TickCounter % OrderCheckFrequency == 0 &&
-            ((OpenSellCount < 1 && (SymbolInfoDouble(_Symbol, SYMBOL_BID) - openPrice) < MinOrderModification) ||
-            (SymbolInfoDouble(_Symbol, SYMBOL_BID) - openPrice) < OrderPlacementStep ||
-            (SymbolInfoDouble(_Symbol, SYMBOL_BID) - openPrice) > MaxOrderPlacementDistance));
+         //--- forced refresh: drag a stale order back to the correct price even
+         //--- if none of the distance conditions are met (0 disables)
+         bool forcedRefresh = (maxSecondsX > 0 && timeDiff > maxSecondsX);
+
+         bool needsModification =
+            (TickCounter % OrderCheckFrequency == 0) &&
+            (forcedRefresh ||
+             ((timeDiff > minSecondsX) &&
+              ((OpenSellCount < 1 && (SymbolInfoDouble(_Symbol, SYMBOL_BID) - openPrice) < MinOrderModification) ||
+               (SymbolInfoDouble(_Symbol, SYMBOL_BID) - openPrice) < OrderPlacementStep ||
+               (SymbolInfoDouble(_Symbol, SYMBOL_BID) - openPrice) > MaxOrderPlacementDistance)));
 
          if(needsModification == true) {
             double distance = AdjustedOrderDistance;
@@ -609,6 +666,7 @@ void TrailStop(){
 
       return;
    }
+   
 
 //=================================================
 // Version 2 changes = Adding all the other trailing stop methods
