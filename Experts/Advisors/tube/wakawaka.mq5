@@ -13,10 +13,6 @@
 #property strict
 #property  description "Waka waka EA"
 
-#include <Trade\Trade.mqh>
-      CTrade         Trade;
-      CPositionInfo  posInfo;
-      COrderInfo     ordInfo;
 int OnInit()
   {
 //---
