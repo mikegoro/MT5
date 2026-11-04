@@ -37,8 +37,8 @@ input group "==== EA Specific Variables=="
       input TrSides    TradingSides             =0;             //Trade one_side or Both-sides?
 
 input group "=== Range Parameters===="
-      input Hours      RangeStarthour           =8;      //Start-Hour for Range
-      input Minutes    RangeStatMin             =0;      //Start-Minute for Range
+      input Hours      RangeStartHour           =8;      //Start-Hour for Range
+      input Minutes    RangeStartMin            =0;      //Start-Minute for Range
       input Hours      RangeEndHour             =12;     //End hour for Range
       input Minutes    RangeEndMin              =0;      //End Minutes for Range
       input Hours      TradeCloseHour           =22;    //Close hour for Open Trades
@@ -142,6 +142,26 @@ void OnTick(){
 }
 
 
+//EA specific functions
+void ConvertTimes(){
+   TimeToStruct(TimeCurrent(),starttime);
+   starttime.hour =RangeStartHour; starttime.min =RangeStartMin;
+   timestart=StructToTime(starttime);
+
+   TimeToStruct(TimeCurrent(),endtime);
+   endtime.hour =RangeEndHour; endtime.min=RangeEndMin;
+   timeend      =StructToTime(endtime);
+
+   TimeToStruct(TimeCurrent(),closetime);
+   closetime.hour =TradeCloseHour; closetime.min=TradeCloseMin;
+   timeclose= StructToTime(closetime);
+
+   if(BarsRangeStart ==0 && TimeCurrent()>=timestart){
+      BarsRangeStart =iBars(_Symbol,InpTimeFrame);
+   }
+
+}
+
 
 
 
@@ -209,11 +229,12 @@ void CheckforOpenOrdersandPositions(){
    }
 }
 
+
 double findHigh(){
    double highestHigh =0;
    for(int i =0; i<200;i++){
       double high=iHigh(_Symbol,InpTimeFrame,i);
-      if(i>BarsN && iHighest(_Symbol,InpTimeFrame,MODE_HIGH,BarsN*2+1,i-BarsN)==1){
+      if(i>BarsN && iHighest(_Symbol,InpTimeFrame,MODE_HIGH,BarsN*2+1, i-BarsN) ==1){
          if(high > highestHigh){
             return  high;
          }
@@ -221,6 +242,21 @@ double findHigh(){
       }
       highestHigh = MathMax(high,highestHigh);
 
+   }
+   return -1;
+}
+
+
+double findLow(){
+   double lowestLow=DBL_MAX;
+   for(int i= 0; i<200;i++){
+      double low=iLow(_Symbol,InpTimeFrame,i);
+      if(i>BarsN && iLowest(_Symbol,InpTimeFrame,MODE_LOW,BarsN*2+1,i-BarsN)==i){
+         if(low < lowestLow){
+            return low;
+         }
+      }
+      lowestLow =MathMin(low,lowestLow);     
    }
    return -1;
 }
