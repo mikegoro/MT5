@@ -11,8 +11,18 @@ CPositionInfo    posinfo;    // This is to get open positions
 COrderInfo       ordinfo;    // This is to get infomation of order placed
 CHistoryOrderInfo  hisinfo;  // This is used to get the histolical orders
 CDealInfo          dealinfo;  //Tjis is to get all the deals inforamtion wer can get
+
+
+
+
 // give the user option to select whether to choose what lot type he/she wnats to use we use enum
 enum enumLotType{Fixed_lots=0,Pct_of_balance=1,Pct_of_Equity=2,Pct_of_free_margin=3};
+// this is a drop down on news separator 
+enum sep_dropdown{ comma=0,semicolon=1};
+// this to select Hours to trade it will appear like a drop down 
+enum trading_hours{Inactive=0,_0100=1,_0200=2,_0300=3,_0400=4,_0500=5,_0600=6,_0700=7,_0800=8,
+   _0900=9,_1000=10,_1100=11,_1200=12,_1300=13,_1400=14,_1500=15,_1600=16,_1700=17,_1800=18,
+   _1900=19,_2000=20,_2100=21,_2200=22,_2300=23};
 
 // General Settings'
 input group "GENERAL SETTINGS";
@@ -22,8 +32,8 @@ input group "GENERAL SETTINGS";
 
 
 input group "TIME SETTINGS";
-   input int StartHour  = 16;    //START TRADING HOUR
-   input int EndHour    = 22;    //END TRADING HOUR
+   input trading_hours StartHour  = _1000;    //START TRADING HOUR
+   input trading_hours EndHour    = _2200;    //END TRADING HOUR
    input int Secs       = 60;    // Order MoDiFICATION(should be same as TF)
 
 input group "MONEY MANAGEMENT ";
@@ -61,8 +71,11 @@ input group "=== If Trailing by Fast Moving Average ==";
 input group "=== If Take Profit is Selected ==== " 
     input int TakeProfite  = 0;    /// Here the user will set the take Profit in Points
 
+input group "===News Filter"
+   input bool            NewsFilter      = true; // filter for news
+   input sep_dropdown    separator       = 0;    // separator to separate news Keywords
+   input string          KeyNews         = "NFP,JOLTS,Nonfarm,PMI,retail,Interest Rate";
 /// CREATING VARIABLES THIS ARE NOT USER DEFINED
-
 double DeltaX = Delta;
 
 double MinOrderDistance        = 5;
@@ -107,7 +120,7 @@ double TrailingStopActive      =0;
 double TrailingStopMax           =0;
 double MaxOrderPlacementDistance =0;
 double OrderPlacementStep        =0;
-double CalculatedStoploss        =0;
+double CalculatedStopLoss       =0;
 bool   AllowBuyOrders            =false;
 
 
@@ -121,7 +134,7 @@ double CurrentBuySL              =0;
 string OrderCommentText          ="Tremor Beast Scalper";
 int    LastBuyOrderTime          =0;
 bool   TradeAllowed              =false;
-double CurrentSellSl             =0;
+double CurrentSellSL             =0;
 
 
 int    LastSellOrderTime       =0;
@@ -200,216 +213,221 @@ void OnDeinit(const int reason){
 // price data will be run on every tick in mql
 void OnTick(){
 
-   //local Variables
-   int CurrentTime            = (int) TimeCurrent();
-   int PendingBuyCount        =  0;
-   int PendingSellCount       =  0;
-   int OpenBuyCount           =  0;
-   int OpenSellCount          =  0;
-   int TotalBuyCount          =  0;
-   int TotalSellCount         =  0;
-   double OrderLotsValue      =  0;
-   double OrderStopLossValue  =  0;
-   double OrderTakeProfitValue=  0;
-   double OrderOpenPriceValue =  0;
-   double NewOrderTakeProfit  =  0; // Take Profit
-   double BuyOrdersPriceSum   =  0;
-   double BuyOrdersLotSum     =  0;
-   double SellOrdersPriceSum  =  0;
-   double SellOrdersLotSum    =  0;
-   double AverageBuyPrice     =  0;
-   double AverageSellPrice    =  0;
-   double LowestBuyPrice      =  99999;
-   double HighestSellPrice    =  0;
+   int CurrentTime = (int)TimeCurrent();
+   int PendingBuyCount = 0;
+   int PendingSellCount = 0;
+   int OpenBuyCount = 0;
+   int OpenSellCount = 0;
+   int TotalBuyCount = 0;
+   int TotalSellCount = 0;
+   double OrderLotsValue = 0;
+   double OrderStopLossValue = 0;
+   double OrderTakeProfitValue = 0;
+   double OrderOpenPriceValue = 0;
+   double NewOrderTakeProfit = 0;
+   double BuyOrdersPriceSum = 0;
+   double BuyOrdersLotSum = 0;
+   double SellOrdersPriceSum = 0;
+   double SellOrdersLotSum = 0;
+   double AverageBuyPrice = 0;
+   double AverageSellPrice = 0;
+   double LowestBuyPrice = 99999;
+   double HighestSellPrice = 0;
 
-TickCounter++;
+   TickCounter++;
 
-if(PriceToPipRatio==0){
-   HistorySelect(0,TimeCurrent());
-   for(int i =HistoryDealsTotal()-1; i>=0; i--){
-      ulong ticket = HistoryDealGetTicket(i);
-      if(ticket == 0) continue;
+   if (PriceToPipRatio == 0) {
+      HistorySelect(0, TimeCurrent());
+      for(int i = HistoryDealsTotal()-1; i >= 0; i--) {
+         ulong ticket = HistoryDealGetTicket(i);
+         if(ticket == 0) continue;
 
-      if(HistoryDealGetString(ticket,DEAL_SYMBOL) != _Symbol) continue;
-      if(HistoryDealGetDouble(ticket,DEAL_PROFIT) == 0) continue;
-      if(HistoryDealGetInteger(ticket,DEAL_ENTRY) != DEAL_ENTRY_OUT) continue;
-      ulong posID  = HistoryDealGetInteger(ticket,DEAL_POSITION_ID);
-      if (posID == 0) continue;
+         if(HistoryDealGetString(ticket, DEAL_SYMBOL) != _Symbol) continue;
+         if(HistoryDealGetDouble(ticket, DEAL_PROFIT) == 0) continue;
+         if(HistoryDealGetInteger(ticket, DEAL_ENTRY) != DEAL_ENTRY_OUT) continue;
 
-      //Find the Corresponding entry deal
-      if(HistoryDealSelect(posID)){
-         double entryPrice = HistoryDealGetDouble(posID,DEAL_PRICE);
-         double exitPrice  = HistoryDealGetDouble(ticket, DEAL_PRICE);
-         double profit     = HistoryDealGetDouble(ticket, DEAL_PROFIT);
-         double commission = HistoryDealGetDouble(ticket,DEAL_COMMISSION);
+         ulong posID = HistoryDealGetInteger(ticket, DEAL_POSITION_ID);
+         if(posID == 0) continue;
 
-         if (exitPrice != entryPrice){
-            PriceToPipRatio = fabs(profit/(exitPrice - entryPrice));// this will return the negative value to positve
-            CommissionPerPip = -commission / PriceToPipRatio;
-            break;
+         // Find the corresponding entry deal
+         if(HistoryDealSelect(posID)) {
+            double entryPrice = HistoryDealGetDouble(posID, DEAL_PRICE);
+            double exitPrice = HistoryDealGetDouble(ticket, DEAL_PRICE);
+            double profit = HistoryDealGetDouble(ticket, DEAL_PROFIT);
+            double commission = HistoryDealGetDouble(ticket, DEAL_COMMISSION);
+
+            if(exitPrice != entryPrice) {
+               PriceToPipRatio = fabs(profit / (exitPrice - entryPrice));
+               CommissionPerPip = -commission / PriceToPipRatio;
+               break;
+            }
          }
       }
    }
 
-double Ask  = SymbolInfoDouble(_Symbol,SYMBOL_ASK);
-double Bid  = SymbolInfoDouble(_Symbol,SYMBOL_BID);
+   double Ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+   double Bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
 
+   // Update spread history array
+   double newSpread = NormalizeDouble(Ask - Bid, _Digits);
+   ArrayCopy(SpreadHistoryArray, SpreadHistoryArray, 0, 1, SpreadArraySize-1);
+   SpreadHistoryArray[SpreadArraySize-1] = newSpread;
 
-/// Update Spread history Array
-double newSpread = NormalizeDouble(Ask-Bid,_Digits);
-ArrayCopy(SpreadHistoryArray,SpreadHistoryArray,0,1,SpreadArraySize - 1); /// This will delete the oldest value 
-SpreadHistoryArray[SpreadArraySize -1]   = newSpread;
-
-//calculate  MA of Spreads
-double sum =0;
-for(int i=0; i < SpreadArraySize; i++){
-   sum += SpreadHistoryArray[i];
-}
-CurrentSpread = sum / SpreadArraySize; // getting the average spread
-
-//  calcurate average Spread including commission
-AverageSpread = MathMax(SpreadMultiplier * _Point, CurrentSpread + CommissionPerPip);
-
-// calculate order distance
-AdjustedOrderDistance  = MathMax(AverageSpread * Delta, MinStopDistance);
-MinOrderDistance       = MathMax(AverageSpread * MinOrderDistance,MinFreezeDistance);
-
-//calculate Trailing stop values
-TrailingStopActive         = AverageSpread *  MaxTrailing;  // Trailing will become Active on this conditions
-TrailingStopMax            = AverageSpread  * MaxTrailingLimit; 
-MaxOrderPlacementDistance  = AverageSpread * MaxDistance;
-OrderPlacementStep         = MinOrderModification / OrderModificationFactor; 
-CalculatedStoploss         = MathMax(AverageSpread * Stop, MinStopDistance);   
-
-//function to see how many Trades are currently open
-
-for(int i = PositionsTotal()-1; i>= 0; i--){
-   if(posinfo.SelectByIndex(i) && posinfo.Symbol() == _Symbol && posinfo.Magic() == InpMagic){
-     
-      double price = posinfo.PriceOpen();
-      double lots  = posinfo.Volume();
-      double sl    = posinfo.StopLoss();
-
-
-      // here we increase the amount of buy as the market moves up  to 1 
-      if(posinfo.PositionType() == POSITION_TYPE_BUY){
-         OpenBuyCount++;
-         if(sl==0 || (sl >0 && sl < price)) TotalBuyCount++;
-         CurrentBuySL = sl;
-         BuyOrdersPriceSum += price * lots;
-         BuyOrdersLotSum   += lots;
-         if(price < LowestBuyPrice) LowestBuyPrice=price;
-      }
-      // increase the sell posistions by one 
-      else if(posinfo.PositionType()== POSITION_TYPE_SELL){
-         OpenSellCount++;
-         if(sl==0 || (sl > 0 && sl > price)) TotalSellCount++;
-         CurrentSellSl = sl;
-         SellOrdersPriceSum += price * lots;
-         SellOrdersLotSum += lots;
-         if(price > HighestSellPrice) HighestSellPrice = price;
-      }
-
+   // Calculate MA of spreads
+   double sum = 0;
+   for(int i = 0; i < SpreadArraySize; i++) {
+      sum += SpreadHistoryArray[i];
    }
-}
-for(int i= OrdersTotal()-1; i>=0; i--){
-   if(ordinfo.SelectByIndex(i) && ordinfo.Symbol() == _Symbol && ordinfo.Magic() == InpMagic){
-      if(ordinfo.OrderType() == ORDER_TYPE_BUY_STOP){
-         PendingBuyCount++;
-         TotalBuyCount++;
-      }
-      else if(ordinfo.OrderType() == ORDER_TYPE_SELL_STOP){
-         PendingSellCount++;
-         TotalSellCount++;
-      }
+   CurrentSpread = sum / SpreadArraySize;
 
+   // Calculate average spread including commission
+   AverageSpread = MathMax(SpreadMultiplier * _Point, CurrentSpread + CommissionPerPip);
+
+   // Calculate order distances
+   AdjustedOrderDistance = MathMax(AverageSpread * Delta, MinStopDistance);
+   MinOrderModification = MathMax(AverageSpread * MinOrderDistance, MinFreezeDistance);
+
+   // Calculate trailing stop values
+   TrailingStopActive = AverageSpread * MaxTrailing;
+   TrailingStopMax = AverageSpread * MaxTrailingLimit;
+   MaxOrderPlacementDistance = AverageSpread * MaxDistance;
+   OrderPlacementStep = MinOrderModification / OrderModificationFactor;
+   CalculatedStopLoss = MathMax(AverageSpread * Stop, MinStopDistance);
+
+   for(int i = PositionsTotal()-1; i >= 0; i--) {
+      if(posinfo.SelectByIndex(i) &&
+         posinfo.Symbol() == _Symbol &&
+         posinfo.Magic() == InpMagic) {
+         double price = posinfo.PriceOpen();
+         double lots = posinfo.Volume();
+         double sl = posinfo.StopLoss();
+
+         if(posinfo.PositionType() == POSITION_TYPE_BUY) {
+            OpenBuyCount++;
+            if(sl == 0 || (sl > 0 && sl < price)) TotalBuyCount++;
+            CurrentBuySL = sl;
+            BuyOrdersPriceSum += price * lots;
+            BuyOrdersLotSum += lots;
+            if(price < LowestBuyPrice) LowestBuyPrice = price;
+         }
+         else if(posinfo.PositionType() == POSITION_TYPE_SELL) {
+            OpenSellCount++;
+            if(sl == 0 || (sl > 0 && sl > price)) TotalSellCount++;
+            CurrentSellSL = sl;
+            SellOrdersPriceSum += price * lots;
+            SellOrdersLotSum += lots;
+            if(price > HighestSellPrice) HighestSellPrice = price;
+         }
+      }
    }
-}
 
-if ((BuyOrdersLotSum>0)){
-   AverageBuyPrice=NormalizeDouble((BuyOrdersPriceSum / BuyOrdersLotSum),_Digits);
-   
-}
-if((SellOrdersLotSum>0)){
-   AverageSellPrice = NormalizeDouble((SellOrdersPriceSum / SellOrdersLotSum),_Digits);
-}
+   for(int i = OrdersTotal()-1; i >= 0; i--) {
+      if(ordinfo.SelectByIndex(i) &&
+         ordinfo.Symbol() == _Symbol &&
+         ordinfo.Magic() == InpMagic) {
+
+         if(ordinfo.OrderType() == ORDER_TYPE_BUY_STOP) {
+            PendingBuyCount++;
+            TotalBuyCount++;
+         }
+         else if(ordinfo.OrderType() == ORDER_TYPE_SELL_STOP) {
+            PendingSellCount++;
+            TotalSellCount++;
+         }
+      }
+   }
+
+   if ((BuyOrdersLotSum > 0)) {
+      AverageBuyPrice = NormalizeDouble((BuyOrdersPriceSum / BuyOrdersLotSum), _Digits);
+   }
+   if ((SellOrdersLotSum > 0)) {
+      AverageSellPrice = NormalizeDouble((SellOrdersPriceSum / SellOrdersLotSum), _Digits);
+   }
 
 //create a variable
 MqlDateTime BrokerTime;
 TimeCurrent(BrokerTime);
 // processing the pedding Orders
 
-for(int i = OrdersTotal()-1; i>=0; i--){
-   if(!ordinfo.SelectByIndex(i)) continue;
-   if(ordinfo.Symbol() != _Symbol || ordinfo.Magic() != InpMagic)continue;
-   ulong ticket = ordinfo.Ticket();
-   ENUM_ORDER_TYPE type =ordinfo.OrderType();
-   double openPrice = ordinfo.PriceOpen();
-   double sl = ordinfo.StopLoss();
-   double tp = ordinfo.TakeProfit();
-   double lots = ordinfo.VolumeCurrent();
+// Process pending orders
 
-   //Process buy limit Orders
-   if(type == ORDER_TYPE_BUY_STOP){
-      bool allowTrade = (BrokerTime.hour>= StartHour && BrokerTime.hour <= EndHour);
-      if(AverageSellPrice> MaxAllowedSpread || ! allowTrade){
-         trade.OrderDelete(ticket);
-         continue;
-      }
-      // Check the time Different between the last Buy order
-      int timeDiff =(int)(CurrentTime-LastBuyOrderTime);
-      // this is for order modification and tick counts 
-      bool needsModification = (timeDiff > Secs) ||(TickCounter % OrderCheckFrequency 
-      == 0 && ((OpenBuyCount < 1 && (openPrice - SymbolInfoDouble(_Symbol,SYMBOL_ASK)) < MinOrderModification) 
-      || (openPrice - SymbolInfoDouble(_Symbol,SYMBOL_ASK)) < OrderPlacementStep 
-      || (openPrice - SymbolInfoDouble(_Symbol,SYMBOL_ASK)) > MaxOrderPlacementDistance));
+   for(int i = OrdersTotal()-1; i >= 0; i--) {
+      if(!ordinfo.SelectByIndex(i)) continue;
+      if(ordinfo.Symbol() != _Symbol || ordinfo.Magic() != InpMagic) continue;
+      ulong ticket = ordinfo.Ticket();
+      ENUM_ORDER_TYPE type = ordinfo.OrderType();
+      double openPrice = ordinfo.PriceOpen();
+      double sl = ordinfo.StopLoss();
+      double tp = ordinfo.TakeProfit();
+      double lots = ordinfo.VolumeCurrent();
 
-      if(needsModification == true){
-         double distance = AdjustedOrderDistance;
-         if(OpenBuyCount>0) distance/= OrderModificationFactor;
-         distance      = MathMax(distance,MinStopDistance);
-         double modifiedPrice = NormalizeDouble(SymbolInfoDouble(_Symbol, SYMBOL_ASK) + distance,_Digits);
-         double modifiedSl    = (OpenBuyCount > 0) ? CurrentBuySL : NormalizeDouble(modifiedPrice - CalculatedStoploss,_Digits);
-
-         if((OpenBuyCount == 0 || modifiedPrice> AverageBuyPrice) &&
-          modifiedPrice != openPrice && (openPrice - SymbolInfoDouble(_Symbol,SYMBOL_ASK)) > MinFreezeDistance){
-            trade.OrderModify(ticket,modifiedPrice,modifiedSl,tp,0,0);
-            LastBuyOrderTime = CurrentTime;
-          }
-      }
-   }
-   /// Process   sell stop orders
-   else if (type == ORDER_TYPE_SELL_STOP){
-      bool allowTrade = (BrokerTime.hour >= StartHour && BrokerTime.hour <= EndHour);
-      if(AverageSpread > MaxAllowedSpread || !allowTrade){
-         trade.OrderDelete(ticket);
-         continue;
-      }
-   }
-
-   int timeDiff =(int)(CurrentTime - LastSellOrderTime);
-   bool needsModification =(timeDiff > Secs) ||
-    (TickCounter % OrderCheckFrequency == 0 && ((OpenSellCount < 
-      1 && (SymbolInfoDouble(_Symbol,SYMBOL_BID)-openPrice)<MinOrderModification) || (SymbolInfoDouble(_Symbol,SYMBOL_BID) - openPrice) < OrderPlacementStep 
-      || (SymbolInfoDouble(_Symbol,SYMBOL_BID) - openPrice) > MaxOrderPlacementDistance));
-
-   if(needsModification == true){
-      double distance = AdjustedOrderDistance;
-      if(OpenSellCount > 0) distance /= OrderModificationFactor;
-      distance         = MathMax(distance,MinStopDistance);
-
-      double modifiedPrice = NormalizeDouble(SymbolInfoDouble(_Symbol,SYMBOL_BID)- distance, _Digits);
-      double moodifiedSl =  (OpenSellCount>0) ? CurrentSellSl : NormalizeDouble(modifiedPrice + CalculatedStoploss,_Digits);
-
-      if((OpenSellCount == 0 || modifiedPrice < AverageSellPrice) && modifiedPrice != openPrice && 
-         (SymbolInfoDouble(_Symbol,SYMBOL_BID) - openPrice) > MinFreezeDistance){  
-            trade.OrderModify(ticket,modifiedPrice,moodifiedSl,tp,0,0);
-            LastSellOrderTime = CurrentTime;    
+      // Process buy limit orders
+      if(type == ORDER_TYPE_BUY_STOP) {
+         bool allowTrade = (BrokerTime.hour >= StartHour && BrokerTime.hour <= EndHour);
+         if(AverageSpread > MaxAllowedSpread || !allowTrade) {
+            trade.OrderDelete(ticket);
+            continue;
          }
 
-   }
+         int timeDiff = (int)(CurrentTime - LastBuyOrderTime);
 
-}
+         bool needsModification = (timeDiff > Secs) ||
+            (TickCounter % OrderCheckFrequency == 0 &&
+            ((OpenBuyCount < 1 && (openPrice - SymbolInfoDouble(_Symbol, SYMBOL_ASK)) < MinOrderModification) ||
+            (openPrice - SymbolInfoDouble(_Symbol, SYMBOL_ASK)) < OrderPlacementStep ||
+            (openPrice - SymbolInfoDouble(_Symbol, SYMBOL_ASK)) > MaxOrderPlacementDistance));
+
+         if(needsModification == true) {
+            double distance = AdjustedOrderDistance;
+            if(OpenBuyCount > 0) distance /= OrderModificationFactor;
+            distance = MathMax(distance, MinStopDistance);
+
+            double modifiedPrice = NormalizeDouble(SymbolInfoDouble(_Symbol, SYMBOL_ASK) + distance, _Digits);
+            // Give this pending buy order its own SL, measured from its own entry price.
+            double modifiedSl = NormalizeDouble(modifiedPrice - CalculatedStopLoss, _Digits);
+
+            if((OpenBuyCount == 0 || modifiedPrice > AverageBuyPrice) &&
+               modifiedPrice != openPrice &&
+               (openPrice - SymbolInfoDouble(_Symbol, SYMBOL_ASK)) > MinFreezeDistance) {
+               trade.OrderModify(ticket, modifiedPrice, modifiedSl, tp, 0, 0);
+               LastBuyOrderTime = CurrentTime;
+            }
+         }
+      }
+      // Process sell stop orders
+      else if(type == ORDER_TYPE_SELL_STOP) {
+         bool allowTrade = (BrokerTime.hour >= StartHour && BrokerTime.hour <= EndHour);
+         if(AverageSpread > MaxAllowedSpread || !allowTrade) {
+            trade.OrderDelete(ticket);
+            continue;
+         }
+
+         int timeDiff = (int)(CurrentTime - LastSellOrderTime);
+
+         bool needsModification = (timeDiff > Secs) ||
+            (TickCounter % OrderCheckFrequency == 0 &&
+            ((OpenSellCount < 1 && (SymbolInfoDouble(_Symbol, SYMBOL_BID) - openPrice) < MinOrderModification) ||
+            (SymbolInfoDouble(_Symbol, SYMBOL_BID) - openPrice) < OrderPlacementStep ||
+            (SymbolInfoDouble(_Symbol, SYMBOL_BID) - openPrice) > MaxOrderPlacementDistance));
+
+         if(needsModification == true) {
+            double distance = AdjustedOrderDistance;
+            if(OpenSellCount > 0) distance /= OrderModificationFactor;
+            distance = MathMax(distance, MinStopDistance);
+
+            double modifiedPrice = NormalizeDouble(SymbolInfoDouble(_Symbol, SYMBOL_BID) - distance, _Digits);
+            // Give this pending sell order its own SL, measured from its own entry price.
+            double modifiedSl = NormalizeDouble(modifiedPrice + CalculatedStopLoss, _Digits);
+
+            if((OpenSellCount == 0 || modifiedPrice < AverageSellPrice) &&
+               modifiedPrice != openPrice &&
+               (SymbolInfoDouble(_Symbol, SYMBOL_BID) - openPrice) > MinFreezeDistance) {
+               trade.OrderModify(ticket, modifiedPrice, modifiedSl, tp, 0, 0);
+               LastSellOrderTime = CurrentTime;
+            }
+         }
+      }
+   }
 
 // Chage in V2 - All Trailing moved to TrailStop() function
 //======================================================
@@ -425,7 +443,7 @@ if((OrderModificationFactor > 1 && TotalBuyCount < 1) || OpenBuyCount < 1){
             CalculatedLotSize = MathCeil(FixedLot/LotStepSize) * LotStepSize;
             CalculatedLotSize = MathMax(CalculatedLotSize,MinLotSize); // Enforce minimum 
          } else if(LotType > 0){
-            CalculatedLotSize = calcLots(CalculatedStoploss);      
+            CalculatedLotSize = calcLots(CalculatedStopLoss);      
          }
          double marginRequired = 0.0;
          double ask            = SymbolInfoDouble(_Symbol,SYMBOL_ASK);
@@ -439,7 +457,7 @@ if((OrderModificationFactor > 1 && TotalBuyCount < 1) || OpenBuyCount < 1){
             //Buy Sl = this Pending Buy entry - calculated Stop distance
             // Here was to remove the newly created SL from placing to the current executed order price 
 
-            double orderSl =NormalizeDouble(orderPrice - CalculatedStoploss,_Digits);
+            double orderSl =NormalizeDouble(orderPrice - CalculatedStopLoss,_Digits);
             // send the order
             if(trade.OrderOpen(_Symbol, ORDER_TYPE_BUY_STOP, CalculatedLotSize,orderPrice, ask,
                 orderSl, NewOrderTakeProfit,0,0, OrderCommentText)){
@@ -455,45 +473,85 @@ if((OrderModificationFactor > 1 && TotalBuyCount < 1) || OpenBuyCount < 1){
 }
 // same logic for sell trades
 
-if((OrderModificationFactor> 1 && TotalSellCount < 1) || OpenSellCount < 1){
- if(PendingSellCount < 1){
-   bool spreadOk = (AverageSpread <= MaxAllowedSpread);
-   bool timeOk   = (BrokerTime.hour >= StartHour && BrokerTime.hour <= EndHour);
+if ((OrderModificationFactor > 1 && TotalBuyCount < 1) || OpenBuyCount < 1) {
 
-   if(spreadOk && timeOk && (CurrentTime - LastOrderTime)> MinOrderIntervel && EAModeFlag == 0){
-      // lot Size calculation
-      if(LotType == 0){
-         CalculatedLotSize = MathCeil(FixedLot / LotStepSize) * LotStepSize;
-         CalculatedLotSize = MathMax(CalculatedLotSize, MinLotSize); // enforce Minimum
+      if (PendingBuyCount < 1) {
 
-      }
-      else if (LotType > 0 ){
-         CalculatedLotSize = calcLots(CalculatedStoploss);
-      }
+         bool spreadOK = (AverageSpread <= MaxAllowedSpread);
+         bool timeOK = (BrokerTime.hour >= StartHour && BrokerTime.hour <= EndHour);
 
-      double marginRequired = 0.0;
-      double bid =SymbolInfoDouble(_Symbol,SYMBOL_BID);
-      if(OrderCalcMargin(ORDER_TYPE_SELL_STOP,_Symbol,CalculatedLotSize,bid,marginRequired)
-       && AccountInfoDouble(ACCOUNT_MARGIN_FREE) > marginRequired){
-         double orderDist = MathMax(MathMax(AdjustedOrderDistance,MinFreezeDistance), MinStopDistance);
-         double orderPrice = NormalizeDouble(bid - orderDist,_Digits);  // placing the orders below the price
+         if (spreadOK && timeOK && (CurrentTime - LastOrderTime) > MinOrderIntervel && EAModeFlag == 0) {
 
-         /// Current Pending Buy
-         // Anchor the initial SL to this orders own entry Price
-         // SELL Sl = this pending Sell entry + calculated Stop distance
-         //(OpenSellCount > 0) ? CurrentSellSl : this was the fix 
+            // Lot size calculation
+            if (LotType == 0) {
+               CalculatedLotSize = MathCeil(FixedLot / LotStepSize) * LotStepSize;
+               CalculatedLotSize = MathMax(CalculatedLotSize, MinLotSize); // Enforce minimum
+            }
+            else if (LotType > 0) {
+               CalculatedLotSize = calcLots(CalculatedStopLoss);
+            }
+            double marginRequired = 0.0;
+            double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+            if(OrderCalcMargin(ORDER_TYPE_BUY_STOP, _Symbol, CalculatedLotSize, ask, marginRequired) &&
+               AccountInfoDouble(ACCOUNT_MARGIN_FREE) > marginRequired) {
 
-         double orderSl =  NormalizeDouble(orderPrice + CalculatedStoploss,_Digits); // placement of stop loss of order
-         if(trade.OrderOpen(_Symbol,ORDER_TYPE_SELL_STOP, CalculatedLotSize,orderPrice,bid,orderSl, NewOrderTakeProfit, 0,0, OrderCommentText))
-         {
-            LastSellOrderTime =(int) TimeCurrent();
-            LastOrderTime     = (int) TimeCurrent();
+               // Calculate order price and SL
+               double orderDist = MathMax(MathMax(AdjustedOrderDistance, MinFreezeDistance), MinStopDistance);
+               double orderPrice = NormalizeDouble(ask + orderDist, _Digits);
+               // Calculate this pending buy order's SL from this order's own entry price.
+               double orderSL = NormalizeDouble(orderPrice - CalculatedStopLoss, _Digits);
+
+               if(trade.OrderOpen(_Symbol, ORDER_TYPE_BUY_STOP, CalculatedLotSize, orderPrice,
+                  ask, orderSL, NewOrderTakeProfit, 0, 0, OrderCommentText)) {
+
+                  LastBuyOrderTime = (int)TimeCurrent();
+                  LastOrderTime = (int)TimeCurrent();
+               }
+            }
          }
-       }
+      }
    }
- }
-}
-}
+
+   if ((OrderModificationFactor > 1 && TotalSellCount < 1) || OpenSellCount < 1)
+   {
+
+      if (PendingSellCount < 1)
+      {
+
+         bool spreadOK = (AverageSpread <= MaxAllowedSpread);
+         bool timeOK = (BrokerTime.hour >= StartHour && BrokerTime.hour <= EndHour);
+
+         if (spreadOK && timeOK && (CurrentTime - LastOrderTime) > MinOrderIntervel && EAModeFlag == 0) {
+
+            // Lot size calculation
+            if (LotType == 0) {
+               CalculatedLotSize = MathCeil(FixedLot / LotStepSize) * LotStepSize;
+               CalculatedLotSize = MathMax(CalculatedLotSize, MinLotSize); // Enforce minimum
+            }
+            else if (LotType > 0) {
+               CalculatedLotSize = calcLots(CalculatedStopLoss);
+            }
+
+            double marginRequired = 0.0;
+            double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+            if(OrderCalcMargin(ORDER_TYPE_SELL_STOP, _Symbol, CalculatedLotSize, bid, marginRequired) &&
+               AccountInfoDouble(ACCOUNT_MARGIN_FREE) > marginRequired) {
+
+               double orderDist = MathMax(MathMax(AdjustedOrderDistance, MinFreezeDistance), MinStopDistance);
+               double orderPrice = NormalizeDouble(bid - orderDist, _Digits);
+               // Calculate this pending sell order's SL from this order's own entry price.
+               double orderSL = NormalizeDouble(orderPrice + CalculatedStopLoss, _Digits);
+
+               if(trade.OrderOpen(_Symbol, ORDER_TYPE_SELL_STOP, CalculatedLotSize, orderPrice,
+                  bid, orderSL, NewOrderTakeProfit, 0, 0, OrderCommentText)) {
+
+                  LastSellOrderTime = (int)TimeCurrent();
+                  LastOrderTime = (int)TimeCurrent();
+               }
+            }
+         }
+      }
+   }
 }
 
 
@@ -549,43 +607,45 @@ void TrailStop(){
 // Here if the trail is default
    if(TrailType==0){
 // Process Open Positions
-for(int i = PositionsTotal() - 1; i>=0; i--){
-   if(!posinfo.SelectByIndex(i)) continue;
-   if(posinfo.Symbol() != _Symbol || posinfo.Magic() != InpMagic) continue;
+// Process open positions
+   for(int i = PositionsTotal()-1; i >= 0; i--) {
+      if(!posinfo.SelectByIndex(i)) continue;
+      if(posinfo.Symbol() != _Symbol || posinfo.Magic() != InpMagic) continue;
 
-   ulong ticket = posinfo.Ticket();
-   ENUM_POSITION_TYPE type = posinfo.PositionType();
-   double openPrice = posinfo.PriceOpen();
-   double sl        = posinfo.StopLoss();
-   double tp       = posinfo.TakeProfit();
+      ulong ticket = posinfo.Ticket();
+      ENUM_POSITION_TYPE type = posinfo.PositionType();
+      double openPrice = posinfo.PriceOpen();
+      double sl = posinfo.StopLoss();
+      double tp = posinfo.TakeProfit();
 
+      // Process buy positions
+      if(type == POSITION_TYPE_BUY) {
+         double priceMove = MathMax(SymbolInfoDouble(_Symbol, SYMBOL_BID) - openPrice + CommissionPerPip, 0);
+         double trailDist = CalculateTrailingStop(priceMove, MinStopDistance, TrailingStopActive, BaseTrailingStop, TrailingStopMax);
 
-   // process buy positions
+         double modifiedSl = NormalizeDouble(SymbolInfoDouble(_Symbol, SYMBOL_BID) - trailDist, _Digits);
+         double triggerLevel = openPrice + CommissionPerPip + TrailingStopIncrement;
 
-   if(type == POSITION_TYPE_BUY){
-      double priceMove  = MathMax(SymbolInfoDouble(_Symbol,SYMBOL_BID) - openPrice + CommissionPerPip,0);
-      double trailDist  = CalculateTrailingStop(priceMove,MinStopDistance,TrailingStopActive,BaseTrailingStop,TrailingStopMax);
-      double modifiedSl = NormalizeDouble(SymbolInfoDouble(_Symbol,SYMBOL_BID)- trailDist, _Digits); // modify the stoploss
-      double triggerLevel = openPrice + CommissionPerPip + TrailingStopIncrement;
-
-      if((SymbolInfoDouble(_Symbol,SYMBOL_BID) - triggerLevel ) > trailDist && 
-      (sl == 0 || (SymbolInfoDouble(_Symbol,SYMBOL_BID) - sl) > trailDist) && modifiedSl != sl){
-         trade.PositionModify(ticket, modifiedSl,tp);
+         if((SymbolInfoDouble(_Symbol, SYMBOL_BID) - triggerLevel) > trailDist &&
+            (sl == 0 || (SymbolInfoDouble(_Symbol, SYMBOL_BID) - sl) > trailDist) &&
+            modifiedSl != sl) {
+            trade.PositionModify(ticket, modifiedSl, tp);
+         }
       }
+      else if(type == POSITION_TYPE_SELL) {
+         double priceMove = MathMax(openPrice - SymbolInfoDouble(_Symbol, SYMBOL_ASK) - CommissionPerPip, 0);
+         double trailDist = CalculateTrailingStop(priceMove, MinStopDistance, TrailingStopActive, BaseTrailingStop, TrailingStopMax);
 
-   }
-   //process Sell positions
-   else if(type == POSITION_TYPE_SELL){
-      double priceMove =  MathMax(openPrice - SymbolInfoDouble(_Symbol,SYMBOL_ASK) - CommissionPerPip, 0);
-      double trailDist = CalculateTrailingStop(priceMove,MinStopDistance,TrailingStopActive,BaseTrailingStop,TrailingStopMax);
-      double modifiedSL = NormalizeDouble(SymbolInfoDouble(_Symbol, SYMBOL_ASK) + trailDist, _Digits);
-      double triggerLevel = openPrice - CommissionPerPip - TrailingStopIncrement;
-      if((triggerLevel - SymbolInfoDouble(_Symbol, SYMBOL_ASK))> trailDist && (sl==0 || (sl-SymbolInfoDouble(_Symbol,SYMBOL_ASK)) > trailDist) && modifiedSL != sl){
-         trade.PositionModify(ticket, modifiedSL ,tp);
+         double modifiedSl = NormalizeDouble(SymbolInfoDouble(_Symbol, SYMBOL_ASK) + trailDist, _Digits);
+         double triggerLevel = openPrice - CommissionPerPip - TrailingStopIncrement;
+
+         if((triggerLevel - SymbolInfoDouble(_Symbol, SYMBOL_ASK)) > trailDist &&
+            (sl == 0 || (sl - SymbolInfoDouble(_Symbol, SYMBOL_ASK)) > trailDist) &&
+            modifiedSl != sl) {
+            trade.PositionModify(ticket, modifiedSl, tp);
+         }
       }
-   }
-
- } return; // This is to make sure it does not get past the default Trail;
+   } return; // This is to make sure it does not get past the default Trail;
 }
 
 //=============================================
