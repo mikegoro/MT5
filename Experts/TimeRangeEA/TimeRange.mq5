@@ -144,15 +144,15 @@ void OnTick(){
 
 //EA specific functions
 void ConvertTimes(){
-   TimeToStruct(TimeCurrent(),starttime);
+   TimeToStruct(TimeCurrent(),starttime); //This will check the current time into the starttime(hours) and minutes for the Range defined by the user
    starttime.hour =RangeStartHour; starttime.min =RangeStartMin;
    timestart=StructToTime(starttime);
 
-   TimeToStruct(TimeCurrent(),endtime);
+   TimeToStruct(TimeCurrent(),endtime); //This will check the current time into the Endtime(hour) and minutes  for the Range defined by the user
    endtime.hour =RangeEndHour; endtime.min=RangeEndMin;
    timeend      =StructToTime(endtime);
 
-   TimeToStruct(TimeCurrent(),closetime);
+   TimeToStruct(TimeCurrent(),closetime); //This will check the current time into the close time for the range defined by the user 
    closetime.hour =TradeCloseHour; closetime.min=TradeCloseMin;
    timeclose= StructToTime(closetime);
 
@@ -161,6 +161,23 @@ void ConvertTimes(){
    }
 
 }
+
+// here we get the value of the Range
+double GetHigh(){
+   double high=0;
+   int highestbar=0;
+   int BarsNow=iBars(_Symbol,InpTimeFrame);
+   if(TimeCurrent()>timestart && TimeCurrent()<timeend){
+      BarstoCount = iBars(_Symbol,InpTimeFrame) - BarsRangeStart +1;
+      highestbar =  iHighest(_Symbol,InpTimeFrame,MODE_HIGH,BarstoCount,0);
+      high = iHigh(_Symbol,InpTimeFrame,highestbar);
+      if(high!=RangeHigh) return high;
+   }
+   return RangeHigh;
+}
+
+
+
 
 
 
