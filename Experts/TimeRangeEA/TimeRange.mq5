@@ -59,7 +59,7 @@ input group "=== Trade Management =="
 
 input group "== StopLoss Management==="
 
-      input  SLType         SlT                  =1;     //Trail Stoploss ?  (no = fixed Stoploss)
+      input  SLType         SLT                  =1;     //Trail Stoploss ?  (no = fixed Stoploss)
       input  TrType         TrailType            =1;     //If yes What type
       input  int            TrailFixedpips       =30;    //Fixed Pips to Trail (if selected)
       input  int            TrailRangePct        =80;    // What % of Range Size (if selected)
@@ -138,6 +138,22 @@ void OnDeinit(const int reason){
 }
 
 void OnTick(){
+   if(!ISNewBar()) return; 
+   CheckforTradeSides();
+   CheckforOpenOrdersandPositions(); //get the orders oen currentry
+   if(SLT==0 && (BuyTotal>0 || SellTotal>0))TrailSl();
+   ConvertTimes();
+   //check if its is iside time
+   if(IsInsideTime()){
+      RangeHigh =GetHigh();
+      RangeLow  =GetLow();
+      RangeSize =RangeHigh-RangeLow;
+      ShowRange(RangeHigh,RangeLow);
+   }
+   PrepareOrder();
+   //at the end of the day we close all the orders and reset everything by calling the function of closeandResetAll
+   if(TimeCurrent()>timeclose) CloseandResetAll();
+
 
 }
 
@@ -370,6 +386,26 @@ void TrailSl(){
    
 
    }  
+}
+
+//function for checking Trading sides 
+void CheckforTradeSides(){
+   if(TradingSides==1) return; //Here if the user has chosen to trade one sided then we do not have to do anything where if one position is triggered the other will be deleted
+   int openPos=0;
+   for(int i = PositionsTotal()-1;i>=0;i--){
+      posinfo.SelectByIndex(i);
+      if( posinfo.Symbol()== _Symbol && posinfo.Magic()==InpMagic) openPos++;
+
+   }
+   if(PositionsTotal() >0 && openPos>0){
+      for(int i = OrdersTotal()-1;i>=0;i--){
+         ordinfo.SelectByIndex(i);
+         ulong ticket=ordinfo.Ticket();
+         if(ordinfo.Symbol()==_Symbol && ordinfo.Magic() ==InpMagic){
+            trade.OrderDelete(ticket);
+         }
+      }
+   }
 }
 
 
