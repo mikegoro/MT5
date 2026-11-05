@@ -270,21 +270,106 @@ void OpenTrade(ENUM_ORDER_TYPE type,double price,double sl){
 }
 // This fuction is to check end of the day if so close everything and reset
 void CloseandResetAll(){
+   // Here we check the positions which are currently open
    for(int i=PositionsTotal()-1;i>0;i--){
       ulong ticket=PositionGetTicket(i);
       if(posinfo.Symbol()==_Symbol && posinfo.Magic()==InpMagic){
-         trade.PositionClose(ticket);
+         trade.PositionClose(ticket); //This is to close the positions 
       }
    }
+   // Here we check the orders which are already placed 
    for(int i=OrdersTotal()-1;i>=0;i--){
       ulong  ticket=OrderGetTicket(i);
       if(ordinfo.Symbol() == _Symbol && ordinfo.Magic()==InpMagic){
-         trade.OrderDelete(ticket);
+         trade.OrderDelete(ticket); // Here is to delete the orders
       }
    }
+   // This is to reset the range of both high and low so that it can be cclculated again  for the next day
    BarsRangeStart=0;
    BuyTotal=0;
    SellTotal=0;
+}
+
+//Function for trailing 
+
+void TrailSl(){
+   //we loop through all the positions
+   for(int i = PositionsTotal()-1; i>=0;i--){
+    posinfo.SelectByIndex(i);    //we select position by index
+    long magic =posinfo.Magic();  //we get its magic number
+    ulong ticket=posinfo.Ticket(); //we get its ticket number
+    ENUM_POSITION_TYPE postype = posinfo.PositionType(); // we get the position type wheteher its a buy or sell
+    string   symbol=posinfo.Symbol(); // we get the symbol value 
+    if(symbol ==_Symbol && magic==InpMagic){
+      double price =SymbolInfoDouble(_Symbol,SYMBOL_BID); //get the value of the market price
+      double sl    =posinfo.StopLoss();    //get the stoploss information of the order
+      double tp    =posinfo.TakeProfit();  //get the tp of the order
+      double openPrice=posinfo.PriceOpen(); // get the openprice of the order
+      double high    = findHigh(); // define the variable of the high of the position
+      double low     =findLow();  // define the variable of the low of the position
+      //Here is to check which type of trailing the user choose with its functions
+      if(TrailType==0){
+         if(postype==POSITION_TYPE_BUY){
+            if(price>posinfo.PriceOpen() && 
+            //Price>posinfo.PriceOpen() + (InpAgrSLTrigger*_Point)&&
+            price-RangeSize >sl){
+               sl=price-RangeSize*TrailRangePct/100;
+               trade.PositionModify(ticket,sl,tp);
+
+            }
+      
+
+         }else 
+         if(postype==POSITION_TYPE_SELL){
+            if(price<posinfo.PriceOpen()&&
+            //price<posinfo.PriceOpen() - (InpAgrSLTrigger*_Point) &&
+            price +RangeSize<sl
+               ){
+                  sl=price+RangeSize*TrailRangePct/100;
+                  trade.PositionModify(ticket,sl,tp);
+               }
+         }
+         
+      }
+
+      if(TrailType==1){
+         if(postype==POSITION_TYPE_BUY){
+            if(price>posinfo.PriceOpen() && low>0){
+               sl=low-HighLowBuffer*10*_Point;
+               if(sl>posinfo.StopLoss())
+               trade.PositionModify(ticket,sl,tp);
+            }
+         }
+         else 
+         if(postype==POSITION_TYPE_SELL){
+            if(price <posinfo.PriceOpen() && high>0){
+               sl =high+ HighLowBuffer*10*_Point;
+               if(sl<posinfo.StopLoss())
+               trade.PositionModify(ticket,sl,tp);
+            }
+         }
+      }
+
+      if(TrailType==2){
+         if(postype==POSITION_TYPE_BUY){
+            if(price>posinfo.PriceOpen()){
+               sl=price -TrailFixedpips * 10*_Point;
+               if(sl>posinfo.StopLoss())
+               trade.PositionModify(ticket,sl,tp);
+            }
+         }
+         else if(postype == POSITION_TYPE_SELL){
+            if(price<posinfo.PriceOpen()){
+               sl=price+TrailFixedpips*10*_Point;
+               if(sl<posinfo.StopLoss())
+               trade.PositionModify(ticket,sl,tp);
+            } 
+         }
+      }
+    }
+   
+
+   }  
 }
 
 
