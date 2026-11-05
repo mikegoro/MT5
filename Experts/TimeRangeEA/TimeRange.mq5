@@ -279,6 +279,7 @@ void PrepareOrder(){
 }
 
 void OpenTrade(ENUM_ORDER_TYPE type,double price,double sl){
+   //This is Moving Average filter 
    if((MAFilterOn==true && MA_BuyOn==true) &&
     (type==ORDER_TYPE_BUY_LIMIT || type==ORDER_TYPE_BUY_STOP) &&(PricevsMovAvg()=="below" || PricevsMovAvg()=="error")){
       MA_BuyOn =false;
@@ -290,6 +291,21 @@ void OpenTrade(ENUM_ORDER_TYPE type,double price,double sl){
       MA_sellOn =false;
       return;
     }
+  //This is Ichimoku cloud filter code operations
+    if((IchimokuFilter==true && Ichi_BuyOn==true)  &&
+        (type==ORDER_TYPE_BUY_LIMIT || type==ORDER_TYPE_BUY_STOP) &&
+        (PricevsIchiCloud()=="below"|| PricevsIchiCloud()=="Incloud")){
+         Ichi_BuyOn =false;
+         return;
+        }
+
+    if((IchimokuFilter==true && Ichi_SellOn == true) && 
+       (type==ORDER_TYPE_SELL_LIMIT || type==ORDER_TYPE_SELL_STOP)&&(PricevsIchiCloud() =="above" ||PricevsIchiCloud()=="Incloud")){
+         Ichi_SellOn=false;
+         return;
+       }
+      
+
    double tp =price +(price-sl)*TPPercent/SLPercent;
 // (price -sl>0) ? sl price-sl:sl=sl-price
     double lots=0.01;
@@ -323,6 +339,15 @@ void CloseandResetAll(){
    BarsRangeStart=0;
    BuyTotal=0;
    SellTotal=0;
+
+   MA_BuyOn=true;
+   MA_sellOn=true;
+   Ichi_BuyOn=true;
+   Ichi_SellOn=true;
+
+newsprinted =false;
+ChartSetInteger(0,CHART_COLOR_BACKGROUND,clrBlack);
+
 }
 
 //Function for trailing 
@@ -575,7 +600,6 @@ string PricevsMovAvg(){
 
    if(FastMAnow>SlowMAnow) return "above";
    if(FastMAnow<SlowMAnow) return "below";
-
    return "error";
 }
 
