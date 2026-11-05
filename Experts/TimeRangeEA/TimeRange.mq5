@@ -268,15 +268,24 @@ void OpenTrade(ENUM_ORDER_TYPE type,double price,double sl){
 
 
 }
-
-
-
-
-
-
-
-
-
+// This fuction is to check end of the day if so close everything and reset
+void CloseandResetAll(){
+   for(int i=PositionsTotal()-1;i>0;i--){
+      ulong ticket=PositionGetTicket(i);
+      if(posinfo.Symbol()==_Symbol && posinfo.Magic()==InpMagic){
+         trade.PositionClose(ticket);
+      }
+   }
+   for(int i=OrdersTotal()-1;i>=0;i--){
+      ulong  ticket=OrderGetTicket(i);
+      if(ordinfo.Symbol() == _Symbol && ordinfo.Magic()==InpMagic){
+         trade.OrderDelete(ticket);
+      }
+   }
+   BarsRangeStart=0;
+   BuyTotal=0;
+   SellTotal=0;
+}
 
 
 
