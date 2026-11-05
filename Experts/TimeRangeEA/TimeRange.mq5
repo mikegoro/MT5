@@ -44,7 +44,7 @@ input group "=== Range Parameters===="
       input Hours      TradeCloseHour           =22;    //Close hour for Open Trades
       input Minutes    TradeCloseMin            =0;     //close minutes for open Trades
       input color      rangecolor               =clrBeige; //color of range on screen when within min/max Size
-      input int        minRangeSize             =15;       // min Range size in Pips (1 pip = 10 points)
+      input int        MinRangeSize             =15;       // min Range size in Pips (1 pip = 10 points)
       input int        MaxRangeSize             =30;       //Max Range   size in Pips (1 pip = 10 points)
       input color      rangecolordisabled       =clrRed;  // Color of range when outside Min/Max size
 
@@ -57,7 +57,7 @@ input group "=== Trade Management =="
       input int             SLPercent            =100;      //Sl% of Range (100% = opposite end of range)
       input int             TPPercent            =180;      //Tp % of Range (100% = TP equal range size)
 
-input group "==StopLoss Management==="
+input group "== StopLoss Management==="
 
       input  SLType         SlT                  =1;     //Trail Stoploss ?  (no = fixed Stoploss)
       input  TrType         TrailType            =1;     //If yes What type
@@ -175,6 +175,42 @@ double GetHigh(){
    }
    return RangeHigh;
 }
+
+//creating the Range visualy on the Chart
+void ShowRange(double high, double low){
+   ObjectCreate(0,"range",OBJ_RECTANGLE,0,timestart,high,timeend,low);
+   if(RangeSize<MaxRangeSize*10*_Point && RangeSize > MinRangeSize*10*_Point){
+      ObjectSetInteger(0,"range",OBJPROP_COLOR,rangecolor);
+      ObjectSetInteger(0,"range",OBJPROP_FILL,rangecolor);
+   }else{
+      ObjectSetInteger(0,"range",OBJPROP_COLOR,rangecolordisabled);
+      ObjectSetInteger(0,"range",OBJPROP_FILL,rangecolordisabled);
+
+   }
+   ObjectCreate(0,"Tradingtime",OBJ_RECTANGLE,0,timeend,high,timeclose,low);
+   ObjectSetInteger(0,"Tradingtime",OBJPROP_COLOR,rangecolor);
+
+   ObjectCreate(0,"endtime",OBJ_VLINE,0,timeclose,0);
+   ObjectSetInteger(0,"endtime",OBJPROP_COLOR,rangecolor);
+   
+
+}
+// getting the low of the Range
+double GetLow(){
+   double low   =0;
+   int lowestbar=0;
+   if(TimeCurrent()>timestart && TimeCurrent()<timeend){
+      BarstoCount =iBars(_Symbol,InpTimeFrame)-BarsRangeStart+1;
+      lowestbar=iLowest(_Symbol,InpTimeFrame,MODE_LOW,BarstoCount,0);
+      low      =iLow(_Symbol,InpTimeFrame,lowestbar);
+      if(low!=RangeLow) return low;
+
+   }
+   return RangeLow;
+
+}
+
+
 
 
 
