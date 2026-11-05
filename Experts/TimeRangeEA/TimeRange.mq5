@@ -192,8 +192,22 @@ void ShowRange(double high, double low){
 
    ObjectCreate(0,"endtime",OBJ_VLINE,0,timeclose,0);
    ObjectSetInteger(0,"endtime",OBJPROP_COLOR,rangecolor);
-   
 
+
+}
+// this function is to check whether we are inside the time
+bool IsInsideTime(){
+   MqlDateTime start,now;
+   int startmin,nowmin;
+   TimeToStruct(TimeCurrent(),now);
+      nowmin = now.hour*60+now.min;
+
+      TimeToStruct(timestart,start);
+      startmin=start.hour * 60 +start.min;
+
+      if(nowmin >=startmin) return true;
+
+ return false;
 }
 // getting the low of the Range
 double GetLow(){
@@ -209,10 +223,51 @@ double GetLow(){
    return RangeLow;
 
 }
+// Fuction for preparing the orders
+
+void PrepareOrder(){
+   if(TimeCurrent()>timeend && TimeCurrent()<timeclose){
+      double ask = SymbolInfoDouble(_Symbol,SYMBOL_ASK);
+      if(RangeSize>MinRangeSize *10*_Point && RangeSize < MaxRangeSize * 10 *_Point){
+         if(ask<RangeHigh-(RangeSize * ordDistPct/100)&& ask>RangeLow +(RangeSize * ordDistPct/100)){
+            //HERE we are placing orders with the break
+            if(TradingStyle==0){
+               // here we check if the order is supported by moving Average and ichimoku cloud
+               if(BuyTotal<=0 && MA_BuyOn == true && Ichi_BuyOn==true){
+                  OpenTrade(ORDER_TYPE_BUY_STOP,RangeHigh,RangeHigh-(RangeSize*SLPercent/100));                 
+               }
+               if(SellTotal<0 && MA_sellOn==true && Ichi_SellOn==true){
+                  OpenTrade(ORDER_TYPE_SELL_STOP,RangeLow,RangeLow+(RangeSize*SLPercent/100));
+               }
+            }
+
+            if(TradingStyle==1){
+               if(BuyTotal <0 && MA_BuyOn==true && Ichi_BuyOn==true){
+                  OpenTrade(ORDER_TYPE_BUY_LIMIT,RangeLow,RangeLow-(RangeSize*SLPercent/100));
+               }
+               if(SellTotal <=0 && MA_sellOn==true && Ichi_SellOn==true){
+                  OpenTrade(ORDER_TYPE_SELL_LIMIT,RangeHigh,RangeHigh+(RangeSize*SLPercent));
+               }
+            }
+         }
+      }
+   }
+}
+
+void OpenTrade(ENUM_ORDER_TYPE type,double price,double sl){
+   double tp =price +(price-sl)*TPPercent/SLPercent;
+// (price -sl>0) ? sl price-sl:sl=sl-price
+    double lots=0.01;
+    switch(LotSizeType){
+      case 0: lots =FixedLotSize; break;
+      case 1: lots =calcLots(price-sl);
+    }
+    if(!trade.OrderOpen(_Symbol,type,lots,0,price,sl,tp,0,0,TradeComment)){
+      printf("Open Failed for %s,%s,price=%f,sl=%f,tp=%f",_Symbol,EnumToString(type),price,sl,tp);
+    }
 
 
-
-
+}
 
 
 
