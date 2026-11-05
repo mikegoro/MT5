@@ -73,7 +73,7 @@ int      BarsRangeStart,BarstoCount,BuyTotal,SellTotal;
 double   RangeHigh,RangeLow,RangeSize,Tsl;
 
 input group "==News Filter=="
-      input bool            NewsFilterOn         =true;             //Filter for News?
+      input bool            NewsFilterOn         =false;             //Filter for News?
       input sep_dropdown    separator            =0;                //Separator to separate news Keywords
       input string          KeyNews              ="NFP,JOLTS,Nonfarm,PMI,Retail,GDP,confidence,Interest Rate";  //Keynews to avoid 
       input string          NewsCurrencies       ="USD";            //Currencies for news Lookup
@@ -143,6 +143,14 @@ void OnTick(){
    CheckforOpenOrdersandPositions(); //get the orders oen currentry
    if(SLT==0 && (BuyTotal>0 || SellTotal>0))TrailSl();
    ConvertTimes();
+   //thing to do on every candle
+   if(IchimokuFilter) Ichimoku.Refresh(-1);
+   if(MAFilterOn){
+      MovAvgFast.Refresh(-1);
+      MovAvgFast.Refresh(-1);
+   }
+   //news filter 
+   if(IsUpcomingNews()) return;
    //check if its is iside time
    if(IsInsideTime()){
       RangeHigh =GetHigh();
@@ -271,6 +279,17 @@ void PrepareOrder(){
 }
 
 void OpenTrade(ENUM_ORDER_TYPE type,double price,double sl){
+   if((MAFilterOn==true && MA_BuyOn==true) &&
+    (type==ORDER_TYPE_BUY_LIMIT || type==ORDER_TYPE_BUY_STOP) &&(PricevsMovAvg()=="below" || PricevsMovAvg()=="error")){
+      MA_BuyOn =false;
+      return;
+    }
+
+    if((MAFilterOn==true && MA_sellOn==true) && (type==ORDER_TYPE_SELL_LIMIT || type == ORDER_TYPE_SELL_STOP) &&
+    (PricevsMovAvg()=="above" || PricevsMovAvg()=="error")){
+      MA_sellOn =false;
+      return;
+    }
    double tp =price +(price-sl)*TPPercent/SLPercent;
 // (price -sl>0) ? sl price-sl:sl=sl-price
     double lots=0.01;
@@ -497,4 +516,112 @@ double findLow(){
       lowestLow =MathMin(low,lowestLow);     
    }
    return -1;
+}
+//adding filters News based filters
+
+bool IsUpcomingNews(){
+   if(NewsFilterOn==false) return false;
+
+   MqlDateTime Today, Newstime;
+   string sep;
+   switch(separator){
+      case 0: sep=","; break;
+      case 1: sep=";" ;
+   }
+
+   sep_code = StringGetCharacter(sep,0); 
+
+   int k = StringSplit(KeyNews,sep_code,Newstoavoid);
+
+   MqlCalendarValue values[];
+   datetime start_time =TimeCurrent();
+   datetime end_time   = start_time + PeriodSeconds(PERIOD_D1)*DaysNewsLookup;
+
+   CalendarValueHistory(values,start_time,end_time,NULL,NULL);
+   int X = ArraySize(values);
+   
+   for(int i =0; i<ArraySize(values);i++){
+      MqlCalendarEvent event;
+      CalendarEventById(values[i].event_id,event);
+      MqlCalendarCountry country;
+      CalendarCountryById(event.country_id,country);
+      if(StringFind(NewsCurrencies,country.currency)<0) continue;
+         for(int j=0;j<k;j++){
+            string currentevent= Newstoavoid[j];
+            string currentnews = event.name;
+            if(StringFind(currentnews,currentevent)<0) continue;
+            Comment("Next News: ",country.currency,":",event.name,"->",values[i].time);
+            TimeToStruct(TimeCurrent(),Today);
+            TimeToStruct(values[i].time,Newstime);
+
+            if(Today.day==Newstime.day){
+               ChartSetInteger(0,CHART_COLOR_BACKGROUND,InpDisabledColor);
+               if(!newsprinted) Print("Trading Disabled today on",_Symbol,"due to upcoming news:",event.name);
+               newsprinted = true;
+               return true;
+            }
+      return false;
+         }
+
+   }
+   return false;
+
+}
+
+//Moving average filter
+string PricevsMovAvg(){
+   double FastMAnow= MovAvgFast.Main(0);
+   double SlowMAnow=MovAVgSlow.Main(0);
+
+   if(FastMAnow>SlowMAnow) return "above";
+   if(FastMAnow<SlowMAnow) return "below";
+
+   return "error";
+}
+
+string PricevsIchiCloud(){
+   double SenA = Ichimoku.SenkouSpanA(0);
+   double SenB = Ichimoku.SenkouSpanB(0);
+   double Ten  = Ichimoku.TenkanSen(0);
+   double Kij  = Ichimoku.KijunSen(0);
+   
+   double  ask = SymbolInfoDouble(_Symbol,SYMBOL_ASK);
+
+   if(IchiFilterType==0){
+      if(ask > SenA && ask>SenB) return "above";
+      if(ask<SenA && ask<SenB)   return "below";
+
+   }
+   if(IchiFilterType==1){
+      if(ask>Ten) return "above";
+      if(ask<Ten) return "below";
+   }
+   if(IchiFilterType==2){
+      if(ask>Kij) return "above";
+      if(ask<Kij) return "below";
+
+
+   }
+   if(IchiFilterType==3){
+      if(ask>SenA) return "above";
+      if(ask<SenB) return "below";
+
+   }
+   if(IchiFilterType==5){
+      if(Ten>Kij) return "above";
+      if(Ten<Kij) return "bellow";
+   }
+   if(IchiFilterType==6){
+      if(Ten>Kij && Kij>SenA && Kij>SenB) return "above";
+      if(Ten<Kij && Kij<SenA && Kij<SenB) return "below";    
+   }
+   if(IchiFilterType==7){
+      if(Ten>SenA && Ten>SenB) return "above";
+      if(Ten<SenA && Ten<SenB) return "below";
+   }
+   if(IchiFilterType==8){
+      if(Kij>SenA && Kij>SenB) return "above";
+      if(Kij<SenA && Kij<SenB) return "below";
+   }
+   return "Incloud";
 }
