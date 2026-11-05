@@ -470,7 +470,7 @@ bool ISNewBar(){
    }
    return false; 
 }
-
+//this function will calculate the lots size
 double calcLots (double slPoints){
    double risk        = AccountInfoDouble(ACCOUNT_BALANCE) * RiskPercent/100;
    double ticksize    = SymbolInfoDouble(_Symbol,SYMBOL_TRADE_TICK_SIZE);
@@ -493,7 +493,7 @@ double calcLots (double slPoints){
 
 
 }
-
+// here the function will check for pending orders 
 void CheckforOpenOrdersandPositions(){
    for(int i=OrdersTotal()-1; i>=0;i--){
       ordinfo.SelectByIndex(i);
@@ -511,7 +511,7 @@ void CheckforOpenOrdersandPositions(){
    }
 }
 
-
+//This function is to find the high of the range
 double findHigh(){
    double highestHigh =0;
    for(int i =0; i<200;i++){
@@ -528,7 +528,7 @@ double findHigh(){
    return -1;
 }
 
-
+// This function is used to find the low of the range
 double findLow(){
    double lowestLow=DBL_MAX;
    for(int i= 0; i<200;i++){
