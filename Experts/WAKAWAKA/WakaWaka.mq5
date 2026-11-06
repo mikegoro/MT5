@@ -222,7 +222,22 @@ void OnDeinit(const int reason){
 
 void OnTick()
 {
-bool isNewBarMainTF;
+    bool isNewBarMainTF;
+    for(int i=0;i<ArraySize(SymbolsArray);i++){
+        if(iTime(SymbolsArray[i].SymbolName,MainTimeframe,0)<= SymbolsArray[i].LastMainTFUpdate)
+        {
+            isNewBarMainTF=false;
+        }
+        else
+        {
+            SymbolsArray[i].LastMainTFUpdate=iTime(SymbolsArray[i].SymbolName,MainTimeframe,0);
+            isNewBarMainTF=true;
+        }
+        if(isNewBarMainTF){
+            UpdateSymbolInfo(i);
+        }
+    }
+ 
 
 
 
@@ -291,11 +306,9 @@ void InitializeSymbolData(int index, string symbolName){
     SymbolsArray[index].LastSellAvgPrice=0.0;
     SymbolsArray[index].LastBuyTP=0.0;
     SymbolsArray[index].LastSellTP=0.0;
-
-
-
-
-
+}
+void UpdateSymbolInfo(int symbolIndex){
+    
 }
 
 
