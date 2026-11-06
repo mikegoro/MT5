@@ -1,6 +1,4 @@
 
-
-
 #property  copyright "Mikey"
 #property  link "https://Mikey.com"
 #property  version "1.00"
@@ -21,26 +19,25 @@ enum  LotSizingEnum{
                   LotsBalance=1,                          //Dynamic Lot based on Balance
                   LotsDepositLoad=6,                      //Lots based on Deposit load
                   FixedLots=0                             //Fixed Lot
-
                    };
 
 enum  AllowBuySellEnum{
-            AllowSell2 =2,                                //Sell only
-            AllowBuy1=1,                                 //Buy only
+            AllowSell2  =2,                                //Sell only
+            AllowBuy1   =1,                                 //Buy only
             AllowBuySell=0                               //Buy and sell
                      };
 enum eMaxDrawdownAction{ 
-            IgnoreNewUntilRestart=3,                      //Prohibit opening new grids until restart
-            IgnoreNewSignals=2,                         //Prohibit opening new grids
+            IgnoreNewUntilRestart       =3,                      //Prohibit opening new grids until restart
+            IgnoreNewSignals            =2,                         //Prohibit opening new grids
             CloseStopTradingUntilRestart=1,            //Close Trades & Stop trading until restart
-            CloseStopTradingFor24H=0                   //close trades & stop trading for 24H
+            CloseStopTradingFor24H      =0                   //close trades & stop trading for 24H
 
                        };
 
 //How are we going to calculate the drawdown to be choosen by the user either by thisStrategy or by The Account
 enum  eDrawdownCalculation{
                 ThisStrategy =1,                       //This Strategy
-                TheAccount  =0                        //The account
+                TheAccount   =0                        //The account
                           };
 
 
@@ -53,7 +50,7 @@ enum tTradeHours{
                           
 //create a structure this are symbol variables
 struct SymbolInformation{
-            string  SymbolName;
+            string   SymbolName;
             datetime LastMainTFUpdate;
             datetime LastOPOTUpdate;
             int      UpdateCounter;
@@ -147,11 +144,10 @@ input string                      TradeComment                 ="Waka Waka " ;  
 input int                         UID                          =0;                       //Uid(0---9)
 input bool                        ShowPanel                    =true;                    //  show Panel
 
-//Global variables
-                                
+//Global variables                               
 int                                TickCounter                  =0;
 ENUM_TIMEFRAMES                    MainTimeframe                =PERIOD_M15;
-SymbolInformation                  SymbolsArray[];
+SymbolInformation                  SymbolsArray[];              
 int                                MagicNumberBase              =84570;
 double                             Epsilon                      =0.0000001;
 int                                LastUpdateMinute             =-1;
@@ -166,26 +162,214 @@ double                             InitialBalance               =0.0;
 bool                               Initialized                  =true;
 
 
-
-
-
-
-
-
-
-
-
-
-
+int  handle_MA[];
+int  handle_Std[];
+int  handle_RSI[];
+int  handle_ATR96[];
+int  handle_ATR672[];                ///This will be used to know the volatility in the market
 
 int OnInit(){
+    Print(TradeComment+ "-> Initializing..");
+    ChartSetInteger(0,CHART_SHOW_GRID,false);
+    TesterHideIndicators(true);
+
+    Comment("Waka Waka EA");
+
+    DrawdownCooldownHours=0;
+    StopTradingUntilRestart=false;
+    DrawdownTriggered=false;
+
+    if(!MQLInfoInteger(MQL_TESTER) && !MQLInfoInteger(MQL_OPTIMIZATION))
+        EventSetTimer(5);
+        LastTimerCheck =TimeCurrent();
+        if(!ParseAndInitializeSymbols()){
+            Print(TradeComment +"Error:Failed to initialize symbols");
+            return INIT_FAILED;
+        }
+    ArrayResize(handle_MA,ArraySize(SymbolsArray));
+    ArrayResize(handle_Std,ArraySize(SymbolsArray));
+    ArrayResize(handle_RSI,ArraySize(SymbolsArray));
+    ArrayResize(handle_ATR96,ArraySize(SymbolsArray));
+    ArrayResize(handle_ATR672,ArraySize(SymbolsArray));
+    // Here we initialize the handles
+    for(int i =0;i<ArraySize(SymbolsArray);i++){
+        handle_MA[i] =iMA(SymbolsArray[i].SymbolName,MainTimeframe,BollingerBandsPeriod+1,0,MODE_SMA,PRICE_CLOSE);
+        handle_Std[i]=iStdDev(SymbolsArray[i].SymbolName,MainTimeframe,BollingerBandsPeriod+1,0,MODE_SMA,PRICE_CLOSE);
+        handle_RSI[i]=iRSI(SymbolsArray[i].SymbolName,MainTimeframe,RSI_period,PRICE_CLOSE);
+        handle_ATR96[i]=iATR(SymbolsArray[i].SymbolName,MainTimeframe,96);
+        handle_ATR672[i]=iATR(SymbolsArray[i].SymbolName,MainTimeframe,672);
+
+        if(handle_MA[i]==INVALID_HANDLE || handle_Std[i] == INVALID_HANDLE || 
+           handle_RSI[i]==INVALID_HANDLE || handle_ATR96[i]== INVALID_HANDLE || 
+           handle_ATR672[i]==INVALID_HANDLE){
+            Print(TradeComment + ": Failed to create indicator handle for",SymbolsArray[i].SymbolName);
+            Print(TradeComment +"Failed to create indicator handles for",SymbolsArray[i].SymbolName,
+                "Check that all input currencies are visibe in the MarketWatch Window");
+            return INIT_FAILED;
+           }
+
+
+    }
 
 
 return(INIT_SUCCEEDED);
 }
 
-
-void OnTick(){
+void OnDeinit(const int reason){
 
 }
 
+
+void OnTick()
+{
+bool isNewBarMainTF;
+
+
+
+}
+
+
+//+------------------------------------------------------+
+
+
+/*===================================================================================================================
+                                            Symbol Related Fuctions
+=====================================================================================================================*/
+bool ParseAndInitializeSymbols(){
+    string symbols[];
+    int symbolCount = StringSplit(Symbols,StringGetCharacter(",",0),symbols);
+    if(symbolCount>0 && !MQLInfoInteger(MQL_TESTER)){
+        ArrayResize(SymbolsArray,symbolCount);
+        //loop through the symbols count
+        for(int i=0;i<symbolCount;i++){
+            string symbolName=symbols[i];
+            StringTrimLeft(symbolName);
+            StringTrimRight(symbolName);
+            if(symbolName==" "){
+                Print(TradeComment + ":List of Symbols is incorrect! Check it for extra commas!");
+                SymbolsListError=true;
+                return false;
+            }
+            InitializeSymbolData(i,symbolName);
+
+        }
+    }
+    else
+    {
+        ArrayResize(SymbolsArray,1);
+        string symbolName =Symbol();
+        InitializeSymbolData(0,symbolName);
+        // SymbolsArray[0].MaxGridLotMultiplier=CalculateMaxGridLotMultiplier(symbolName);
+    }
+    return true;
+
+}
+
+void InitializeSymbolData(int index, string symbolName){
+    SymbolsArray[index].SymbolName=symbolName;
+    SymbolsArray[index].LastMainTFUpdate=0;
+    SymbolsArray[index].LastOPOTUpdate=0;
+    SymbolsArray[index].UpdateCounter=0;
+    SymbolsArray[index].CanBuy=false;
+    SymbolsArray[index].CanSell=false;
+    SymbolsArray[index].CurrentBarTime=0;
+    SymbolsArray[index].PreviousBarTime=0;
+    SymbolsArray[index].ClosePrice=0.0;
+    SymbolsArray[index].GridOpened=false;
+    SymbolsArray[index].OPOTriggered=false;
+    SymbolsArray[index].SmartDistanceMultiplier=1.0;
+    SymbolsArray[index].BBWidth=0.0;
+    SymbolsArray[index].LastBarIndex=0;
+    SymbolsArray[index].CurrentBarIndex=0;
+    SymbolsArray[index].PatternValue=0;
+    SymbolsArray[index].PatternPrice=0.0;
+    SymbolsArray[index].PatternSearchActive=true;
+    SymbolsArray[index].TradingAllowedToday=true;
+    SymbolsArray[index].PreviousDayTradingAllowed=true;
+    SymbolsArray[index].LastDayOfWeek=0;
+    SymbolsArray[index].LastBuyAvgPrice=0.0;
+    SymbolsArray[index].LastSellAvgPrice=0.0;
+    SymbolsArray[index].LastBuyTP=0.0;
+    SymbolsArray[index].LastSellTP=0.0;
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*===================================================================================================================
+                                            Grid Related  Functions
+=====================================================================================================================*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*===================================================================================================================
+                                            Tp and Sl Related Functios
+=====================================================================================================================*/
+
+
+
+
+
+
+
+
+
+/*===================================================================================================================
+                                            Closing the Grids/Trades /DrawDowns
+=====================================================================================================================*/
+
+
+
+
+
+
+
+
+
+/*===================================================================================================================
+                                            General  Helping Functios
+=====================================================================================================================*/
