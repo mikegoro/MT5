@@ -129,7 +129,48 @@ input  group "<<<=== Select TP settings ====>>>"
 input group "<<<=== Select SL Settings==>>"
     input  double                GridSL                         =0;                     //StopLoss for Grid in pips (1000)
     input  bool                  HideSl                         =false;                 //Hide Stoploss?
-    
+
+input group "<<=====Adjust the grid distance and multipliers====>>"
+
+input int                        TradeDistance                 =35;                    // Trade Distance
+input bool                       SmartDistance                 =true;                  //Smart Distance?
+input double                     TradeMultiplier_2nd           =1;                    //2nd Trade Multiplier
+input double                     TradeMultiplier_3rd           =2;                    //3rd-5th Trade Multiplier
+input double                     TradeMultiplier_6th           =1.5;                  //6th -Trade Multiplier
+input int                        MaximumTrades                 =9;                  //Maximum  Trades
+input int                        GridLevelToStart              =1;                  // Grid Level   to Start (1-initial trade)
+input bool                       KeepOriginalProfitLotSize     =false;              //Keep Original  Profit Level & Lotsize
+
+input  group "<<===Change The comment and UID if Needed=====>"
+
+input string                      TradeComment                 ="Waka Waka " ;           // Trade comment 
+input int                         UID                          =0;                       //Uid(0---9)
+input bool                        ShowPanel                    =true;                    //  show Panel
+
+//Global variables
+                                
+int                                TickCounter                  =0;
+ENUM_TIMEFRAMES                    MainTimeframe                =PERIOD_M15;
+SymbolInformation                  SymbolsArray[];
+int                                MagicNumberBase              =84570;
+double                             Epsilon                      =0.0000001;
+int                                LastUpdateMinute             =-1;
+long                               LastTimerCheck               =0;
+int                                CurrentHour                  =0;
+bool                               DrawdownTriggered            =false;
+int                                DrawdownCooldownHours        =0;
+bool                               StopTradingUntilRestart      =false;
+int                                LastProcessedHour            =-1;
+bool                               SymbolsListError             =false;
+double                             InitialBalance               =0.0;
+bool                               Initialized                  =true;
+
+
+
+
+
+
+
 
 
 
