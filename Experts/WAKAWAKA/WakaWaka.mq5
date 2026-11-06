@@ -308,7 +308,22 @@ void InitializeSymbolData(int index, string symbolName){
     SymbolsArray[index].LastSellTP=0.0;
 }
 void UpdateSymbolInfo(int symbolIndex){
-    
+    string symbol=SymbolsArray[symbolIndex].SymbolName;
+    SymbolsArray[symbolIndex].UpdateCounter++;
+
+    MqlDateTime tmCurrent;
+    TimeToStruct(TimeCurrent(),tmCurrent);
+    int currentHour=tmCurrent.hour;
+    int currentMinute=tmCurrent.min;
+    SymbolsArray[symbolIndex].CurrentBarTime=iTime(symbol,MainTimeframe,0);
+    SymbolsArray[symbolIndex].PreviousBarTime=SymbolsArray[symbolIndex].CurrentBarTime;
+
+    bool canTrade=IsTradingAllowed() && AllowOpeningNewGrid; // Here we will check if trading is allowed 
+    bool canBuy  =canTrade;
+    bool canSell =canTrade;
+
+
+
 }
 
 
@@ -386,3 +401,22 @@ void UpdateSymbolInfo(int symbolIndex){
 /*===================================================================================================================
                                             General  Helping Functios
 =====================================================================================================================*/
+bool IsTradingAllowed(){
+    if(MQLInfoInteger(MQL_TESTER)||MQLInfoInteger(MQL_OPTIMIZATION)) // Here we are checking whether it is MQL_tester or MQl optimization 
+    return true;
+
+    int allowed =(int) TerminalInfoInteger(TERMINAL_TRADE_ALLOWED);//If it is a live enviroment we create a varible allowed
+    if(allowed==0)
+     return false;
+
+     allowed =(int)AccountInfoInteger(ACCOUNT_TRADE_EXPERT);  // checking account expert if it is allowed
+     if(allowed==0)
+     return false;
+
+     allowed =MQLInfoInteger(MQL_TRADE_ALLOWED);
+     if(allowed==0)
+     return false;
+
+    return true;
+
+}
