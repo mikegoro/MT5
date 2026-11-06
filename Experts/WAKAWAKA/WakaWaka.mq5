@@ -322,8 +322,391 @@ void UpdateSymbolInfo(int symbolIndex){
     bool canBuy  =canTrade;
     bool canSell =canTrade;
 
+//Check historical data
+    if(iBars(symbol,MainTimeframe)<100)
+    {
+        Print(TradeComment +" "+ symbol, ":Not enough historical data");
+        canBuy=canSell =false;
+    }
+//Check account balance
+    if(AccountInfoDouble(ACCOUNT_MARGIN_FREE)<10.0)
+    {
+        static datetime lastMarginMsg=0;
+        if(TimeCurrent()-lastMarginMsg>3600)
+        {
+            Print(TradeComment +" " + symbol,":Low Margin:",AccountInfoDouble(ACCOUNT_MARGIN_FREE));
+            lastMarginMsg = TimeCurrent();
+        }
+        canBuy=canSell=false;
+    }
+
+//Check UID
+    if(UID <0|| UID>9)
+    {
+        static bool uidMsgPrinted =false;
+        if(!uidMsgPrinted)
+        {
+            Print(TradeComment+" "+symbol,":UID must be 0-9");
+            uidMsgPrinted=true;
+
+        }
+        canBuy =canSell=false;
+
+    }
+//Need at least 2 Bars updates before trading
+    if(SymbolsArray[symbolIndex].UpdateCounter<2)
+        canBuy = canSell =false;
+    
+//Check    symbol trading mode
+    int tradeMode=(int)SymbolInfoInteger(symbol,SYMBOL_TRADE_MODE);
+    switch(tradeMode){
+        case SYMBOL_TRADE_MODE_DISABLED:canBuy=canSell=false; break;
+        case SYMBOL_TRADE_MODE_LONGONLY:canSell=false;break;
+        case SYMBOL_TRADE_MODE_SHORTONLY:canBuy=false;break;
+    }
+//Apply user buy/sell restrictions
+    if(AllowToBuySell ==1) canSell =false;
+    if(AllowToBuySell==2) canBuy=false;
+
+    //Get bar times
+
+    datetime barTime =SymbolsArray[symbolIndex].CurrentBarTime;
+    MqlDateTime tmBar;
+    TimeToStruct(barTime,tmBar);
+    int barHour  = tmBar.hour;
+    int barMinute= tmBar.min;
+    int barDay   = tmBar.day;
+    int barMonth = tmBar.mon;
+    int barYear  = tmBar.year;
+
+    //Trading hours check
+
+    int currentTimeCode =barMinute + barHour * 100;                         
+    int startTimeCode   =HourToStartTrading ;
+    int stopTimeCode    =HourToStopTrading ;
+
+    bool timeOk;
+
+    if(stopTimeCode>=startTimeCode)
+        timeOk =(currentTimeCode >= startTimeCode && currentTimeCode <= stopTimeCode);
+    else
+        timeOk=(currentTimeCode>=startTimeCode || currentTimeCode <= stopTimeCode);
+    
+    //Holiday check - more realistic holiday dates
+    if(!AllowTradingOnHolidays)
+    {
+        //Christmas to New Year week  (Dec 25 -Jan 3)
+        if((barMonth==12 && barDay>= 25)|| (barMonth==1 && barDay <=3))
+          timeOk=false;
+
+    }
+    // Only trade at 15 min boundaries
+    timeOk = timeOk  && (barMinute==0 || barMinute==15 || barMinute==30 || barMinute ==45);
+
+    canBuy=canBuy && timeOk;
+    canSell=canSell && timeOk;
+
+    //Get close Price
+    SymbolsArray[symbolIndex].ClosePrice= iClose(symbol,MainTimeframe,1);
+
+    //Calculate indicators for trading signals
+    double maBuffer[1],stdBuffer[1];
+    CopyBuffer(handle_MA[symbolIndex],0,1,1,maBuffer);
+    CopyBuffer(handle_Std[symbolIndex],0,1,1,stdBuffer);
 
 
+    double bbMA   = maBuffer[0];
+    double bbStd  = stdBuffer[0];
+    double bbUpper= bbMA + 2* bbStd;
+    double bbLower= bbMA -2 * bbStd;
+    
+    int highestBar =iHighest(symbol,MainTimeframe,MODE_HIGH,BollingerBandsPeriod+1,2);
+    int lowestBar  =iLowest(symbol,MainTimeframe,MODE_LOW,BollingerBandsPeriod+1,2);
+    double recentHigh =iHigh(symbol,MainTimeframe,highestBar);
+    double recentLow  =iLow(symbol,MainTimeframe,lowestBar);
+
+    //we create digits variable
+
+    int digits= (int)SymbolInfoInteger(symbol,SYMBOL_DIGITS);
+    SymbolsArray[symbolIndex].BBWidth =NormalizeDouble(bbUpper - bbLower,digits);
+
+    //Rsi filter
+    if(RSI_period > 0 && RSI_Value>0){
+        double rsiBuffer[1];
+        CopyBuffer(handle_RSI[symbolIndex],0,1,1,rsiBuffer);
+        double rsi=rsiBuffer[0];
+        canBuy =canBuy && (rsi<50-RSI_Value);
+        canSell=canSell && (rsi>50 + RSI_Value);
+
+    }
+    //Price breakout signal
+    double close = SymbolsArray[symbolIndex].ClosePrice;
+    canBuy       = canBuy && (close<recentLow && recentLow>0);
+    canSell      = canSell && (close>recentHigh && recentHigh>0);
+
+
+    //Max symbol check
+    int activeSymbols =0;
+    for(int i=0;i<ArraySize(SymbolsArray);i++)
+    if(GridExists(SymbolsArray[i].SymbolName,0,0))
+        activeSymbols++;
+    
+    if(activeSymbols>=MaximumSymbols)
+        canBuy=canSell=false;
+
+    //Smart distancw multiplier
+    if(SmartDistance)
+    {
+        double atr96Buffer[1],atr672Buffer[1];
+        CopyBuffer(handle_ATR96[symbolIndex],0,1,1,atr96Buffer);
+        CopyBuffer(handle_ATR672[symbolIndex],0,1,1,atr672Buffer);
+        double atr96  =atr96Buffer[0];
+        double atr672 =atr672Buffer[0];
+
+        if(atr672 > Epsilon)
+        SymbolsArray[symbolIndex].SmartDistanceMultiplier =atr96/atr672;
+
+        //Clamp multiplier
+        SymbolsArray[symbolIndex].SmartDistanceMultiplier = MathMin(1.5,MathMax(1.0,SymbolsArray[symbolIndex].SmartDistanceMultiplier));
+
+
+    }
+    //Day Tracking 
+    int dayOfWeek = tmBar.day_of_week;
+    if(dayOfWeek != SymbolsArray[symbolIndex].LastDayOfWeek && SymbolsArray[symbolIndex].LastDayOfWeek!=0)
+    {
+        SymbolsArray[symbolIndex].TradingAllowedToday = SymbolsArray[symbolIndex].PreviousDayTradingAllowed;
+        SymbolsArray[symbolIndex].PreviousDayTradingAllowed =true;
+
+    }
+    SymbolsArray[symbolIndex].LastDayOfWeek = dayOfWeek;
+
+    canBuy =canBuy && SymbolsArray[symbolIndex].TradingAllowedToday;
+    canSell=canSell && SymbolsArray[symbolIndex].TradingAllowedToday;
+
+//Margin Level Check
+    if(MinimumFreeMargin>Epsilon && AccountInfoDouble(ACCOUNT_MARGIN_LEVEL)<MinimumFreeMargin)
+    {
+        static  datetime lastMarginLevelMsg =0;
+        if(TimeCurrent()-lastMarginLevelMsg>1800)
+        {
+            Print(TradeComment+": Low margin Level:",AccountInfoDouble(ACCOUNT_MARGIN_LEVEL));
+            lastMarginLevelMsg = TimeCurrent();
+        }
+        canBuy=canSell =false;
+
+    }
+    // Drawdown checks
+    CheckMaxDrawdown();
+
+    //Apply drawdown restrictions
+    if(DrawdownTriggered || StopTradingUntilRestart || DrawdownCooldownHours>0)
+    {
+        static datetime lastDDMsg=0;
+        if(TimeCurrent()-lastDDMsg>3600)
+        {
+            string reason;
+            if(DrawdownTriggered)
+                reason="drawdown triggered";
+            else if(StopTradingUntilRestart)
+                reason ="drawdown - resart required";
+            else 
+                reason ="drawdown cooldown "+ IntegerToString(DrawdownCooldownHours) + "h";
+            Print(TradeComment + " " +symbol,": Trading blocked -",reason);
+            lastDDMsg = TimeCurrent();
+
+        }
+        canBuy=canSell =false;
+    }
+    
+    //Update cooldown counter
+    if(LastProcessedHour != currentHour)
+        DrawdownCooldownHours--;
+    if (DrawdownCooldownHours<0) DrawdownCooldownHours =0;
+
+    //Clear drawdown flag if no positions
+    if(DrawdownTriggered)
+    {
+        double totLots=0;
+        for(int i =0; i<ArraySize(SymbolsArray);i++)
+            totLots +=GetTotalLotsInGrid(SymbolsArray[i].SymbolName,-1,0,false);
+        if(totLots < Epsilon)
+            DrawdownTriggered =false;
+    }
+
+    //Update symbol State
+    SymbolsArray[symbolIndex].CanBuy = canBuy;
+    SymbolsArray[symbolIndex].CanSell= canSell;
+    SymbolsArray[symbolIndex].GridOpened=false;
+    // we update the tick counter 
+    TickCounter++;
+    LastProcessedHour=currentHour;
+    //Try to Open initial Order
+    SendInitialOrder(symbolIndex);
+
+
+}
+
+
+void SendInitialOrder(int symbolIndex)
+{
+      string symbol = SymbolsArray[symbolIndex].SymbolName;
+
+      //Quick Permission check
+      if(!IsTradingAllowed() || (!SymbolsArray[symbolIndex].CanBuy && !SymbolsArray[symbolIndex].CanSell))
+      return;
+
+      //Check Max Symbols limit
+      int activeSymbols =0;
+      for(int i=0; i<ArraySize(SymbolsArray);i++)
+        if(GridExists(SymbolsArray[i].SymbolName,0,0))
+            activeSymbols++;
+      if(activeSymbols>=MaximumSymbols) return;
+
+      //Check Spread
+      double spread = (double)SymbolInfoInteger(symbol,SYMBOL_SPREAD);
+      if(spread > MaximumSpread * GetPipMultiplier(symbol) && MaximumSpread > Epsilon)
+      {
+        Print(TradeComment + " " + symbol,": Spread too high: ",spread);
+        return;
+      }
+      // Try to Open buy order
+      if(SymbolsArray[symbolIndex].CanBuy)
+      {
+        bool hasPosition = AllowHedging ? ! GridExists(symbol,-1,1): ! GridExists(symbol,-1,0);
+        if(hasPosition)
+            OpenMarketOrder(symbolIndex,ORDER_TYPE_BUY);
+      }
+      
+      //Try to open sell order
+      if(SymbolsArray[symbolIndex].CanSell)
+      {
+        bool hasPosition =AllowHedging ? !GridExists(symbol,-1,-1) : !GridExists(symbol,-1,0);
+        if(hasPosition)
+            OpenMarketOrder(symbolIndex,ORDER_TYPE_SELL);
+      }
+}
+
+void OpenMarketOrder(int symbolIndex,ENUM_ORDER_TYPE orderType){
+    string symbol = SymbolsArray [symbolIndex].SymbolName;
+    int maxAttempts=10;
+    
+    for(int attempt =0; attempt <maxAttempts; attempt++){
+        double lotSize =CalculateLotSize(symbol,true);
+        if(lotSize<Epsilon)
+        {
+            Print(TradeComment+""+symbol,": Lot size too small");
+            return;
+
+        }
+
+        double margin=0;
+        if(!OrderCalcMargin(orderType,symbol,lotSize,(orderType == ORDER_TYPE_BUY)? SymbolInfoDouble(symbol,SYMBOL_ASK): 
+        SymbolInfoDouble(symbol,SYMBOL_BID),margin)
+         || margin <=0 || margin > AccountInfoDouble(ACCOUNT_MARGIN_FREE))
+         {
+            Print(TradeComment+ " "+ symbol,":Not enough money");
+            if(orderType == ORDER_TYPE_BUY)
+                SymbolsArray[symbolIndex].CanBuy=false;
+            else
+                SymbolsArray[symbolIndex].CanSell=false;
+                return;
+
+         }
+
+         // Calculate magic number 
+         int magicBase = MagicNumberBase + UID;                                       //84570 +0 = 84570
+         int digits    = StringLen(IntegerToString(magicBase));                      //5
+         int direction =(orderType == ORDER_TYPE_BUY) ? 1 : 2;                      //Buy=> 1 , Sell => 2
+         int magic     = (int)MathPow(10,digits+2) * direction + magicBase *100;   //10r7 =10000000 * 1+84570 * 100 
+                                                                                    //18457000=> Buy
+                                                                                    //28457000=  Sell
+          string comment =TradeComment;
+          Print(TradeComment + " "+ symbol," : sending "+(orderType==ORDER_TYPE_BUY ? "buy": "sell") +
+          "order,attempt" + IntegerToString(attempt + 1));
+
+          Trade.SetExpertMagicNumber(magic);
+          Trade.SetDeviationInPoints(MaximumSlippage * GetPipMultiplier(symbol));
+
+          bool success = (orderType==ORDER_TYPE_BUY ? Trade.Buy(lotSize,symbol,0,0,0,comment):
+                                                      Trade.Sell(lotSize,symbol,0,0,0,comment));
+        // if the order went through
+        if(success){
+            Print(TradeComment + " "+ symbol,"Order opened,id: ", Trade.ResultOrder());
+            //update state
+            if(orderType == ORDER_TYPE_BUY)
+            {
+                SymbolsArray [symbolIndex].CanBuy =false;
+                SymbolsArray[symbolIndex].LastBuyGridTime=TimeCurrent();
+            }
+            else
+            {
+                SymbolsArray[symbolIndex].CanSell=false;
+                SymbolsArray[symbolIndex].LastSellGridTime=TimeCurrent();
+            }
+            SymbolsArray[symbolIndex].GridOpened=true;
+            SymbolsArray[symbolIndex].OPOTriggered=true;
+
+            return;
+            
+        }
+        else
+        {
+            uint retcode =Trade.ResultRetcode();
+            Print(TradeComment + " "+symbol," Failed to Send order . Retcode",Trade.ResultRetcode()," ", 
+                      Trade.ResultRetcodeDescription());
+
+            //Fatal errors -stop trying
+            if(retcode  == TRADE_RETCODE_INVALID          ||
+               retcode  == TRADE_RETCODE_INVALID_VOLUME   ||
+               retcode  == TRADE_RETCODE_NO_MONEY         ||
+               retcode  == TRADE_RETCODE_MARKET_CLOSED    ||
+               retcode  == TRADE_RETCODE_TRADE_DISABLED
+            )
+            {
+                if(orderType == ORDER_TYPE_BUY)
+                    SymbolsArray[symbolIndex].CanBuy =false;
+                else
+                    SymbolsArray[symbolIndex].CanSell =false;
+                return;
+
+            }
+            Sleep(5000); // sleep after 5000 seconds
+            
+        }
+        
+
+
+    }
+     
+}
+
+/*===================================================================================================================
+                                            Grid Related  Functions
+=====================================================================================================================*/
+bool GridExists(string symbol,int level,int direction){
+    //for now 
+    return false;
+}
+
+
+double GetTotalLotsInGrid(string symbol,int level, int direction,bool useOriginalLotSize= false){
+    return 0;
+}
+
+
+
+
+/*===================================================================================================================
+                                            Lot Size Functions
+=====================================================================================================================*/
+
+
+
+
+double CalculateLotSize(string symbol,bool isInitialOrder){
+    //for now
+    return 0.01;
 }
 
 
@@ -332,50 +715,8 @@ void UpdateSymbolInfo(int symbolIndex){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*===================================================================================================================
-                                            Grid Related  Functions
-=====================================================================================================================*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*===================================================================================================================
-                                            Tp and Sl Related Functios
+                                            Tp and Sl Related Functions
 =====================================================================================================================*/
 
 
@@ -390,7 +731,9 @@ void UpdateSymbolInfo(int symbolIndex){
                                             Closing the Grids/Trades /DrawDowns
 =====================================================================================================================*/
 
-
+void CheckMaxDrawdown(){
+    
+}
 
 
 
@@ -419,4 +762,12 @@ bool IsTradingAllowed(){
 
     return true;
 
+}
+
+int GetPipMultiplier(string symbol)
+{
+    int digits =(int)SymbolInfoInteger(symbol,SYMBOL_DIGITS);
+    if(digits==5 || digits ==3)
+        return 10;
+    return 1;
 }
